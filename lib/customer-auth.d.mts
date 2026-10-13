@@ -1,0 +1,10 @@
+export const CUSTOMER_COOKIE: string;
+export const REGISTER_NOTICE: string;
+export type Customer = {id:string;email:string;full_name:string;email_verified_at:string|null};
+export type AuthResult = {status:number;error?:string;message?:string;token?:string;retryAfter?:number};
+export function normalizeEmail(value:unknown): string|null;
+export function registerCustomer(input:unknown): Promise<AuthResult>;
+export function loginCustomer(input:unknown): Promise<AuthResult>;
+export function customerSession(token:string): Customer|null;
+export function revokeCustomerSession(token:string|undefined): void;
+export function safeAccountReturn(value:unknown): string;

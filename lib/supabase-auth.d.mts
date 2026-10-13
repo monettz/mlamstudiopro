@@ -1,0 +1,18 @@
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { CookieMethodsServer } from '@supabase/ssr';
+import type { Customer } from './customer-auth.mjs';
+export const SUPABASE_COOKIE:string;
+export const SUPABASE_ADMIN_COOKIE:string;
+export const AUTH_HEADERS:Record<string,string>;
+export const SIGNUP_NOTICE:string;
+export type SupabaseConfiguration={url:string;key:string;origin:string;secure:boolean};
+export type AuthOutcome={status:number;error?:string;code?:string;retryAfter?:number;message?:string;ok?:boolean;url?:string};
+export function applicationOrigin(env?:NodeJS.ProcessEnv):string|null;
+export function supabaseConfiguration(env?:NodeJS.ProcessEnv):SupabaseConfiguration|null;
+export function createCustomerClient(methods:CookieMethodsServer,config?:SupabaseConfiguration|null):SupabaseClient|null;
+export function createAdminClient(methods:CookieMethodsServer,config?:SupabaseConfiguration|null):SupabaseClient|null;
+export function authUnavailable():AuthOutcome;
+export function supabasePasswordLogin(client:SupabaseClient|null,input:unknown):Promise<AuthOutcome>;
+export function supabaseSignup(client:SupabaseClient|null,input:unknown,next:unknown,config?:SupabaseConfiguration|null):Promise<AuthOutcome>;
+export function verifiedCustomer(client:SupabaseClient|null):Promise<Customer|null>;
+export function googleAuthorization(client:SupabaseClient|null,next:unknown,config?:SupabaseConfiguration|null):Promise<AuthOutcome>;

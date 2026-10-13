@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: mlam-studio-pro
+    runtime: node
+    region: frankfurt
+    plan: starter
+    buildCommand: corepack pnpm install --frozen-lockfile && corepack pnpm build
+    startCommand: corepack pnpm start
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: MLAM_BIND_HOST
+        value: 0.0.0.0
+      - key: MLAM_DATA_DIR
+        value: /var/data/mlam
+      - key: MLAM_TRUST_PROXY_IP
+        value: "0"
+      - key: MLAM_ORIGIN
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: MLAM_ADMIN_EMAIL
+        sync: false
+    disk:
+      name: mlam-studio-data
+      mountPath: /var/data
+      sizeGB: 10

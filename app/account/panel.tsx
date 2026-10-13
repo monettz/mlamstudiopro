@@ -1,0 +1,16 @@
+'use client';
+import { useState } from 'react';
+import { useLanguage } from '../language-provider';
+import { authCopy } from '@/lib/auth-copy';
+import { accountLabels } from '@/lib/account-labels';
+import AccountIcon from './icons';
+export default function AccountPanel({name,email,verified}:{name:string;email:string;verified:boolean}) {
+  const {t,language}=useLanguage();const copy=authCopy(language);const labels=accountLabels(language);const [error,setError]=useState('');const [busy,setBusy]=useState(false);
+  async function logout(){setBusy(true);try{const response=await fetch('/api/account/logout',{method:'POST'});if(!response.ok)throw new Error();location.assign('/account/login');}catch{setError(t('connectionError'));setBusy(false);}}
+  return <main className="mlam-account-page"><div className="account-dashboard"><aside className="customer-account-sidebar"><a className="brand access-brand" href="/" dir="ltr"><img src="/mlam-mark-3d-green.png" alt=""/><span><b>MLAM</b> STUDIO PRO</span></a><div className="customer-profile"><span className="customer-avatar" aria-hidden="true">{Array.from(name.trim())[0]?.toUpperCase() || 'M'}</span><strong>{name}</strong><span className="customer-email" dir="ltr">{email}</span></div><nav aria-label={t('account')}><a href="#account-overview" aria-current="page"><AccountIcon name="user"/>{labels.overview}</a><a href="#account-library"><AccountIcon name="download"/>{t('purchases')}</a><a href="/downloads"><AccountIcon name="download"/>{t('downloads')}</a><a href="/tutorials"><AccountIcon name="book"/>{t('guides')}</a></nav><button className="customer-signout" disabled={busy} onClick={logout}>{t(busy?'working':'logout')}</button></aside>
+    <div className="customer-account-content" id="account-overview"><header className="customer-account-heading"><span>{t('customerAccount')}</span><h1>{t('accountTitle')}</h1><p>{t('signedIn')} <strong>{name}</strong></p></header>
+      <section className="customer-profile-card"><div className="account-section-heading"><AccountIcon name="user"/><h2>{labels.profile}</h2><span className={`customer-verification${verified?' verified':''}`}><AccountIcon name={verified?'check':'info'}/>{verified?labels.verified:t('emailPending')}</span></div><dl><div><dt>{t('fullName')}</dt><dd>{name}</dd></div><div><dt>{t('email')}</dt><dd dir="ltr">{email}</dd></div></dl>{!verified&&<p className="account-verification-help">{copy.verification}</p>}</section>
+      <section className="customer-library-card" id="account-library"><div className="account-section-heading"><AccountIcon name="download"/><h2>{t('purchases')}</h2></div><div className="customer-library-pending"><span className="library-icon"><AccountIcon name="download"/></span><p>{t('purchaseNotice')}</p><a className="button access-submit" href="/#plugins">{t('explore')}<AccountIcon name="arrow"/></a><small>{t('noPurchaseClaim')}</small></div></section>
+      <div className="customer-account-links"><a href="/downloads"><AccountIcon name="download"/><span>{t('licensedDownload')}</span><AccountIcon name="arrow"/></a><a href="/tutorials"><AccountIcon name="book"/><span>{t('guides')}</span><AccountIcon name="arrow"/></a></div>{error&&<p className="access-feedback access-error" role="alert">{error}</p>}
+    </div></div></main>;
+}

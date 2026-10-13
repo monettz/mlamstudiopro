@@ -1,0 +1,13 @@
+node_modules/
+.local-auth-runtime/
+node_modules-shared/
+.next/
+data/
+output/
+.env*
+!.env.example
+*.tsbuildinfo
+*.log
+*.sqlite
+*.sqlite-*
+coverage/

@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791787236396,
+      "tag": "0001_tutorials",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791790426328,
+      "tag": "0002_sticky_dazzler",
+      "breakpoints": true
+    }
+  ]
+}
