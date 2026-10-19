@@ -2434,9 +2434,9 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
   align-items: center !important;
   justify-content: space-between !important;
   width: 100% !important;
-  max-width: 1400px !important;
-  margin: 0 auto !important;
-  padding: 18px clamp(16px, 3.5vw, 48px) 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 20px clamp(20px, 3.2vw, 48px) 0 !important;
   position: relative !important;
   z-index: 50 !important;
 }
@@ -2451,22 +2451,14 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
 .sh-nav-center {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  flex: 1 1 auto !important;
-  margin: 0 auto !important;
+  justify-content: flex-end !important;
+  margin-left: auto !important;
   z-index: 1 !important;
 }
 
-.sh-nav-right {
-  display: flex !important;
-  align-items: center !important;
-  flex: 0 0 auto !important;
-}
-
+.sh-nav-right,
 .sh-nav-right:empty {
-  display: block !important;
-  visibility: hidden !important;
-  width: 180px !important;
+  display: none !important;
 }
 
 /* ========================================================

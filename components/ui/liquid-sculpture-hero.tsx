@@ -1213,7 +1213,7 @@ const CSS = `
 .sh-backdrop{position:absolute;left:50%;z-index:0;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none;
   font-family:var(--sh-head);font-weight:600;letter-spacing:-.06em;line-height:.8;color:color-mix(in srgb,var(--sh-fg) 5%,transparent)}
 .sh-nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:20px clamp(16px,3cqw,48px) 0;width:100%;max-width:1400px;margin:0 auto}
+  padding:20px clamp(20px,3.2cqw,48px) 0;width:100%;max-width:100%;margin:0}
 .sh-nav-left{display:flex;align-items:center;flex-shrink:0}
 .sh-brand{font-family:var(--sh-head);font-weight:700;font-size:16px;letter-spacing:-.02em;color:inherit;text-decoration:none}
 .sh-nav-center{display:flex;align-items:center;justify-content:flex-end;flex:1}
