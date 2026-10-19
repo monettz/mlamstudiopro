@@ -147,6 +147,8 @@ export default function Storefront() {
       backdropText="MLAM"
       src="/mlam-mark-3d-green-512.png"
       darkSrc="/mlam-mark-3d-green-512.png"
+      mobileSrc="/mlam-mark-3d-green-512.png"
+      mobileDarkSrc="/mlam-mark-3d-green-512.png"
       disableLiquid={true}
       interactive={false}
       liquid={0}

@@ -1115,13 +1115,13 @@ export interface SculptureHeroProps {
 }
 
 const DEFAULTS = {
-  src: "https://cdn.21st.dev/assets/mirror/ae/ae8c3de9003460e59182e950ccd345f68f27f9d0e4808b64c92c962a4eca7120.webp",
-  darkSrc: "https://cdn.21st.dev/assets/mirror/a1/a1fa387b6e417b26a25f317559c87cce4d241c1052c52a2b3bc2966b2aaf9b65.webp",
-  mobileSrc: "https://cdn.21st.dev/assets/mirror/b0/b0c8d8e5d64b8cec906a3b390e3dc7c9a5af08334bf0632873c601782cb4bc46.webp",
-  mobileDarkSrc: "https://cdn.21st.dev/assets/mirror/9a/9a82cb59be1bfde59855b79d7a565e487155a89f4d52eac74dcc10e267b2b6d1.webp",
-  imageAlt: "Abstract sculpture of interwoven metallic filaments and particles",
-  imageBackground: "#EAE9E7",
-  brand: "Forma®",
+  src: "/mlam-mark-3d-green-512.png",
+  darkSrc: "/mlam-mark-3d-green-512.png",
+  mobileSrc: "/mlam-mark-3d-green-512.png",
+  mobileDarkSrc: "/mlam-mark-3d-green-512.png",
+  imageAlt: "MLAM Studio Pro 3D Logo",
+  imageBackground: "#050e08",
+  brand: "MLAM Studio Pro",
   navLinks: [
     { label: "Work", href: "#" },
     { label: "Studio", href: "#" },
@@ -1370,10 +1370,10 @@ function renderHeadline(text: string, accent?: string) {
 
 export default function SculptureHero(props: SculptureHeroProps) {
   const {
-    src = DEFAULTS.src,
-    darkSrc = DEFAULTS.darkSrc,
-    mobileSrc = DEFAULTS.mobileSrc,
-    mobileDarkSrc = DEFAULTS.mobileDarkSrc,
+    src = props.src || DEFAULTS.src,
+    darkSrc = props.darkSrc || props.src || DEFAULTS.darkSrc,
+    mobileSrc = props.mobileSrc || props.src || DEFAULTS.mobileSrc,
+    mobileDarkSrc = props.mobileDarkSrc || props.darkSrc || props.src || DEFAULTS.mobileDarkSrc,
     imageAlt = DEFAULTS.imageAlt,
     imageBackground,
     brand = DEFAULTS.brand,
