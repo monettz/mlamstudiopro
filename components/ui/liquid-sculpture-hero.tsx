@@ -1264,17 +1264,28 @@ const CSS = `
   .sh-aside{justify-self:start;max-width:520px;padding-bottom:0}
   .sh-h1{font-size:clamp(40px,min(9.5cqw,9cqh),96px)}
 }
-@container (max-width:960px){
-  .sh-nav{flex-wrap:wrap;gap:14px}
-  .sh-nav-center{order:3;width:100%;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;justify-content:flex-start}
-  .sh-nav-center::-webkit-scrollbar{display:none}
-  .sh-capsule{min-width:max-content}
+.sh-mobile-toggle{display:none;align-items:center;justify-content:center;width:42px;height:42px;border-radius:9999px;
+  background:rgba(12,18,14,0.85);border:1px solid rgba(255,255,255,0.18);color:#ffffff;cursor:pointer;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:102;transition:all .2s ease;
+  box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+.sh-mobile-toggle:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.35)}
+.sh-mobile-overlay{position:fixed;inset:0;background:rgba(3,10,5,0.97);backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);z-index:100;display:flex;flex-direction:column;padding:92px 24px 36px;
+  animation:shMobileFade .25s cubic-bezier(.16,1,.3,1) both;overflow-y:auto}
+@keyframes shMobileFade{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.sh-mobile-links{display:flex;flex-direction:column;gap:10px;max-width:480px;width:100%;margin:0 auto}
+.sh-mobile-item{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-radius:14px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#ffffff;font-size:16px;
+  font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:all .2s ease}
+.sh-mobile-item:hover,.sh-mobile-item.active{background:rgba(67,237,120,0.12);border-color:rgba(67,237,120,0.35);color:#9affb0}
+.sh-mobile-cta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;padding:16px 24px;
+  border-radius:9999px;background:#ffffff;color:#030805!important;font-size:15px;font-weight:700;
+  text-decoration:none;box-shadow:0 4px 20px rgba(255,255,255,0.2);transition:all .2s ease}
+@media (max-width:860px){
+  .sh-capsule{display:none!important}
+  .sh-mobile-toggle{display:inline-flex!important}
 }
 @container (max-width:639px){
-  .sh-nav{padding-top:14px}
-  .sh-capsule{padding:3px 4px 3px 14px;gap:2px}
-  .sh-capsule-item{padding:6px 10px;font-size:12px}
-  .sh-capsule-cta{padding:6px 14px;font-size:12px;margin-left:8px}
   .sh-h1{font-size:clamp(36px,min(12.5cqw,7.2cqh),60px);line-height:.94}
   .sh-body{font-size:15px;margin-bottom:20px}
   .sh-eyebrow{font-size:11px}
@@ -1440,6 +1451,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
   const aspectRef = React.useRef(512 / 415)
   const [isTouch, setIsTouch] = React.useState(false)
   const [activeNavIdx, setActiveNavIdx] = React.useState(0)
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
 
   const layout = React.useRef({ scale: sculptureScale, mobileScale: mobileSculptureScale, x: sculptureX, y: sculptureY })
   layout.current = {
@@ -1764,6 +1776,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
           </div>
 
           <div className="sh-nav-center">
+            {/* Desktop Capsule */}
             <div className="sh-capsule">
               {navLinks.map((l, i) => {
                 const isActive = (l as any).isActive !== undefined ? (l as any).isActive : i === activeNavIdx;
@@ -1785,6 +1798,28 @@ export default function SculptureHero(props: SculptureHeroProps) {
                 </a>
               )}
             </div>
+
+            {/* Mobile Hamburger Button (Three Lines) */}
+            <button
+              type="button"
+              className="sh-mobile-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="7" x2="20" y2="7" />
+                  <line x1="4" y1="12" x2="20" y2="12" />
+                  <line x1="4" y1="17" x2="20" y2="17" />
+                </svg>
+              )}
+            </button>
           </div>
 
           {navExtra ? (
@@ -1793,6 +1828,41 @@ export default function SculptureHero(props: SculptureHeroProps) {
             </div>
           ) : null}
         </nav>
+      )}
+
+      {/* Mobile Navigation Drawer / Overlay */}
+      {showNav && mobileMenuOpen && (
+        <div className="sh-mobile-overlay" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+          <div className="sh-mobile-links">
+            {navLinks.map((l, i) => {
+              const isActive = (l as any).isActive !== undefined ? (l as any).isActive : i === activeNavIdx;
+              return (
+                <a
+                  key={i}
+                  className={`sh-mobile-item ${isActive ? "active" : ""}`}
+                  href={l.href}
+                  onClick={() => {
+                    setActiveNavIdx(i);
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  <span>{l.label}</span>
+                  <span style={{ opacity: 0.5, fontSize: "18px" }}>→</span>
+                </a>
+              );
+            })}
+            {navCta && navCta.label && (
+              <a
+                className="sh-mobile-cta"
+                href={navCta.href}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>{cleanLabel(navCta.label)}</span>
+                <NorthEastArrow />
+              </a>
+            )}
+          </div>
+        </div>
       )}
 
       <div className="sh-spacer" />

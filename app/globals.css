@@ -2461,6 +2461,15 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
   display: none !important;
 }
 
+@media (max-width: 860px) {
+  .sh-capsule {
+    display: none !important;
+  }
+  .sh-mobile-toggle {
+    display: inline-flex !important;
+  }
+}
+
 /* ========================================================
    PRODUCT CARD INTERACTION & CLICKABILITY
    Ensure whole card + art + content + buttons are clickable
