@@ -2,7 +2,6 @@
   "name": "mlam-studio-pro-web",
   "version": "1.0.0",
   "private": true,
-  "packageManager": "pnpm@11.25.0",
   "engines": {
     "node": ">=22.0.0"
   },

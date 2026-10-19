@@ -1,4 +1,0 @@
-# pnpm 11 requires an explicit decision for dependency lifecycle scripts.
-# Sharp is the image dependency pinned by pnpm-lock.yaml; keep other builds blocked.
-allowBuilds:
-  sharp: true
