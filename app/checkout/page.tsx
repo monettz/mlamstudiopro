@@ -1,8 +1,69 @@
 import { database, ensureStore, type Product } from '@/lib/store';
 import CheckoutForm from './checkout-form';
+import ModernNav from '@/components/ui/modern-nav';
+import ModernFooter from '@/components/ui/modern-footer';
+
 export const dynamic = 'force-dynamic';
+
 export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ product?: string }> }) {
-  await ensureStore(); const { product: id } = await searchParams;
-  const product = id ? await database().prepare("SELECT * FROM products WHERE id=? AND status='published'").bind(id).first<Product>() : null;
-  return <main><header className="site-header"><a className="brand" href="/"><img src="/mlam-mark-3d-green.png" alt=""/><span><b>MLAM</b> STUDIO PRO<small>CHECKOUT</small></span></a><nav><a href="/#plugins">Plugins</a><a href="/downloads">Downloads</a></nav></header><section className="download-panel"><span className="kicker">YOUR PURCHASE</span>{product ? <><img className="checkout-art" src={product.image} alt={product.name}/><h1>{product.name}</h1><p className="modal-price">Full version · ${(product.price_cents/100).toFixed(2)} USD</p><CheckoutForm productId={product.id}/><div className="checkout-pending"><h2>Payments are not live yet.</h2><p>M-Pesa and Visa / Mastercard checkout will open after MLAM connects and verifies its merchant account. No money is collected on this page.</p><div className="payment-methods"><span>M-Pesa · coming soon</span><span>Visa / Mastercard · coming soon</span></div><button className="button primary" disabled>Payment integration pending</button></div><p>Questions before buying? <a className="details" href={`mailto:melaninentertainment255@gmail.com?subject=${encodeURIComponent(`Purchase enquiry: ${product.name}`)}`}>Contact MLAM</a>.</p></> : <><h1>Product not available.</h1><p>Choose a published product from our catalog. Coming-soon products cannot be purchased yet.</p></>}<a className="button ghost" href="/#plugins">← Back to MLAM Studio Pro</a></section></main>;
+  await ensureStore();
+  const { product: id } = await searchParams;
+  const product = id
+    ? await database().prepare("SELECT * FROM products WHERE id=? AND status='published'").bind(id).first<Product>()
+    : null;
+
+  return (
+    <div className="subpage-wrapper">
+      <ModernNav activeTab="plugins" />
+      <main className="checkout-page">
+        <section className="download-panel checkout-card-panel">
+          <span className="showcase-kicker">DIRECT PURCHASE</span>
+
+          {product ? (
+            <>
+              <div className="checkout-product-preview">
+                <img className="checkout-art" src={product.image} alt={product.name} />
+                <div className="checkout-preview-info">
+                  <h1 className="subpage-title">{product.name}</h1>
+                  <p className="checkout-price-tag">
+                    Full Lifetime License · <strong>${(product.price_cents / 100).toFixed(2)} USD</strong>
+                  </p>
+                </div>
+              </div>
+
+              <CheckoutForm productId={product.id} />
+
+              <div className="checkout-pending">
+                <h2>Direct checkout is being finalized.</h2>
+                <p>
+                  M-Pesa and Visa / Mastercard checkout integration is currently connected in staging. To purchase right now or arrange direct activation:
+                </p>
+                <div className="payment-methods">
+                  <span>M-Pesa Express</span>
+                  <span>Visa / Mastercard</span>
+                </div>
+                <a
+                  className="download-submit-btn"
+                  href={`mailto:melaninentertainment255@gmail.com?subject=${encodeURIComponent(`Purchase inquiry: ${product.name}`)}`}
+                  style={{ textDecoration: 'none', display: 'inline-flex', marginTop: '14px' }}
+                >
+                  Order via Direct Email →
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="checkout-empty">
+              <h1 className="subpage-title">Product not available</h1>
+              <p className="subpage-subtitle">Please select a published product from our catalog.</p>
+              <a className="download-submit-btn" href="/#plugins" style={{ textDecoration: 'none' }}>
+                Browse Plugins
+              </a>
+            </div>
+          )}
+        </section>
+      </main>
+      <ModernFooter />
+    </div>
+  );
 }
+

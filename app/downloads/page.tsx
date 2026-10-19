@@ -2,6 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 
+import ModernNav from "@/components/ui/modern-nav";
+import ModernFooter from "@/components/ui/modern-footer";
+
 export default function DownloadsPage() {
   const [licenseKey, setLicenseKey] = useState("");
   const [busy, setBusy] = useState(false);
@@ -46,13 +49,52 @@ export default function DownloadsPage() {
     } finally { setBusy(false); }
   }
 
-  return <main className="downloads-page">
-    <header className="site-header"><a className="brand" href="/"><img src="/mlam-logo.png" alt="MLAM"/><span><b>MLAM</b> STUDIO PRO<small>CUSTOMER DOWNLOADS</small></span></a><nav><a href="/">Plugin store</a><a href="/#support">Support</a></nav></header>
-    <section className="download-panel"><span className="kicker">YOUR STUDIO PRO</span><h1>Your sound.<br/><em>Your downloads.</em></h1><p>Enter the license key supplied with your purchase to download the active release ZIP for your plugin.</p>
-      <form onSubmit={download}><label htmlFor="license-key">License key</label><input id="license-key" name="licenseKey" value={licenseKey} onChange={event => setLicenseKey(event.target.value)} placeholder="MLAM-XXXXX-XXXXX-XXXXX-XXXXX" autoComplete="off" autoCapitalize="characters" spellCheck={false} maxLength={40} required disabled={busy}/><button className="button primary" type="submit" disabled={busy}>{busy ? "Preparing download…" : "Download ZIP ↓"}</button></form>
-      {message && <p className={`download-message ${failed ? "error" : "success"}`} role={failed ? "alert" : "status"}>{message}</p>}
-      <div className="download-help"><h2>Need your license key?</h2><p>Check the purchase message from MLAM or <a href="mailto:melaninentertainment255@gmail.com?subject=MLAM%20download%20help">contact support</a>.</p><p>Bushman Bass, MLAM Piano and MLAM Studio Pro are coming soon. Their downloads will open with their releases.</p></div>
-      <a className="button ghost" href="/">Back to plugin store</a>
-    </section>
-  </main>;
+  return (
+    <div className="subpage-wrapper">
+      <ModernNav activeTab="downloads" />
+      <main className="downloads-page">
+        <section className="download-panel">
+          <span className="showcase-kicker">LICENSED RELEASES</span>
+          <h1 className="subpage-title">Your sound.<br /><em>Your downloads.</em></h1>
+          <p className="subpage-subtitle">Enter the license key supplied with your purchase to download the active release ZIP for your plugin.</p>
+          
+          <form className="download-form" onSubmit={download}>
+            <label htmlFor="license-key" className="download-input-label">MLAM License Key</label>
+            <div className="download-input-group">
+              <input
+                id="license-key"
+                name="licenseKey"
+                value={licenseKey}
+                onChange={event => setLicenseKey(event.target.value)}
+                placeholder="MLAM-XXXXX-XXXXX-XXXXX-XXXXX"
+                autoComplete="off"
+                autoCapitalize="characters"
+                spellCheck={false}
+                maxLength={40}
+                required
+                disabled={busy}
+                className="download-text-input"
+              />
+              <button className="download-submit-btn" type="submit" disabled={busy}>
+                {busy ? "Preparing…" : "Download ZIP ↓"}
+              </button>
+            </div>
+          </form>
+
+          {message && (
+            <p className={`download-message ${failed ? "error" : "success"}`} role={failed ? "alert" : "status"}>
+              {message}
+            </p>
+          )}
+
+          <div className="download-help">
+            <h2>Need your license key?</h2>
+            <p>Check the purchase message from MLAM or <a href="mailto:melaninentertainment255@gmail.com?subject=MLAM%20download%20help">contact support</a>.</p>
+            <p className="download-help-note">Bushman Bass, MLAM Piano and MLAM Studio Pro are coming soon. Their downloads will open with their releases.</p>
+          </div>
+        </section>
+      </main>
+      <ModernFooter />
+    </div>
+  );
 }

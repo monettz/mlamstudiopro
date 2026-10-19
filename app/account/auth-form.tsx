@@ -32,7 +32,7 @@ export default function CustomerAuthForm({mode,next,configured,callbackFailed=fa
       location.assign(data.url);
     }catch{setMessage(t('connectionError'));}finally{setBusy(false);}
   }
-  return <main className="customer-auth-page mlam-access-page"><a className="brand access-brand" href="/" dir="ltr"><img src="/mlam-mark-3d-green.png" alt=""/><span><b>MLAM</b> STUDIO PRO<small>{t('customerAccount')}</small></span></a>
+  return <main className="customer-auth-page mlam-access-page"><a className="brand access-brand" href="/" dir="ltr"><img src="/mlam-mark-3d-green-512.png" alt="MLAM Studio Pro"/><span><b>MLAM</b> STUDIO PRO<small>{t('customerAccount')}</small></span></a>
     <section className="customer-auth-card mlam-access-card" aria-labelledby="mlam-auth-title">
       <header className="access-heading"><h1 id="mlam-auth-title">{t(register?'registerTitle':'loginTitle')}</h1><p>{register?copy.signupIntro:copy.loginIntro}</p></header>
       <nav className="access-mode-tabs" aria-label={t('customerAccount')}><a href={`/account/login?next=${encodeURIComponent(next)}`} aria-current={!register?'page':undefined}>{t('login')}</a><a href={`/account/register?next=${encodeURIComponent(next)}`} aria-current={register?'page':undefined}>{t('register')}</a></nav>
