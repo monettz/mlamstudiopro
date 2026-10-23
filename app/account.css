@@ -350,33 +350,51 @@
 
 /* ========================================================
    CUSTOMER PORTAL / ACCOUNT OVERVIEW DASHBOARD
+   Obsidian Glassmorphism + Emerald Glow Aesthetic
    ======================================================== */
 
 .mlam-account-page {
-  min-height: 100vh;
-  background: #020704;
-  color: #ffffff;
+  min-height: calc(100vh - 120px);
+  background-color: #020704;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(22, 101, 52, 0.18) 0%, transparent 60%),
+    radial-gradient(circle at 10% 80%, rgba(34, 197, 94, 0.06) 0%, transparent 50%),
+    linear-gradient(180deg, #020704 0%, #06120a 50%, #030805 100%);
+  color: #f1fff5;
   padding: 40px 24px 80px;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
 }
 
 .account-dashboard {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 290px minmax(0, 1fr);
   gap: 32px;
-  max-width: 1240px;
+  max-width: 1260px;
   margin: 0 auto;
   align-items: start;
 }
 
 /* Sidebar */
 .customer-account-sidebar {
-  background: #ffffff;
+  background: rgba(10, 22, 14, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-radius: 24px;
   padding: 28px 22px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
-  color: #0f172a;
+  border: 1px solid rgba(74, 222, 128, 0.16);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(34, 197, 94, 0.05);
+  color: #f1fff5;
+  position: sticky;
+  top: 96px;
+}
+
+.customer-account-sidebar .access-brand {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.12);
 }
 
 .customer-profile {
@@ -384,37 +402,53 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 20px 0 24px;
-  border-bottom: 1px solid #eef2ef;
+  padding: 10px 0 24px;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.12);
   margin-bottom: 20px;
 }
 
 .customer-avatar {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #25442e, #187135);
+  background: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
   color: #ffffff;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 800;
-  box-shadow: 0 6px 18px rgba(37, 68, 46, 0.35);
-  margin-bottom: 12px;
+  box-shadow:
+    0 8px 24px rgba(34, 197, 94, 0.35),
+    0 0 0 3px rgba(74, 222, 128, 0.2);
+  margin-bottom: 14px;
 }
 
 .customer-profile strong {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 800;
-  color: #0d2817;
-  letter-spacing: -0.01em;
+  color: #ffffff;
+  letter-spacing: -0.015em;
 }
 
 .customer-email {
   font-size: 12.5px;
-  color: #64748b;
-  margin-top: 3px;
+  color: #8ead99;
+  margin-top: 4px;
   word-break: break-all;
+}
+
+.customer-sidebar-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.28);
+  color: #4ade80;
 }
 
 .customer-account-sidebar nav {
@@ -429,21 +463,36 @@
   padding: 12px 14px;
   font-size: 13.5px;
   font-weight: 600;
-  color: #475569;
+  color: #a3c4ae;
   text-decoration: none;
   border-radius: 12px;
+  border: 1px solid transparent;
   transition: all 0.2s ease;
 }
 
 .customer-account-sidebar nav a:hover {
-  background: #f1f5f3;
-  color: #0d2817;
+  background: rgba(74, 222, 128, 0.08);
+  border-color: rgba(74, 222, 128, 0.18);
+  color: #ffffff;
+  transform: translateX(2px);
 }
 
 .customer-account-sidebar nav a[aria-current="page"] {
-  background: #ecfdf5;
-  color: #047857;
+  background: rgba(74, 222, 128, 0.14);
+  border-color: rgba(74, 222, 128, 0.32);
+  color: #4ade80;
   font-weight: 700;
+}
+
+.nav-badge-pill {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
 }
 
 .customer-signout {
@@ -454,29 +503,35 @@
   height: 42px;
   margin-top: 24px;
   border-radius: 9999px;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  color: #64748b;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.06);
+  color: #fca5a5;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.customer-signout:hover {
-  background: #fee2e2;
-  border-color: #fca5a5;
-  color: #991b1b;
+.customer-signout:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.customer-signout:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Account Main Content */
 .customer-account-content {
   display: grid;
-  gap: 24px;
+  gap: 26px;
 }
 
 .customer-account-heading {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .customer-account-heading > span {
@@ -485,10 +540,11 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #4ade80;
-  background: rgba(74, 222, 128, 0.08);
-  border: 1px solid rgba(74, 222, 128, 0.2);
-  padding: 4px 12px;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  padding: 5px 14px;
   border-radius: 9999px;
+  display: inline-block;
 }
 
 .customer-account-heading h1 {
@@ -499,6 +555,7 @@
   color: #ffffff;
   margin: 14px 0 8px;
   font-weight: 400;
+  letter-spacing: -0.015em;
 }
 
 .customer-account-heading p {
@@ -507,31 +564,85 @@
   margin: 0;
 }
 
+.customer-account-heading p strong {
+  color: #f1fff5;
+}
+
+/* Status Toast */
+.account-status-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  animation: toastSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.toast-success {
+  background: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #4ade80;
+}
+
+.toast-error {
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}
+
+/* Glass Cards */
 .customer-profile-card,
-.customer-library-card {
-  background: #ffffff;
+.customer-library-card,
+.customer-orders-card {
+  background: rgba(10, 22, 14, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-radius: 24px;
-  padding: 30px 32px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
-  color: #0f172a;
+  padding: 32px 34px;
+  border: 1px solid rgba(74, 222, 128, 0.16);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.55),
+    0 0 35px rgba(34, 197, 94, 0.04);
+  color: #f1fff5;
 }
 
 .account-section-heading {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #f1f5f3;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.12);
+}
+
+.account-section-heading svg {
+  color: #4ade80;
 }
 
 .account-section-heading h2 {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.015em;
-  color: #0d2817;
+  color: #ffffff;
   margin: 0;
+}
+
+.library-total-tag {
+  margin-left: auto;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.28);
+  color: #4ade80;
 }
 
 .customer-verification {
@@ -539,79 +650,559 @@
   align-items: center;
   gap: 6px;
   margin-left: auto;
-  padding: 5px 12px;
+  padding: 5px 14px;
   border-radius: 9999px;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
-  background: #fefce8;
-  border: 1px solid #fde047;
-  color: #854d0e;
+  background: rgba(234, 179, 8, 0.14);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  color: #fde047;
 }
 
 .customer-verification.verified {
-  background: #ecfdf5;
-  border-color: #a7f3d0;
-  color: #047857;
+  background: rgba(74, 222, 128, 0.12);
+  border-color: rgba(74, 222, 128, 0.32);
+  color: #4ade80;
 }
 
 .customer-profile-card dl {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 22px;
   margin: 0;
+}
+
+.customer-profile-card dl > div {
+  background: rgba(16, 32, 22, 0.5);
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(74, 222, 128, 0.1);
 }
 
 .customer-profile-card dt {
-  font-size: 12px;
-  font-weight: 700;
-  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  color: #78a287;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
 }
 
 .customer-profile-card dd {
-  font-size: 15px;
-  font-weight: 600;
-  color: #0f172a;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
   margin: 0;
 }
 
+.account-metric-accent {
+  color: #4ade80 !important;
+}
+
+.account-security-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #86efac !important;
+}
+
+.account-security-tag svg {
+  width: 16px;
+  height: 16px;
+  color: #4ade80;
+}
+
+.account-verification-help {
+  margin: 20px 0 0;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  color: #fef08a;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* ========================================================
+   LICENSE CARDS IN CUSTOMER LIBRARY
+   ======================================================== */
+
+.customer-license-list {
+  display: grid;
+  gap: 20px;
+}
+
+.license-card {
+  background: rgba(15, 30, 20, 0.72);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  border-radius: 20px;
+  padding: 24px 26px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.license-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.license-card:hover {
+  border-color: rgba(74, 222, 128, 0.45);
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(34, 197, 94, 0.1);
+}
+
+.license-card:hover::before {
+  opacity: 1;
+}
+
+.license-card-header {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.license-product-artwork {
+  width: 76px;
+  height: 76px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #030805;
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.license-product-artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.license-product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.license-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.product-category-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(74, 222, 128, 0.25);
+}
+
+.product-version-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.12);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.license-status-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 3px 10px;
+  border-radius: 9999px;
+}
+
+.license-product-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+  margin: 0 0 4px;
+}
+
+.license-meta-desc {
+  font-size: 13px;
+  color: #8ead99;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Key & Download Strip */
+.license-card-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(74, 222, 128, 0.12);
+  align-items: center;
+}
+
+.license-key-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.license-key-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #78a287;
+}
+
+.license-key-label svg {
+  width: 14px;
+  height: 14px;
+  color: #4ade80;
+}
+
+.license-key-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #020704;
+  border: 1px solid rgba(74, 222, 128, 0.22);
+  border-radius: 12px;
+  padding: 6px 10px 6px 14px;
+  max-width: 440px;
+}
+
+.license-key-value {
+  font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #4ade80;
+  flex: 1;
+}
+
+.license-key-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.key-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  background: rgba(74, 222, 128, 0.08);
+  color: #a3c4ae;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.key-action-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.key-action-btn:hover {
+  background: rgba(74, 222, 128, 0.18);
+  color: #ffffff;
+  border-color: rgba(74, 222, 128, 0.4);
+}
+
+.key-copy-btn.copied {
+  background: #16a34a;
+  border-color: #22c55e;
+  color: #ffffff;
+}
+
+.license-download-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.download-quota-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.quota-text {
+  font-size: 12px;
+  color: #8ead99;
+}
+
+.quota-text strong {
+  color: #4ade80;
+}
+
+.quota-bar {
+  width: 140px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.quota-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.file-size-hint {
+  font-size: 11px;
+  color: #638570;
+}
+
+.license-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 9999px;
+  border: none;
+  background: linear-gradient(135deg, #15803d 0%, #22c55e 100%);
+  color: #ffffff !important;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(34, 197, 94, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.license-download-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(34, 197, 94, 0.5);
+  background: linear-gradient(135deg, #16a34a 0%, #4ade80 100%);
+}
+
+.license-download-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Fallback pending state */
+.customer-library-pending {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.customer-library-pending .library-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  margin-bottom: 18px;
+}
+
+.customer-library-pending p {
+  color: #a3c4ae;
+  font-size: 15px;
+  line-height: 1.55;
+  max-width: 480px;
+  margin: 0 auto 24px;
+}
+
+.customer-library-pending .access-submit {
+  max-width: 220px;
+  margin: 0 auto 16px;
+}
+
+.customer-library-pending small {
+  display: block;
+  color: #638570;
+  font-size: 12px;
+}
+
+/* Orders Table */
+.orders-table-wrapper {
+  overflow-x: auto;
+}
+
+.customer-orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.customer-orders-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #78a287;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.16);
+}
+
+.customer-orders-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(74, 222, 128, 0.08);
+  color: #f1fff5;
+}
+
+.customer-orders-table tr:last-child td {
+  border-bottom: none;
+}
+
+.order-amount {
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.order-ref code {
+  font-family: monospace;
+  font-size: 12px;
+  color: #8ead99;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+.order-status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(74, 222, 128, 0.14);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+}
+
+/* Quick Links */
 .customer-account-links {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 
 .customer-account-links a {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 20px 24px;
+  gap: 16px;
+  padding: 22px 26px;
   border-radius: 20px;
-  background: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
-  color: #0d2817;
-  font-size: 14.5px;
-  font-weight: 700;
+  background: rgba(10, 22, 14, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(74, 222, 128, 0.16);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   text-decoration: none;
   transition: all 0.25s ease;
 }
 
-.customer-account-links a:hover {
-  transform: translateY(-3px);
-  border-color: #86efac;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38), 0 0 25px rgba(74, 222, 128, 0.2);
-  color: #15803d;
+.customer-account-links a > svg:first-child {
+  color: #4ade80;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
 }
 
-@media (max-width: 860px) {
+.customer-account-links a > svg:last-child {
+  color: #638570;
+  margin-left: auto;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.customer-account-links a div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.link-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.link-sub {
+  font-size: 12px;
+  color: #8ead99;
+}
+
+.customer-account-links a:hover {
+  transform: translateY(-3px);
+  border-color: rgba(74, 222, 128, 0.45);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(34, 197, 94, 0.12);
+}
+
+.customer-account-links a:hover > svg:last-child {
+  transform: translateX(4px);
+  color: #4ade80;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
   .account-dashboard {
     grid-template-columns: 1fr;
   }
+  .customer-account-sidebar {
+    position: static;
+  }
+  .license-card-body {
+    grid-template-columns: 1fr;
+  }
+  .license-download-actions {
+    align-items: flex-start;
+  }
+  .download-quota-indicator {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
   .customer-profile-card dl,
   .customer-account-links {
     grid-template-columns: 1fr;
   }
+  .license-card-header {
+    flex-direction: column;
+  }
+  .license-product-artwork {
+    width: 64px;
+    height: 64px;
+  }
 }
+

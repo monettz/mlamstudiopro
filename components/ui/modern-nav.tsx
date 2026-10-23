@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useLanguage } from "@/app/language-provider";
 
 interface ModernNavProps {
@@ -22,7 +23,7 @@ export default function ModernNav({ activeTab }: ModernNavProps) {
     <header className="modern-nav-wrapper">
       <nav className="sh-nav" aria-label="Primary">
         <div className="sh-nav-left">
-          <a className="sh-brand" href="/" style={{ textDecoration: "none" }}>
+          <Link className="sh-brand" href="/" style={{ textDecoration: "none" }}>
             <span style={{ display: "inline-flex", alignItems: "center", gap: "10px", color: "#ffffff" }}>
               <img
                 src="/mlam-mark-3d-green-512.png"
@@ -38,7 +39,7 @@ export default function ModernNav({ activeTab }: ModernNavProps) {
                 <span style={{ fontWeight: 800 }}>MLAM</span> <span style={{ fontWeight: 400 }}>STUDIO PRO</span>
               </span>
             </span>
-          </a>
+          </Link>
         </div>
 
         <div className="sh-nav-center">
@@ -46,16 +47,16 @@ export default function ModernNav({ activeTab }: ModernNavProps) {
             {links.map((link) => {
               const isActive = activeTab === link.id;
               return (
-                <a
+                <Link
                   key={link.id}
                   className={`sh-capsule-item ${isActive ? "active" : ""}`}
                   href={link.href}
                 >
                   {link.label}
-                </a>
+                </Link>
               );
             })}
-            <a className="sh-capsule-cta" href="/account">
+            <Link className="sh-capsule-cta" href="/account">
               <span>{t("account") || "Account"}</span>
               <svg
                 width="14"
@@ -71,7 +72,7 @@ export default function ModernNav({ activeTab }: ModernNavProps) {
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 

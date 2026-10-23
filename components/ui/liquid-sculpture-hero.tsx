@@ -9,6 +9,7 @@
  */
 
 import * as React from "react"
+import Link from "next/link"
 
 /* ────────────────────────────────────────────────────────────────────
    Engine (WebGL2 GPGPU particles)
@@ -1837,7 +1838,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
             {navLinks.map((l, i) => {
               const isActive = (l as any).isActive !== undefined ? (l as any).isActive : i === activeNavIdx;
               return (
-                <a
+                <Link
                   key={i}
                   className={`sh-mobile-item ${isActive ? "active" : ""}`}
                   href={l.href}
@@ -1848,18 +1849,18 @@ export default function SculptureHero(props: SculptureHeroProps) {
                 >
                   <span>{l.label}</span>
                   <span style={{ opacity: 0.5, fontSize: "18px" }}>→</span>
-                </a>
+                </Link>
               );
             })}
             {navCta && navCta.label && (
-              <a
+              <Link
                 className="sh-mobile-cta"
                 href={navCta.href}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span>{cleanLabel(navCta.label)}</span>
                 <NorthEastArrow />
-              </a>
+              </Link>
             )}
           </div>
         </div>
@@ -1897,16 +1898,16 @@ export default function SculptureHero(props: SculptureHeroProps) {
           {body ? <p className="sh-body">{body}</p> : null}
           <div className="sh-ctas">
             {primaryCta && primaryCta.label ? (
-              <a className="sh-btn" href={primaryCta.href}>
+              <Link className="sh-btn" href={primaryCta.href}>
                 <span>{cleanLabel(primaryCta.label)}</span>
                 <Arrow />
-              </a>
+              </Link>
             ) : null}
             {secondaryCta && secondaryCta.label ? (
-              <a className="sh-txt" href={secondaryCta.href}>
+              <Link className="sh-txt" href={secondaryCta.href}>
                 <span>{cleanLabel(secondaryCta.label)}</span>
                 {/guide|how|tutorial|watch|demo|jinsi/i.test(secondaryCta.label) ? <PlayIcon /> : <Arrow />}
-              </a>
+              </Link>
             ) : null}
           </div>
         </div>

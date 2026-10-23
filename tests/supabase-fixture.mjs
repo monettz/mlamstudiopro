@@ -46,7 +46,7 @@ export async function createSupabaseFixture() {
       const user=tokens.get(token);return user?json(200,user):error(401,'bad_jwt');
     }
     if(url.pathname==='/auth/v1/verify' && body.type==='email' && body.token_hash==='fixture-email-confirmation') {
-      const entry=users.values().next().value;
+      const entry=users.get('customer-fixture@example.test')||[...users.values()].find(e=>!e.user.email_confirmed_at)||users.values().next().value;
       if (!entry)return error(400,'otp_expired');entry.user.email_confirmed_at=new Date().toISOString();return json(200,session(entry.user));
     }
     if(url.pathname==='/auth/v1/logout') {response.writeHead(204);return response.end();}
@@ -54,6 +54,7 @@ export async function createSupabaseFixture() {
   });
   server.listen(0,'127.0.0.1');await once(server,'listening');
   return {url:`http://127.0.0.1:${server.address().port}`,key:'sb_publishable_test_fixture_only',requests,
+    addUser:(email,password,confirmed=true,id='test-owner')=>{const user={id,email,email_confirmed_at:confirmed?new Date().toISOString():null,app_metadata:{provider:'email'},user_metadata:{role:'admin'},created_at:new Date().toISOString(),identities:[]};users.set(email,{user,password});return user;},
     confirm:email=>{users.get(email).user.email_confirmed_at=new Date().toISOString();},
     allowGoogle:url=>{challenge=new URL(url).searchParams.get('code_challenge');},
     expire:email=>session(users.get(email).user,true),

@@ -5,12 +5,14 @@ import DescriptionEditor,{DescriptionFields} from './description-editor';
 import type { DescriptionTranslations } from '@/lib/product-descriptions';
 import type { AdminSection } from '@/lib/admin-navigation';
 
-type Product = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string;description_translations?:string };
+type Product = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string; gallery_images:string;description_translations?:string };
 type Release = { id:string; product_id:string; product_name:string; version:string; file_name:string; file_size:number; is_active:number };
 type License = { id:string; product_name:string; customer_email:string; license_key:string; status:string; download_count:number; max_downloads:number };
 type Order = { id:string; product_name:string; customer_email:string; amount_cents:number; status:string; created_at:string };
 type Tutorial = { id:string; product_name:string | null; title:string; description:string; file_name:string; file_size:number; is_published:number };
-const empty = { name:"", slug:"", category:"Instrument", description:"", price_cents:2900, status:"draft", image:"/plugins/mlam-voice-midi.png", features:"", checkout_url:"",description_translations:{} as DescriptionTranslations };
+const empty = { name:"", slug:"", category:"Instrument", description:"", price_cents:2900, status:"draft", image:"/plugins/mlam-voice-midi.png", features:"", checkout_url:"", gallery_images:"",description_translations:{} as DescriptionTranslations };
+
+function galleryText(value:string) { try { const parsed=JSON.parse(value); return Array.isArray(parsed) ? parsed.filter((item):item is string=>typeof item==='string').join("\n") : ""; } catch { return ""; } }
 
 export default function AdminDashboard({ user, signOut,initialSection='overview' }:{ user:string; signOut:string;initialSection?:AdminSection }) {
   const [tab,setTab] = useState<string>(initialSection);
@@ -30,6 +32,8 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
   const [savingProduct,setSavingProduct] = useState(false);
   const [updatingImage,setUpdatingImage] = useState<string | null>(null);
   const [editingDescriptions,setEditingDescriptions]=useState<Product|null>(null);
+  const [galleryDrafts,setGalleryDrafts]=useState<Record<string,string>>({});
+  const [savingGallery,setSavingGallery]=useState<string|null>(null);
 
   useEffect(() => {
     if (!imageFile) { setImagePreview(""); return; }
@@ -46,7 +50,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
       read<{ tutorials?: Tutorial[] }>("/api/tutorials"),
       read<{ demos?: Release[] }>("/api/demos"),
     ]);
-    setProducts(p.products ?? []); setReleases(r.releases ?? []); setLicenses(l.licenses ?? []); setOrders(o.orders ?? []);
+    setProducts(p.products ?? []); setGalleryDrafts(Object.fromEntries((p.products ?? []).map(product=>[product.id,galleryText(product.gallery_images ?? "[]")]))); setReleases(r.releases ?? []); setLicenses(l.licenses ?? []); setOrders(o.orders ?? []);
     setTutorials(v.tutorials ?? []);
     setDemos(d.demos ?? []);
   }, []);
@@ -73,6 +77,18 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     finally { setUpdatingImage(null); }
   }
 
+  async function saveGalleryImages(product:Product) {
+    setSavingGallery(product.id);
+    try {
+      const gallery_images=(galleryDrafts[product.id] ?? "").split(/\r?\n/).map(item=>item.trim()).filter(Boolean);
+      const response=await fetch(`/api/products/${encodeURIComponent(product.id)}`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({gallery_images})});
+      const result=await response.json() as {error?:string};
+      if(!response.ok)throw new Error(result.error ?? "Product gallery could not be saved");
+      await load(); flash("Product gallery saved");
+    } catch(error) { flash(error instanceof Error ? error.message : "Product gallery could not be saved"); }
+    finally { setSavingGallery(null); }
+  }
+
   async function addProduct(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const element = event.currentTarget;
@@ -80,7 +96,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     try {
       const image = imageFile ? await uploadProductImage(imageFile) : form.image;
       if (imageFile) { setForm(previous => ({...previous,image})); setImageFile(null); }
-      const payload = { ...form, image, features:form.features.split(",").map(x=>x.trim()).filter(Boolean) };
+      const payload = { ...form, image, gallery_images:form.gallery_images.split(/\r?\n/).map(x=>x.trim()).filter(Boolean), features:form.features.split(",").map(x=>x.trim()).filter(Boolean) };
       const response = await fetch("/api/products", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload) });
       const result = await response.json() as { error?:string };
       if (!response.ok) throw new Error(result.error ?? "Product could not be created");
@@ -163,7 +179,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
 
     {tab === "products" && <div className="split-admin"><form className="admin-card admin-form" onSubmit={addProduct}><h2>Add plugin</h2><label>Name<input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></label><div className="two"><label>Slug<input value={form.slug} onChange={e=>setForm({...form,slug:e.target.value})}/></label><label>Category<input value={form.category} onChange={e=>setForm({...form,category:e.target.value})}/></label></div><label>English description (default)<textarea lang="en" dir="ltr" maxLength={4000} value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></label><DescriptionFields includeEnglish={false} value={form.description_translations} onChange={description_translations=>setForm({...form,description_translations})} disabled={savingProduct}/>
       <fieldset className="product-image-editor" disabled={savingProduct}><legend>Product image</legend><img className="product-image-preview" src={imagePreview || form.image || "/plugins/mlam-voice-midi.png"} alt="Product image preview"/><label>Choose image<input type="file" accept="image/png,image/jpeg,image/webp" onChange={event=>setImageFile(event.target.files?.[0] ?? null)}/><small>PNG, JPG or WEBP · up to 10 MB. Uploads when you create the product.</small></label><label>Or image URL<input value={form.image} onChange={event=>{setForm({...form,image:event.target.value});setImageFile(null);}} placeholder="/plugins/image.png or https://…"/></label></fieldset>
-      <div className="two"><label>Price cents<input type="number" value={form.price_cents} onChange={e=>setForm({...form,price_cents:Number(e.target.value)})}/></label><label>Status<select value={form.status} onChange={e=>setForm({...form,status:e.target.value})}><option value="draft">Draft</option><option value="published">Published</option><option value="coming-soon">Coming soon</option></select></label></div><label>Features (comma separated)<input value={form.features} onChange={e=>setForm({...form,features:e.target.value})}/></label><label>Checkout URL<input value={form.checkout_url} onChange={e=>setForm({...form,checkout_url:e.target.value})}/></label><button className="button primary" disabled={savingProduct}>{savingProduct ? "Saving product…" : "Create product"}</button></form><div className="admin-card"><h2>Catalog</h2><div className="admin-list">{products.map(product=><div key={product.id}><img src={product.image||"/plugins/mlam-voice-midi.png"} alt={`${product.name} image`}/><span><b>{product.name}</b><small>{product.category} · ${(product.price_cents/100).toFixed(0)}</small></span><em className={product.status}>{product.status}</em><button type="button" onClick={()=>setEditingDescriptions(product)}>Edit descriptions</button><label className="change-image-control">{updatingImage===product.id ? "Uploading…" : "Change image"}<input type="file" accept="image/png,image/jpeg,image/webp" disabled={updatingImage !== null} aria-label={`Change image for ${product.name}`} onChange={event=>{const file=event.target.files?.[0];if(file)void replaceImage(product,file);event.target.value="";}}/></label></div>)}</div></div></div>}
+      <label>Additional gallery image URLs<textarea value={form.gallery_images} onChange={event=>setForm({...form,gallery_images:event.target.value})} placeholder={'/plugins/image-2.png\nhttps://example.com/image-3.webp'} /><small>One image per line. Use a local path or an HTTPS image URL, up to 12 images.</small></label><div className="two"><label>Price cents<input type="number" value={form.price_cents} onChange={e=>setForm({...form,price_cents:Number(e.target.value)})}/></label><label>Status<select value={form.status} onChange={e=>setForm({...form,status:e.target.value})}><option value="draft">Draft</option><option value="published">Published</option><option value="coming-soon">Coming soon</option></select></label></div><label>Features (comma separated)<input value={form.features} onChange={e=>setForm({...form,features:e.target.value})}/></label><label>Checkout URL<input value={form.checkout_url} onChange={e=>setForm({...form,checkout_url:e.target.value})}/></label><button className="button primary" disabled={savingProduct}>{savingProduct ? "Saving product…" : "Create product"}</button></form><div className="admin-card"><h2>Catalog</h2><div className="admin-list">{products.map(product=><div key={product.id}><img src={product.image||"/plugins/mlam-voice-midi.png"} alt={`${product.name} image`}/><span><b>{product.name}</b><small>{product.category} · ${(product.price_cents/100).toFixed(0)}</small></span><em className={product.status}>{product.status}</em><button type="button" onClick={()=>setEditingDescriptions(product)}>Edit descriptions</button><label className="change-image-control">{updatingImage===product.id ? "Uploading…" : "Change image"}<input type="file" accept="image/png,image/jpeg,image/webp" disabled={updatingImage !== null} aria-label={`Change image for ${product.name}`} onChange={event=>{const file=event.target.files?.[0];if(file)void replaceImage(product,file);event.target.value="";}}/></label></div>)}</div><div className="product-gallery-editor"><h3>Product image galleries</h3><p>Add one image path or HTTPS image URL per line. The first image above remains the main image; these appear as selectable thumbnails.</p>{products.map(product=><div className="product-gallery-row" key={product.id}><label>{product.name}<textarea value={galleryDrafts[product.id] ?? ""} onChange={event=>setGalleryDrafts(previous=>({...previous,[product.id]:event.target.value}))} placeholder="/plugins/product-detail.webp" /></label><button className="button ghost" type="button" disabled={savingGallery===product.id} onClick={()=>void saveGalleryImages(product)}>{savingGallery===product.id ? "Saving…" : "Save gallery"}</button></div>)}</div></div></div>}
 
     {tab === "releases" && <div className="split-admin"><form className="admin-card admin-form" onSubmit={uploadRelease}><h2>Upload plugin ZIP</h2><label>Version type<select name="release_type" disabled={uploadingRelease}><option value="licensed">Full version — requires license</option><option value="demo">Demo — free Try download</option></select></label><label>Product<select name="product_id" required disabled={uploadingRelease}><option value="">Select product</option>{products.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Version<input name="version" placeholder="1.0.0" required disabled={uploadingRelease}/></label><label>Release notes / demo limits<textarea name="notes" placeholder="What changed? What can the demo do?" disabled={uploadingRelease}/></label><label className="dropzone">ZIP file<input name="file" type="file" accept=".zip" required disabled={uploadingRelease}/><span>Choose the correct build. Demo ZIPs: up to 75 MB.</span></label><button className="button primary" disabled={uploadingRelease}>{uploadingRelease ? "Uploading ZIP…" : "Upload release"}</button></form><div className="admin-card"><h2>Full version releases</h2><div className="admin-list">{releases.map(release=><div key={release.id}><i className="file-icon">ZIP</i><span><b>{release.product_name} v{release.version}</b><small>{release.file_name} · {(release.file_size/1048576).toFixed(1)} MB</small></span>{release.is_active?<em className="published">ACTIVE</em>:<button onClick={()=>activate(release.id)}>Activate</button>}</div>)}</div><h2 className="demo-history-heading">Demo releases</h2><div className="admin-list">{demos.map(demo=><div key={demo.id}><i className="file-icon">DEMO</i><span><b>{demo.product_name} v{demo.version}</b><small>{demo.file_name} · {(demo.file_size/1048576).toFixed(1)} MB</small></span><em>{demo.is_active ? "ACTIVE" : "DRAFT"}</em><button onClick={()=>void activateDemo(demo)}>{demo.is_active ? "Deactivate" : "Activate demo"}</button></div>)}</div></div></div>}
 

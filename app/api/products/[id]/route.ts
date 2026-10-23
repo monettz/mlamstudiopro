@@ -2,15 +2,22 @@ import { rejectUnlessAdmin } from "@/lib/admin";
 import { database, ensureStore, json } from "@/lib/store";
 import { boundedJson } from '@/lib/bounded-json';
 import { validateDescriptionTranslations } from '@/lib/product-descriptions';
+import { normalizeProductImages } from '@/lib/product-images';
 
 type Context = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: Request, context: Context) {
   const denied = await rejectUnlessAdmin(); if (denied) return denied;
-  let body: { image?: unknown;description_translations?:unknown };
+  let body: { image?: unknown; description_translations?: unknown; gallery_images?: unknown };
   try { const value=await boundedJson(request,256*1024);if(!value||typeof value!=='object'||Array.isArray(value))throw new Error();body=value; }
   catch { return json({ error: "Product image is required" }, 400); }
   await ensureStore();const {id}=await context.params;
+  if(Object.hasOwn(body,'gallery_images')){
+    const galleryImages=normalizeProductImages(body.gallery_images);
+    if(galleryImages===null)return json({error:'Add up to 12 valid local or HTTPS product images'},400);
+    const result=await database().prepare('UPDATE products SET gallery_images=?,updated_at=? WHERE id=?').bind(JSON.stringify(galleryImages ?? []),new Date().toISOString(),id).run();
+    return result.meta.changes?json({ok:true}):json({error:'Product not found'},404);
+  }
   if(Object.hasOwn(body,'description_translations')){
     let translations;
     try{translations=validateDescriptionTranslations(body.description_translations);}catch{return json({error:'Use supported language codes and descriptions of at most 4000 characters.'},400);}
@@ -36,8 +43,10 @@ export async function PUT(request: Request, context: Context) {
     if(typeof body.description!=='string'||body.description.length>4000)throw new Error();
   }catch{return json({error:'Invalid product descriptions or languages.'},400);}
   const features = Array.isArray(body.features) ? JSON.stringify(body.features) : String(body.features ?? "[]");
-  await database().prepare(`UPDATE products SET slug=?,name=?,category=?,description=?,price_cents=?,status=?,image=?,features=?,checkout_url=?,updated_at=?,description_translations=COALESCE(?,description_translations) WHERE id=?`)
-    .bind(String(body.slug ?? ""), String(body.name ?? ""), String(body.category ?? "Plugin"), body.description, Number(body.price_cents ?? 0), String(body.status ?? "draft"), String(body.image ?? ""), features, String(body.checkout_url ?? ""), new Date().toISOString(),translations,id).run();
+  const galleryImages=normalizeProductImages(body.gallery_images);
+  if(galleryImages===null)return json({error:'Add up to 12 valid local or HTTPS product images'},400);
+  await database().prepare(`UPDATE products SET slug=?,name=?,category=?,description=?,price_cents=?,status=?,image=?,features=?,checkout_url=?,updated_at=?,description_translations=COALESCE(?,description_translations),gallery_images=COALESCE(?,gallery_images) WHERE id=?`)
+    .bind(String(body.slug ?? ""), String(body.name ?? ""), String(body.category ?? "Plugin"), body.description, Number(body.price_cents ?? 0), String(body.status ?? "draft"), String(body.image ?? ""), features, String(body.checkout_url ?? ""), new Date().toISOString(),translations,galleryImages ? JSON.stringify(galleryImages) : null,id).run();
   return json({ ok: true });
 }
 

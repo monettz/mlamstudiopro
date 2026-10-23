@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useLanguage } from './language-provider';
 import ProductDescription from './product-description';
 import SculptureHero from '@/components/ui/liquid-sculpture-hero';
@@ -8,7 +10,7 @@ import ModernFooter from '@/components/ui/modern-footer';
 import RotatingLogo from './rotating-logo';
 
 type Product = {
-  id: string; name: string; category: string; description: string;
+  id: string; slug?: string; name: string; category: string; description: string;
   price_cents: number; status: string; image: string; features: string; checkout_url: string; description_translations?:string;
 };
 type Demo = { id:string; product_id:string; version:string; is_active:number; notes:string };
@@ -107,6 +109,7 @@ const dawIntegrations = [
 ];
 
 export default function Storefront() {
+  const router = useRouter();
   const { t, language } = useLanguage();
   const [products, setProducts] = useState(fallback);
   const [filter, setFilter] = useState("All");
@@ -135,7 +138,7 @@ export default function Storefront() {
   const visible = filter === "All" ? products : products.filter((product) => product.category === filter);
   const buy = (product: Product) => {
     if (product.status !== 'published') { setSelected(product); return; }
-    location.href = `/checkout?product=${encodeURIComponent(product.id)}`;
+    router.push(`/checkout?product=${encodeURIComponent(product.id)}`);
   };
 
   return <main>
@@ -322,13 +325,9 @@ export default function Storefront() {
             <article
               className="product-card"
               key={product.id}
-              onClick={() => setSelected(product)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelected(product); }}
             >
               {/* Media Art Cover with category & status pill */}
-              <div className={`product-art art-${index % 3}`} onClick={() => setSelected(product)}>
+              <div className={`product-art art-${index % 3}`}>
                 <img src={product.image || "/plugins/mlam-voice-midi.png"} alt={product.name} />
                 <span className="category-pill">{product.category}</span>
                 <span className={`status ${product.status}`}>
@@ -338,7 +337,7 @@ export default function Storefront() {
 
               {/* Card Body with Title, localized Description, and Key Highlight */}
               <div className="product-body">
-                <h3 onClick={() => setSelected(product)}>{product.name}</h3>
+                <h3><button className="product-card-title" type="button" onClick={() => setSelected(product)}>{product.name}</button></h3>
                 
                 <div className="product-body-desc">
                   <ProductDescription product={product} />
@@ -387,12 +386,12 @@ export default function Storefront() {
                 </div>
 
                 {/* Subtle Details action */}
-                <button className="product-quick-details" onClick={() => setSelected(product)}>
+                <Link className="product-quick-details" href={`/plugins/${encodeURIComponent(product.slug || product.id)}`} onClick={(event) => event.stopPropagation()}>
                   <span>{t('details')}</span>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
-                </button>
+                </Link>
               </div>
             </article>
           );
@@ -485,12 +484,12 @@ export default function Storefront() {
         </div>
 
         <div className="spotlight-actions">
-          <button className="spotlight-cta-btn" onClick={() => buy(products.find(product=>product.id==='voice-midi') ?? fallback[0])}>
+          <Link className="spotlight-cta-btn" href={`/plugins/${encodeURIComponent((products.find(product=>product.id==='voice-midi') ?? fallback[0]).slug || 'voice-midi')}`}>
             <span>{t('seeVoice')}</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </button>
+          </Link>
           {(() => {
             const voiceProduct = products.find(product => product.id === 'voice-midi') ?? fallback[0];
             const voiceDemo = demoFor(voiceProduct);
@@ -600,10 +599,10 @@ export default function Storefront() {
           </div>
           <h3 className="help-card-title">How to use</h3>
           <p className="help-card-desc">Watch video guides for every MLAM product, from your very first setup to mastering each control.</p>
-          <a className="help-card-btn primary" href="/tutorials">
+          <Link className="help-card-btn primary" href="/tutorials">
             <span>Watch guides</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </a>
+          </Link>
         </article>
       </div>
     </section>
@@ -686,10 +685,14 @@ export default function Storefront() {
             </div>
 
             {selected.status === "published" && (
-              <a className="modal-secondary-link" href="/downloads">
+              <Link className="modal-secondary-link" href="/downloads">
                 {t('licensedDownload')} ↓
-              </a>
+              </Link>
             )}
+
+            <Link className="modal-secondary-link" href={`/plugins/${encodeURIComponent(selected.slug || selected.id)}`}>
+              Full product page →
+            </Link>
 
             {demoFor(selected)?.notes && (
               <p style={{ fontSize: "11.5px", color: "#64748b", marginTop: "10px" }}>

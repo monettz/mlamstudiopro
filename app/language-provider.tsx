@@ -16,9 +16,8 @@ function CustomerUtility() {
   const {language,setLanguage,t}=useLanguage();const path=usePathname();
   const [signedIn,setSignedIn]=useState(false);
   useEffect(()=>{let live=true;fetch('/api/account/session').then(r=>r.ok?r.json():null).then(data=>{if(live)setSignedIn(!!data?.user);}).catch(()=>{});return()=>{live=false;};},[path]);
-  const isAdmin=path.startsWith('/admin');
   const selector=<label className="language-control"><span aria-hidden="true">🌐</span><span>{t('language')}</span><select aria-label={t('language')} value={language} dir="ltr" onChange={event=>setLanguage(event.target.value)}>{languageOptions.map(({code,name})=><option value={code} key={code} lang={code}>{name}</option>)}</select></label>;
-  if(path==='/') return null;
-  // ModernNav and ModernFooter provide the modern capsule navbar and language selector across all pages
+  if(path.startsWith('/account/')) return <header className="account-public-utility account-access-utility"><a href="/" className="account-store-return">← {t('back')}</a>{selector}</header>;
+  // ModernNav and ModernFooter provide the modern capsule navbar and language selector across storefront pages
   return null;
 }

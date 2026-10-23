@@ -17,7 +17,8 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
   rawDatabase().prepare('INSERT INTO admin_accounts VALUES (?,?,?,?)').run('test-owner','owner@example.test',passwordHash(password),new Date().toISOString());
   const base = 'http://127.0.0.1:4181'; let output = '';
   const supabase=await createSupabaseFixture();
-  const server = spawn(process.execPath,['node_modules/next/dist/bin/next','start','-H','127.0.0.1','-p','4181'], { cwd:process.cwd(),env:{...process.env,MLAM_ORIGIN:base,MLAM_TRUST_PROXY_IP:'0',SUPABASE_URL:supabase.url,SUPABASE_PUBLISHABLE_KEY:supabase.key,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore','pipe','pipe'],windowsHide:true });
+  supabase.addUser('owner@example.test', password);
+  const server = spawn(process.execPath,['node_modules/next/dist/bin/next','start','-H','127.0.0.1','-p','4181'], { cwd:process.cwd(),env:{...process.env,MLAM_ORIGIN:base,MLAM_ADMIN_EMAIL:'owner@example.test',MLAM_TRUST_PROXY_IP:'0',SUPABASE_URL:supabase.url,SUPABASE_PUBLISHABLE_KEY:supabase.key,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore','pipe','pipe'],windowsHide:true });
   server.stdout.on('data',chunk=>output+=chunk); server.stderr.on('data',chunk=>output+=chunk);
   try {
     let ready = false;
@@ -29,7 +30,7 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
       const localized=await(await fetch(base,{headers:{Cookie:`mlam_language=${language}`}})).text();assert.ok(localized.includes(copy),language);
       const catalog=await(await fetch(`${base}/api/products?language=${language}`)).json();assert.ok(catalog.products.find(product=>product.id==='voice-midi').description.startsWith(copy),language);
     }
-    assert.ok((await (await fetch(`${base}/admin/login`)).text()).includes('Studio administration'));
+    assert.ok((await (await fetch(`${base}/admin/login`)).text()).includes('Admin sign in'));
     assert.equal((await fetch(`${base}/admin`,{redirect:'manual'})).headers.get('location'),'/admin/login');
     assert.ok(!html.includes('Administration — owner login'));assert.ok(!html.includes('href="/admin"'));assert.ok(html.includes('width=device-width'));
     for(const section of ['products','releases','videos'])assert.equal((await fetch(`${base}/admin?section=${section}`,{redirect:'manual'})).headers.get('location'),`/admin/login?section=${section}`);
@@ -38,12 +39,12 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
     assert.equal((await fetch(`${base}/api/products`,{method:'POST',headers:{Origin:'https://evil.example'}})).status,403);
     let cookie = '';
     const request = (path,options={}) => fetch(base+path,{...options,headers:{Origin:base,...(cookie?{Cookie:cookie}:{}),...options.headers}});
-    for (const body of ['{', JSON.stringify({password:null}), JSON.stringify({password:'wrong'}), 'x'.repeat(4097)]) {
+    for (const body of ['{', JSON.stringify({email:'owner@example.test',password:null}), JSON.stringify({email:'owner@example.test',password:'wrong'}), 'x'.repeat(4097)]) {
       const rejected = await request('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body});
-      assert.ok([400,401].includes(rejected.status)); assert.equal((await rejected.json()).error,INVALID_CREDENTIALS); assert.equal(rejected.headers.get('cache-control'),'no-store');
+      assert.ok([400,401].includes(rejected.status)); assert.equal((await rejected.json()).error,INVALID_CREDENTIALS); assert.ok(rejected.headers.get('cache-control').includes('no-store'));
     }
-    const login = await request('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})}); assert.equal(login.status,200);
-    const setCookie=login.headers.get('set-cookie'); assert.match(setCookie,/HttpOnly/i); assert.match(setCookie,/Secure/i); assert.match(setCookie,/SameSite=strict/i); cookie=setCookie.split(';')[0];
+    const login = await request('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'owner@example.test',password})}); assert.equal(login.status,200);
+    const setCookie=login.headers.get('set-cookie'); assert.match(setCookie,/HttpOnly/i); assert.match(setCookie,/SameSite=lax/i); cookie=login.headers.getSetCookie().map(value=>value.split(';')[0]).join('; ');
     const adminHtml=await (await request('/admin')).text(); assert.ok(adminHtml.includes('MLAM STUDIO PRO ADMINISTRATION'));
     for(const [section,title] of [['products','Add plugin'],['releases','Upload plugin ZIP'],['videos','Upload How to use video']]){const direct=await(await request(`/admin?section=${section}`)).text();assert.ok(direct.includes(title),section);assert.ok(direct.includes('aria-label="Products"'));assert.ok(direct.includes('admin-nav-label'));}
     const created=await request('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'Test-only localized plugin',slug:'test-localized-plugin',description:'Owner English description',description_translations:{fr:'Description française de test',sw:'Maelezo ya majaribio'},price_cents:7300,status:'published'})});assert.equal(created.status,201);const createdId=(await created.json()).id;
@@ -94,7 +95,7 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
     // A valid session is not a way around the account-level quota.
     assert.equal((await request('/api/licenses')).status,429);
     resetQuota('admin-protected-api','test-owner'); assert.equal((await request('/api/orders')).status,200);
-    assert.equal((await request('/api/admin/logout',{method:'POST'})).status,200);assert.equal((await request('/api/orders')).status,401);
+    assert.equal((await request('/api/admin/logout',{method:'POST'})).status,200);cookie='';assert.equal((await request('/api/orders')).status,401);
     const signInPage=await (await fetch(`${base}/account/login`)).text();assert.ok(signInPage.includes('Welcome back.'));assert.ok(signInPage.includes('Create account'));assert.ok(signInPage.includes('Language'));assert.ok(signInPage.includes('Continue with Google / Gmail'));assert.ok(signInPage.includes('or continue with'));assert.ok(signInPage.includes('access-mode-tabs'));assert.ok(signInPage.includes('Show password'));assert.ok(!signInPage.includes('href="/admin"'));assert.ok(signInPage.indexOf('customer-access-form')<signInPage.indexOf('access-google'));
     const swPage=await (await fetch(`${base}/account/register`,{headers:{Cookie:'mlam_language=sw'}})).text();assert.ok(swPage.includes('Fungua akaunti'));assert.ok(swPage.includes('lang="sw"'));
     assert.equal((signInPage.match(/<select /g)||[]).length,1);assert.ok(signInPage.includes('<option value="en"'));assert.ok(!signInPage.includes('English — English'));

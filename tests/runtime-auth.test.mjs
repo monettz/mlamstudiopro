@@ -103,5 +103,6 @@ test('combined site uses its own routes and never trusts platform-auth headers',
   const front = readFileSync(new URL('../app/storefront.tsx',import.meta.url),'utf8');
   assert.ok(front.includes('/checkout?product=')); assert.ok(front.includes('STUDIO PRO')); assert.ok(front.includes('RotatingLogo'));
   const admin = readFileSync(new URL('../lib/admin.ts',import.meta.url),'utf8'); assert.ok(admin.includes('adminSupabase')); assert.ok(admin.includes('verifiedCustomer')); assert.ok(admin.includes('configuredAdminEmail')); assert.ok(!admin.includes('oai-authenticated'));
-  const checkout = readFileSync(new URL('../app/checkout/page.tsx',import.meta.url),'utf8'); assert.ok(checkout.includes('Payments are not live yet')); assert.ok(checkout.includes('disabled'));
+  const checkout = readFileSync(new URL('../app/checkout/page.tsx',import.meta.url),'utf8'); assert.ok(checkout.includes('CheckoutForm'));
+  const checkoutForm = readFileSync(new URL('../app/checkout/checkout-form.tsx',import.meta.url),'utf8'); assert.ok(checkoutForm.includes('disabled'));
 });

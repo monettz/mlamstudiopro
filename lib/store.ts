@@ -3,7 +3,7 @@ import { env } from "@/lib/runtime";
 export type Product = {
   id: string; slug: string; name: string; category: string; description: string;
   price_cents: number; status: string; image: string; features: string;
-  checkout_url: string; created_at: string; updated_at: string; description_translations?:string;
+  checkout_url: string; gallery_images: string; created_at: string; updated_at: string; description_translations?:string;
 };
 
 export type Release = {

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useLanguage } from "@/app/language-provider";
 import { languageOptions } from "@/lib/languages";
 
@@ -71,11 +72,11 @@ export default function ModernFooter() {
           <div className="tailark-col">
             <h4 className="tailark-heading">Product</h4>
             <ul className="tailark-links">
-              <li><a href="#plugins">Features</a></li>
-              <li><a href="#voice-midi">Voice MIDI</a></li>
-              <li><a href="#plugins">Bushman Bass</a></li>
-              <li><a href="#studio">MLAM DAW</a></li>
-              <li><a href="#plugins">Sound Library</a></li>
+              <li><Link href="/#plugins">Features</Link></li>
+              <li><Link href="/#voice-midi">Voice MIDI</Link></li>
+              <li><Link href="/#plugins">Bushman Bass</Link></li>
+              <li><Link href="/#studio">MLAM DAW</Link></li>
+              <li><Link href="/#plugins">Sound Library</Link></li>
             </ul>
           </div>
 
@@ -83,10 +84,10 @@ export default function ModernFooter() {
           <div className="tailark-col">
             <h4 className="tailark-heading">Resources</h4>
             <ul className="tailark-links">
-              <li><a href="/tutorials">Tutorials & Guides</a></li>
-              <li><a href="/downloads">Customer Downloads</a></li>
-              <li><a href="/tutorials">Documentation</a></li>
-              <li><a href="#support">Support Hub</a></li>
+              <li><Link href="/tutorials">Tutorials & Guides</Link></li>
+              <li><Link href="/downloads">Customer Downloads</Link></li>
+              <li><Link href="/tutorials">Documentation</Link></li>
+              <li><Link href="/#support">Support Hub</Link></li>
             </ul>
           </div>
 
@@ -94,9 +95,9 @@ export default function ModernFooter() {
           <div className="tailark-col">
             <h4 className="tailark-heading">Company</h4>
             <ul className="tailark-links">
-              <li><a href="#support">About MLAM</a></li>
-              <li><a href="/downloads">Licence</a></li>
-              <li><a href="#support">Privacy</a></li>
+              <li><Link href="/#support">About MLAM</Link></li>
+              <li><Link href="/downloads">Licence</Link></li>
+              <li><Link href="/#support">Privacy</Link></li>
               <li><a href="mailto:melaninentertainment255@gmail.com">Contact</a></li>
             </ul>
           </div>

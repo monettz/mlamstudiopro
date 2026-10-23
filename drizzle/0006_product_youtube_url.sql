@@ -1,0 +1,1 @@
+ALTER TABLE products ADD COLUMN youtube_url TEXT NOT NULL DEFAULT '';
