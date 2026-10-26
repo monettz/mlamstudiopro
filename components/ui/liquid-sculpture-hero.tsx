@@ -1167,9 +1167,9 @@ function computeRect(
   const usableH = Math.max(80, (band.bottom - botPad) - (band.top + topPad))
   const usableW = Math.max(100, w * (isMob ? 0.9 : 0.85))
 
-  // Allow a much more prominent, clear and impactful size
-  const maxH = Math.min(usableH * 0.88, isMob ? 220 : 360) * scale
-  const maxW = Math.min(usableW, (isMob ? 290 : 480) * scale)
+  // Allow a much more prominent, clear and impactful size (up to 400x400 on desktop)
+  const maxH = Math.min(usableH * 0.92, isMob ? 220 : 400) * scale
+  const maxW = Math.min(usableW, (isMob ? 290 : 520) * scale)
 
   let rh = Math.max(isMob ? 110 : 160, maxH)
   let rw = rh * aspect
@@ -1434,7 +1434,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
     speed = 1,
     intro = false,
     height = "100svh",
-    backdropText = "forma",
+    backdropText = "",
     showCredit = true,
     disableLiquid = false,
     className,
@@ -1757,7 +1757,15 @@ export default function SculptureHero(props: SculptureHeroProps) {
         </div>
       ) : null}
       <div ref={stageRef} className="sh-stage" aria-hidden="true">
-        <img ref={imgRef} className="sh-fallback" src={activeSrc} alt="" crossOrigin="anonymous" draggable={false} />
+        <img
+          ref={imgRef}
+          className="sh-fallback"
+          src={activeSrc}
+          alt=""
+          crossOrigin="anonymous"
+          draggable={false}
+          style={{ display: centerNode ? "none" : undefined }}
+        />
         {centerNode}
       </div>
       <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{imageAlt}</span>

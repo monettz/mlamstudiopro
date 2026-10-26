@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useLanguage } from './language-provider';
 import ProductDescription from './product-description';
 import SculptureHero from '@/components/ui/liquid-sculpture-hero';
+import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
 import RotatingLogo from './rotating-logo';
 
@@ -142,12 +143,14 @@ export default function Storefront() {
   };
 
   return <main>
+    <ModernNav activeTab="home" overlay />
     <SculptureHero
+      showNav={false}
       theme="dark"
       darkBackground="#050e08"
       textColor="#ffffff"
       accentColor="#ffffff"
-      backdropText="MLAM"
+      backdropText=""
       src="/mlam-mark-3d-green-512.png"
       darkSrc="/mlam-mark-3d-green-512.png"
       mobileSrc="/mlam-mark-3d-green-512.png"
@@ -158,11 +161,13 @@ export default function Storefront() {
       strength={0}
       turbulence={0}
       ambient={false}
+      centerNode={<RotatingLogo />}
       brandNode={
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', color: '#ffffff' }}>
           <img
             src="/mlam-mark-3d-green-512.png"
             alt="MLAM"
+            className="mn-brand-mark"
             style={{
               width: '32px',
               height: '32px',
@@ -191,6 +196,130 @@ export default function Storefront() {
       navCta={{ label: `${t('account')} ↗`, href: "/account" }}
       height="94svh"
     />
+
+    {/* Featured Release - Flagship Voice-to-MIDI Instrument */}
+    <section className="showcase-section" id="voice-midi">
+      <div className="showcase-header">
+        <span className="showcase-kicker">New from MLAM</span>
+        <h2 className="showcase-title">Featured Release</h2>
+        <p className="showcase-subtitle">
+          Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes.
+        </p>
+      </div>
+      <div className="spotlight">
+      <div className="spotlight-content">
+        
+        <div className="spotlight-product-row">
+          <span className="spotlight-product-name">MLAM Voice MIDI.</span>
+          <span className="spotlight-badge-secondary">Available Now</span>
+        </div>
+
+        <div className="spotlight-description">
+          <ProductDescription product={products.find(product=>product.id==='voice-midi')??fallback[0]}/>
+        </div>
+
+        <div className="spotlight-specs">
+          <span className="spec-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Zero Latency
+          </span>
+          <span className="spec-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            Scale-Aware Notes
+          </span>
+          <span className="spec-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="8" cy="8" r="1"/><circle cx="16" cy="8" r="1"/><path d="M8 14h8"/></svg>
+            Dynamic Velocity
+          </span>
+          <span className="spec-pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Windows VST3
+          </span>
+        </div>
+
+        <div className="workflow">
+          <div className="workflow-item">
+            <span className="workflow-badge">01</span>
+            <div className="workflow-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" x2="12" y1="19" y2="22"/>
+              </svg>
+            </div>
+            <div className="workflow-text">
+              <strong>Listen</strong>
+              <span>Capture your voice or microphone input in real-time</span>
+            </div>
+          </div>
+          <div className="workflow-item">
+            <span className="workflow-badge">02</span>
+            <div className="workflow-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 12h2l3 7 4-14 3 14 3-7h5"/>
+              </svg>
+            </div>
+            <div className="workflow-text">
+              <strong>Detect</strong>
+              <span>Find musical pitch, duration, and timing automatically</span>
+            </div>
+          </div>
+          <div className="workflow-item">
+            <span className="workflow-badge">03</span>
+            <div className="workflow-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <line x1="6" y1="5" x2="6" y2="12"/>
+                <line x1="10" y1="5" x2="10" y2="12"/>
+                <line x1="14" y1="5" x2="14" y2="12"/>
+                <line x1="18" y1="5" x2="18" y2="12"/>
+              </svg>
+            </div>
+            <div className="workflow-text">
+              <strong>Create</strong>
+              <span>Send clean, quantized MIDI directly to any track in your DAW</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="spotlight-actions">
+          <Link className="spotlight-cta-btn" href={`/plugins/${encodeURIComponent((products.find(product=>product.id==='voice-midi') ?? fallback[0]).slug || 'voice-midi')}`}>
+            <span>{t('seeVoice')}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+          {(() => {
+            const voiceProduct = products.find(product => product.id === 'voice-midi') ?? fallback[0];
+            const voiceDemo = demoFor(voiceProduct);
+            return voiceDemo ? (
+              <a className="spotlight-demo-btn" href={`/api/demos/${voiceDemo.id}/download`}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+                <span>{t('tryDemo')}</span>
+              </a>
+            ) : null;
+          })()}
+        </div>
+      </div>
+
+      <div className="spotlight-image">
+        <div className="spotlight-image-bar">
+          <span className="spotlight-image-bar-title">
+            <span className="spotlight-live-led" />
+            MLAM DSP Audio Engine
+          </span>
+          <span className="spotlight-image-bar-tag">VST3 · 64-Bit</span>
+        </div>
+        <img src="/plugins/mlam-voice-midi.png" alt="Voice MIDI interface"/>
+        <div className="spotlight-image-footer">
+          <span>Scale-Aware Pitch Engine</span>
+          <span>Sample-Accurate MIDI</span>
+        </div>
+      </div>
+      </div>
+    </section>
 
     {/* Core Studio Platform & Audio Engine - Modern Stack Integrations Section */}
     <section className="core-platform-section">
@@ -396,129 +525,6 @@ export default function Storefront() {
             </article>
           );
         })}
-      </div>
-    </section>
-
-    <section className="showcase-section" id="voice-midi">
-      <div className="showcase-header">
-        <span className="showcase-kicker">New from MLAM</span>
-        <h2 className="showcase-title">Featured Release</h2>
-        <p className="showcase-subtitle">
-          Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes.
-        </p>
-      </div>
-      <div className="spotlight">
-      <div className="spotlight-content">
-        
-        <div className="spotlight-product-row">
-          <span className="spotlight-product-name">MLAM Voice MIDI.</span>
-          <span className="spotlight-badge-secondary">Available Now</span>
-        </div>
-
-        <div className="spotlight-description">
-          <ProductDescription product={products.find(product=>product.id==='voice-midi')??fallback[0]}/>
-        </div>
-
-        <div className="spotlight-specs">
-          <span className="spec-pill">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Zero Latency
-          </span>
-          <span className="spec-pill">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            Scale-Aware Notes
-          </span>
-          <span className="spec-pill">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="8" cy="8" r="1"/><circle cx="16" cy="8" r="1"/><path d="M8 14h8"/></svg>
-            Dynamic Velocity
-          </span>
-          <span className="spec-pill">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            Windows VST3
-          </span>
-        </div>
-
-        <div className="workflow">
-          <div className="workflow-item">
-            <span className="workflow-badge">01</span>
-            <div className="workflow-icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                <line x1="12" x2="12" y1="19" y2="22"/>
-              </svg>
-            </div>
-            <div className="workflow-text">
-              <strong>Listen</strong>
-              <span>Capture your voice or microphone input in real-time</span>
-            </div>
-          </div>
-          <div className="workflow-item">
-            <span className="workflow-badge">02</span>
-            <div className="workflow-icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M2 12h2l3 7 4-14 3 14 3-7h5"/>
-              </svg>
-            </div>
-            <div className="workflow-text">
-              <strong>Detect</strong>
-              <span>Find musical pitch, duration, and timing automatically</span>
-            </div>
-          </div>
-          <div className="workflow-item">
-            <span className="workflow-badge">03</span>
-            <div className="workflow-icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="5" width="20" height="14" rx="2"/>
-                <line x1="6" y1="5" x2="6" y2="12"/>
-                <line x1="10" y1="5" x2="10" y2="12"/>
-                <line x1="14" y1="5" x2="14" y2="12"/>
-                <line x1="18" y1="5" x2="18" y2="12"/>
-              </svg>
-            </div>
-            <div className="workflow-text">
-              <strong>Create</strong>
-              <span>Send clean, quantized MIDI directly to any track in your DAW</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="spotlight-actions">
-          <Link className="spotlight-cta-btn" href={`/plugins/${encodeURIComponent((products.find(product=>product.id==='voice-midi') ?? fallback[0]).slug || 'voice-midi')}`}>
-            <span>{t('seeVoice')}</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-          {(() => {
-            const voiceProduct = products.find(product => product.id === 'voice-midi') ?? fallback[0];
-            const voiceDemo = demoFor(voiceProduct);
-            return voiceDemo ? (
-              <a className="spotlight-demo-btn" href={`/api/demos/${voiceDemo.id}/download`}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                </svg>
-                <span>{t('tryDemo')}</span>
-              </a>
-            ) : null;
-          })()}
-        </div>
-      </div>
-
-      <div className="spotlight-image">
-        <div className="spotlight-image-bar">
-          <span className="spotlight-image-bar-title">
-            <span className="spotlight-live-led" />
-            MLAM DSP Audio Engine
-          </span>
-          <span className="spotlight-image-bar-tag">VST3 · 64-Bit</span>
-        </div>
-        <img src="/plugins/mlam-voice-midi.png" alt="Voice MIDI interface"/>
-        <div className="spotlight-image-footer">
-          <span>Scale-Aware Pitch Engine</span>
-          <span>Sample-Accurate MIDI</span>
-        </div>
-      </div>
       </div>
     </section>
 
