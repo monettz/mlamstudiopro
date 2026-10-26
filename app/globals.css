@@ -83,9 +83,9 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
 .download-panel form{display:grid;gap:12px;margin:30px 0}.download-panel label{color:#c8e8d1;font-size:13px}.download-panel input{width:100%;border:1px solid var(--line2);border-radius:9px;background:#030b06;color:#e7ffed;padding:16px;font-size:14px;letter-spacing:.05em}.download-panel input:focus{outline:2px solid var(--green);outline-offset:2px}
 .download-panel button:disabled{opacity:.65;cursor:wait}.download-help{border-top:1px solid var(--line);margin-top:28px;padding-top:20px;margin-bottom:25px}.download-help h2{font-size:19px}.download-help a{color:var(--green2);text-decoration:underline}.download-message{padding:15px;border-radius:8px;border:1px solid var(--line2)}.download-message.error{border-color:#8e4a38;color:#f5beaa}.download-message.success{color:var(--green2)}
 .product-image-editor{display:grid;gap:15px;min-width:0;margin:0;padding:18px;border:1px solid var(--line2);border-radius:12px}.product-image-editor legend{padding:0 6px;color:var(--green2);font-size:12px}.product-image-preview{width:100%;height:180px;object-fit:contain;background:#030b06;border:1px solid var(--line);border-radius:8px}.product-image-editor small{color:#849f8c;font-size:10px;line-height:1.6}.change-image-control{position:relative;display:block;padding:9px 11px;border:1px solid #39784c;border-radius:7px;background:#11321d;color:#b7ffc7;font-size:10px;cursor:pointer;white-space:nowrap}.change-image-control input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}.admin-list>div{flex-wrap:wrap}.admin-form button:disabled{opacity:.6;cursor:wait}.modal-product-image{display:block;width:100%;max-height:210px;object-fit:contain;background:#030b06;border-radius:10px;margin-bottom:22px}.modal{max-height:90vh;overflow:auto}
-.tutorial-library{position:relative;max-width:1380px;margin:auto;padding:70px 5vw 100px}.tutorial-library h1{font-size:clamp(42px,6vw,80px);line-height:1.05;letter-spacing:-.04em;margin:25px 0}.tutorial-library h1 em{color:var(--green2);font-style:normal}.tutorial-library>p{color:#9cbaa5;line-height:1.7}.tutorial-filter{display:flex;align-items:center;gap:14px;color:#a4c8af;font-size:13px;margin:30px 0}.tutorial-filter select{background:#09180f;color:var(--text);border:1px solid var(--line2);border-radius:8px;padding:12px}.tutorial-empty{padding:50px 25px;text-align:center;border:1px solid var(--line);border-radius:18px;margin-top:35px;background:#08150d}.tutorial-empty>span{font-size:35px;color:var(--green)}.tutorial-empty h2{font-size:25px}.tutorial-empty p{color:#8ba794}.tutorial-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:35px}.tutorial-card{overflow:hidden;border:1px solid var(--line2);border-radius:16px;background:#08150d}.tutorial-card video{display:block;width:100%;aspect-ratio:16/9;background:#000;object-fit:contain}.tutorial-card>div{padding:24px}.tutorial-card h2{font-size:25px}.tutorial-card p{color:#8ba794;line-height:1.7}.video-upload-fields{display:grid;gap:15px;padding:0;border:0;min-width:0}.publish-video-option{display:flex!important;align-items:center;gap:10px!important}.publish-video-option input{width:18px!important;height:18px}.video-upload-message{color:var(--green2);line-height:1.6;font-size:12px}.admin-video-list{display:grid;gap:24px;margin-top:25px}.admin-video-list article{padding:16px;border:1px solid var(--line);border-radius:12px}.admin-video-list video{display:block;width:100%;max-height:220px;background:#000;border-radius:8px}.admin-video-list h3{font-size:17px}.admin-video-list p,.admin-video-list span{color:#849f8c;font-size:12px}.admin-video-list button{display:block;margin-top:15px}
+.video-upload-fields{display:grid;gap:15px;padding:0;border:0;min-width:0}.publish-video-option{display:flex!important;align-items:center;gap:10px!important}.publish-video-option input{width:18px!important;height:18px}.video-upload-message{color:var(--green2);line-height:1.6;font-size:12px}.admin-video-list{display:grid;gap:24px;margin-top:25px}.admin-video-list article{padding:16px;border:1px solid var(--line);border-radius:12px}.admin-video-list video{display:block;width:100%;max-height:220px;background:#000;border-radius:8px}.admin-video-list h3{font-size:17px}.admin-video-list p,.admin-video-list span{color:#849f8c;font-size:12px}.admin-video-list button{display:block;margin-top:15px}
 .product-footer{margin-top:auto}.product-demo-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0;border-bottom:1px solid var(--line)}.product-demo-row>div span{display:block;color:var(--green2);font-size:10px;letter-spacing:.12em}.product-demo-row>div small{display:block;color:#789583;font-size:12px;margin-top:5px}.product-demo-row .button{min-height:38px;padding:0 22px}.product-demo-row button:disabled,.modal-buy-actions button:disabled{opacity:.45;cursor:not-allowed}.product-secondary-actions{display:grid;gap:8px;margin-top:15px}.product-secondary-actions .details{margin:0;color:#b7e8c3;text-align:left}.pending-license{font-size:12px;color:#698272}.modal-price{color:var(--green2)!important;font-weight:700}.modal-buy-actions{display:flex;gap:12px;flex-wrap:wrap}.modal-buy-actions .details{width:100%}.demo-history-heading{margin-top:35px!important}
-@media(max-width:700px){.tutorial-grid{grid-template-columns:1fr}.tutorial-filter{align-items:flex-start;flex-direction:column}.admin-nav{grid-template-columns:repeat(6,1fr)}.admin-nav>button{font-size:0!important}.admin-nav>button span{font-size:16px}.site-header nav{flex-wrap:wrap;justify-content:flex-start}.tutorial-card>div{padding:20px}}
+@media(max-width:700px){.admin-nav{grid-template-columns:repeat(6,1fr)}.admin-nav>button{font-size:0!important}.admin-nav>button span{font-size:16px}.site-header nav{flex-wrap:wrap;justify-content:flex-start}}
 @media(max-width:700px){.site-header{flex-wrap:wrap;gap:15px}.site-header nav{gap:16px;width:100%;justify-content:space-between}.site-header nav a:not(.admin-link){display:block;font-size:12px}.download-panel{margin:35px 15px;padding:25px}.download-panel input{font-size:12px;letter-spacing:0}.download-panel .button{width:100%}}
 
 /* Exact crystalline lime-gold and emerald metallic styling sampled directly from the 3D logo */
@@ -2019,119 +2019,13 @@ html {
   color: #ffffff;
 }
 
+.tutorial-header .subpage-title em {
+  color: var(--green2);
+  font-style: normal;
+}
+
 .tutorial-header .subpage-subtitle {
   color: rgba(230, 246, 235, 0.82);
-}
-
-.tutorial-filter-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
-}
-
-.filter-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-right: 4px;
-}
-
-.tutorial-pill-filter {
-  padding: 8px 18px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #d1fae5;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tutorial-pill-filter:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-}
-
-.tutorial-pill-filter.active {
-  background: #187135;
-  border-color: #22c55e;
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
-}
-
-.tutorial-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.tutorial-card {
-  background: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.4);
-  color: #0f172a;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tutorial-card:hover {
-  transform: translateY(-5px);
-  border-color: #86efac;
-  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.5), 0 0 30px rgba(74, 222, 128, 0.2);
-}
-
-.tutorial-video-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000000;
-}
-
-.tutorial-video-wrap video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.tutorial-card-body {
-  padding: 22px 24px 26px;
-}
-
-.tutorial-tag {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #15803d;
-  background: #dcfce7;
-  border: 1px solid #bbf7d0;
-  border-radius: 9999px;
-  padding: 3px 10px;
-  margin-bottom: 10px;
-}
-
-.tutorial-card-body h2 {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #0d2817;
-  margin: 0 0 8px;
-}
-
-.tutorial-card-body p {
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: #4b6252;
-  margin: 0;
 }
 
 .tutorial-loading {
@@ -2141,39 +2035,6 @@ html {
   gap: 12px;
   padding: 60px 0;
   color: #8ead99;
-}
-
-.tutorial-empty {
-  text-align: center;
-  padding: 60px 24px;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.tutorial-empty-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: rgba(74, 222, 128, 0.1);
-  border: 1px solid rgba(74, 222, 128, 0.3);
-  color: #4ade80;
-  display: grid;
-  place-items: center;
-  font-size: 20px;
-  margin: 0 auto 18px;
-}
-
-.tutorial-empty h2 {
-  font-size: 22px;
-  font-weight: 800;
-  color: #ffffff;
-  margin: 0 0 8px;
-}
-
-.tutorial-empty p {
-  color: #8ead99;
-  font-size: 14.5px;
-  margin: 0 0 24px;
 }
 
 /* ========================================================
@@ -2323,9 +2184,7 @@ html {
 }
 
 @media (max-width: 768px) {
-  .tutorial-grid {
-    grid-template-columns: 1fr;
-  }
+
   .download-input-group {
     flex-direction: column;
   }
@@ -2814,10 +2673,7 @@ html, body {
   }
 
   /* Tutorials grid */
-  .tutorial-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 20px !important;
-  }
+  
 
   /* Footer */
   .tailark-columns {
@@ -3038,10 +2894,6 @@ html, body {
 
   .tutorial-page {
     padding: 30px 16px 60px !important;
-  }
-
-  .tutorial-grid {
-    grid-template-columns: 1fr !important;
   }
 
   /* Customer Auth / Dashboard */
@@ -3384,7 +3236,6 @@ input.input-error,select.input-error{border-color:#ff5252!important;box-shadow:0
 .product-detail-thumbnail:hover{border-color:#8ee4a5}
 .product-detail-thumbnail.active{border-color:#91e5a7;box-shadow:0 0 0 1px #91e5a755}
 
-
 /* ========================================================
    PRODUCT CARD (components/ui/product-card.tsx)
    Dark glass card: the title link is stretched over the whole
@@ -3662,6 +3513,500 @@ input.input-error,select.input-error{border-color:#ff5252!important;box-shadow:0
   }
 
   .pcard:hover {
+    transform: none;
+  }
+}
+
+/* ========================================================
+   TUTORIALS (app/tutorials/page.tsx)
+   Featured video, thumbnail grid, YouTube channel band and
+   an in-page player modal. Cards follow the dark glass .pcard.
+   ======================================================== */
+
+.tut-library {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tut-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 auto 36px;
+}
+
+.tut-filters button {
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(7, 20, 12, 0.65);
+  color: rgba(230, 246, 235, 0.82);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.tut-filters button:hover {
+  border-color: rgba(74, 222, 128, 0.35);
+  color: #ffffff;
+}
+
+.tut-filters button.active {
+  background: #187135;
+  border-color: #22c55e;
+  color: #ffffff;
+}
+
+.tut-thumb-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.tut-thumb-button:focus-visible {
+  outline: 2px solid #4ade80;
+  outline-offset: 3px;
+}
+
+.tut-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, #173f25, #06110a 70%);
+  border: 1px solid rgba(110, 231, 150, 0.12);
+}
+
+.tut-thumb > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tut-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 8, 5, 0.1) 40%, rgba(3, 8, 5, 0.65));
+  transition: background 0.3s ease;
+}
+
+.tut-thumb-placeholder {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.tut-thumb-placeholder img {
+  width: 30%;
+  max-width: 120px;
+  opacity: 0.9;
+  filter: drop-shadow(0 6px 22px rgba(74, 222, 128, 0.35));
+}
+
+.tut-thumb-play {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s ease;
+}
+
+.tut-thumb-play svg {
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+}
+
+.tut-thumb-tag,
+.tut-thumb-soon {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tut-thumb-tag {
+  left: 12px;
+  background: rgba(5, 14, 8, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e6f6eb;
+}
+
+.tut-thumb-soon {
+  right: 12px;
+  background: rgba(202, 138, 4, 0.22);
+  border: 1px solid rgba(250, 204, 21, 0.45);
+  color: #fde68a;
+}
+
+.tut-thumb-button:hover .tut-thumb > img {
+  transform: scale(1.04);
+}
+
+.tut-thumb-button:hover .tut-thumb-play {
+  transform: scale(1.08);
+}
+
+.tut-thumb-button:hover .tut-thumb::after {
+  background: linear-gradient(180deg, rgba(3, 8, 5, 0) 40%, rgba(3, 8, 5, 0.5));
+}
+
+.tut-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #86efac;
+}
+
+.tut-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: center;
+  padding: 14px;
+  margin-bottom: 40px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(22, 52, 33, 0.62), rgba(6, 16, 10, 0.88));
+  border: 1px solid rgba(110, 231, 150, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.tut-featured-info {
+  padding: 12px 22px 12px 0;
+  min-width: 0;
+}
+
+.tut-featured-info h2,
+.tut-modal-info h2 {
+  margin: 0 0 10px;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.tut-featured-info p,
+.tut-modal-info p {
+  margin: 0 0 22px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(230, 246, 235, 0.82);
+}
+
+.tut-featured-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tut-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.tut-btn.primary {
+  border: 0;
+  background: #4ade80;
+  color: #052e14;
+}
+
+.tut-btn.primary:hover {
+  background: #86efac;
+}
+
+.tut-btn.ghost {
+  border: 1px solid rgba(134, 239, 172, 0.3);
+  background: rgba(255, 255, 255, 0.03);
+  color: #d1fae5;
+}
+
+.tut-btn.ghost:hover {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.tut-btn.youtube {
+  border: 0;
+  background: #ff0000;
+  color: #ffffff;
+}
+
+.tut-btn.youtube:hover {
+  background: #cc0000;
+}
+
+.tut-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.tut-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 10px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(22, 52, 33, 0.62), rgba(6, 16, 10, 0.88));
+  border: 1px solid rgba(110, 231, 150, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 18px 40px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tut-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(74, 222, 128, 0.45);
+}
+
+.tut-card-body {
+  padding: 16px 12px 12px;
+}
+
+.tut-card-body h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.tut-card-body p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #9db8a5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tut-channel {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 48px;
+  padding: 22px 26px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tut-channel > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.tut-channel h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tut-channel p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(230, 246, 235, 0.82);
+}
+
+.tut-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 4, 2, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Width is capped by the viewport height so the 16:9 player plus the
+   ~200px info block always fit without scrolling. */
+.tut-modal {
+  position: relative;
+  width: min(960px, 100%, max(320px, calc((100dvh - 48px - 210px) * 16 / 9)));
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(134, 239, 172, 0.3) transparent;
+  border-radius: 22px;
+  background: #07120b;
+  border: 1px solid rgba(110, 231, 150, 0.18);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.tut-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(5, 14, 8, 0.8);
+  color: #ffffff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tut-modal-close:focus-visible {
+  outline: 2px solid #4ade80;
+  outline-offset: 2px;
+}
+
+.tut-player {
+  aspect-ratio: 16 / 9;
+  background: #000000;
+}
+
+.tut-player iframe,
+.tut-player video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.tut-player-soon {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  background: radial-gradient(circle at 50% 40%, #173f25, #030805 70%);
+}
+
+.tut-player-soon strong {
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.tut-player-soon span {
+  max-width: 420px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: rgba(230, 246, 235, 0.82);
+}
+
+.tut-modal-info {
+  padding: 18px 24px 22px;
+}
+
+.tut-modal-info h2 {
+  font-size: clamp(20px, 2vw, 24px);
+  margin-bottom: 6px;
+}
+
+.tut-modal-info p {
+  margin-bottom: 14px;
+}
+
+@media (max-width: 960px) {
+  .tut-featured {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .tut-featured-info {
+    padding: 0 10px 10px;
+  }
+
+  .tut-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .tut-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tut-channel {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px;
+  }
+
+  .tut-channel .tut-btn {
+    width: 100%;
+  }
+
+  .tut-modal-backdrop {
+    padding: 12px;
+  }
+
+  .tut-modal-info {
+    padding: 18px;
+  }
+
+  /* The coming-soon message is taller than a 16:9 frame on phones. */
+  .tut-player:has(> .tut-player-soon) {
+    aspect-ratio: auto;
+  }
+
+  .tut-player-soon {
+    padding: 64px 20px 32px;
+  }
+
+  .tut-player-soon strong {
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tut-card,
+  .tut-thumb > img,
+  .tut-thumb-play {
+    transition: none;
+  }
+
+  .tut-card:hover,
+  .tut-thumb-button:hover .tut-thumb > img,
+  .tut-thumb-button:hover .tut-thumb-play {
     transform: none;
   }
 }
