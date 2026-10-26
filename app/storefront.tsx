@@ -10,6 +10,7 @@ import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
 import RotatingLogo from './rotating-logo';
 import ProductCard, { type ProductCardProduct } from '@/components/ui/product-card';
+import FaqSection from '@/components/ui/faq-section';
 
 type Product = ProductCardProduct;
 type Demo = { id:string; product_id:string; version:string; is_active:number; notes:string };
@@ -495,6 +496,8 @@ export default function Storefront() {
       </div>
       </div>
     </section>
+
+    <FaqSection />
 
     <section className="showcase-section help-section" id="support">
       <div className="showcase-header">

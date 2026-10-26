@@ -4010,3 +4010,114 @@ input.input-error,select.input-error{border-color:#ff5252!important;box-shadow:0
     transform: none;
   }
 }
+
+/* ========================================================
+   FAQ (components/ui/faq-section.tsx)
+   Native <details> accordion in the dark glass card style.
+   ======================================================== */
+
+.faq-list {
+  display: grid;
+  gap: 12px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(22, 52, 33, 0.55), rgba(6, 16, 10, 0.85));
+  border: 1px solid rgba(110, 231, 150, 0.14);
+  transition: border-color 0.25s ease;
+}
+
+.faq-item[open],
+.faq-item:hover {
+  border-color: rgba(74, 222, 128, 0.4);
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 60px;
+  padding: 16px 22px;
+  list-style: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary:focus-visible {
+  outline: 2px solid #4ade80;
+  outline-offset: 3px;
+  border-radius: 18px;
+}
+
+.faq-item summary svg {
+  flex-shrink: 0;
+  color: #86efac;
+  transition: transform 0.25s ease;
+}
+
+.faq-item[open] summary svg {
+  transform: rotate(45deg);
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 22px 20px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(230, 246, 235, 0.82);
+}
+
+.faq-item p strong {
+  color: #ffffff;
+}
+
+.faq-item p code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.92em;
+  color: #ffffff;
+}
+
+.faq-item a,
+.faq-more a {
+  color: #86efac;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.faq-more {
+  margin: 24px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(230, 246, 235, 0.82);
+}
+
+@media (max-width: 640px) {
+  .faq-item summary {
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+
+  .faq-item p {
+    padding: 0 18px 18px;
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item summary svg {
+    transition: none;
+  }
+}
