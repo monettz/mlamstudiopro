@@ -209,7 +209,7 @@
   place-items: center;
   border: 0;
   background: transparent;
-  color: #6c8a74;
+  color: #4b6252;
   cursor: pointer;
   border-radius: 8px;
   transition: color 0.2s ease;
@@ -221,7 +221,7 @@
 
 .access-password-help {
   font-size: 11.5px;
-  color: #6c8a74;
+  color: #4b6252;
   line-height: 1.45;
   margin: 2px 0 0;
 }
@@ -1458,7 +1458,7 @@
   right: 8px !important;
   background: transparent !important;
   border: none !important;
-  color: #6c8a74 !important;
+  color: #4b6252 !important;
   cursor: pointer !important;
   padding: 6px !important;
   display: flex !important;

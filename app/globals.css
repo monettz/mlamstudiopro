@@ -460,7 +460,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
 }
 .tailark-newsletter-hint {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.6);
   line-height: 1.6;
   margin: 12px 0 0;
 }
@@ -842,14 +842,14 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
   gap: 5px;
   font-size: 11.5px;
   font-weight: 700;
-  color: #059669;
+  color: #15803d;
   transition: all 0.2s ease;
   padding-top: 10px;
   border-top: 1px solid #f0fdf4;
 }
 .core-platform-card:hover .core-platform-card-footer {
   gap: 8px;
-  color: #047857;
+  color: #166534;
 }
 .core-platform-card-footer svg {
   width: 13px;
@@ -1195,8 +1195,8 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
 }
 
 .daw-coming-soon .spotlight-badge-secondary {
-  background: #ca8a04;
-  border-color: #a16207;
+  background: #a16207;
+  border-color: #854d0e;
   box-shadow: 0 4px 12px rgba(202, 138, 4, 0.2);
 }
 
@@ -1265,7 +1265,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.06em;
-  color: #6c8a74;
+  color: #4b6252;
   min-width: 18px;
   text-align: center;
   font-variant-numeric: tabular-nums;
@@ -1980,15 +1980,22 @@ html {
 }
 
 .download-help a {
-  color: #16a34a;
+  color: #15803d;
   text-decoration: underline;
   font-weight: 600;
 }
 
 .download-help-note {
   font-size: 12px !important;
-  color: #94a3b8 !important;
+  color: #64748b !important;
 }
+
+/* The legacy dark download panel rules above (.download-panel h1 em, >p, label)
+   are more specific; restate their colors for the white card. */
+.download-panel .showcase-kicker { color: #15803d; }
+.download-panel h1 em { color: #15803d; }
+.download-panel > p { color: #4b6252; }
+.download-panel label { color: #24392d; }
 
 /* ========================================================
    TUTORIALS LIBRARY REDESIGN
@@ -2681,7 +2688,7 @@ html {
   font-weight: 700 !important;
   letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
-  color: #6c8a74 !important;
+  color: #4b6252 !important;
 }
 
 /* Action Buttons */
