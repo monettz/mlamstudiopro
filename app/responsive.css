@@ -1,7 +1,7 @@
 /* Fit real layout content to device width, rather than hiding horizontal overflow. */
 html{scroll-padding-top:180px}
 body{overflow-wrap:break-word}
-main,section,header,footer,nav,aside,fieldset,form,.hero-copy,.hero-visual,.product-body,.spotlight>div,.support>div,.utility-actions,.admin-main,.admin-card{min-width:0}
+main,section,header,footer,nav,aside,fieldset,form,.hero-copy,.hero-visual,.spotlight>div,.support>div,.utility-actions,.admin-main,.admin-card{min-width:0}
 img,video,input,select,textarea{max-width:100%}
 button,.button,a,select,input,textarea{touch-action:manipulation}
 button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--green);outline-offset:4px}
@@ -23,9 +23,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
 .stats{grid-template-columns:repeat(4,minmax(0,1fr));width:calc(100% - 40px)}
 .stats>div{min-width:0;padding:clamp(16px,3vw,30px)}
 .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.product-body{padding:clamp(18px,2.5vw,26px)}
-.product-body h3,.modal h2,.tutorial-card h2,.admin-main h1{overflow-wrap:anywhere}
-.product-body ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+.modal h2,.tutorial-card h2,.admin-main h1{overflow-wrap:anywhere}
 .product-footer{flex-wrap:wrap;gap:14px}
 .product-footer button{min-height:44px;max-width:100%;overflow-wrap:anywhere}
 .product-demo-row{flex-wrap:wrap}
@@ -116,7 +114,6 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
   .filters{gap:8px;margin-top:24px}
   .filters button{min-height:44px;font-size:12px}
   .product-grid{grid-template-columns:minmax(0,1fr)}
-  .product-art{height:clamp(210px,58vw,290px)}
   .spotlight,.support{width:calc(100% - 32px);padding:24px;margin-inline:auto}
   .spotlight h2,.support h2,.section-heading h2{font-size:clamp(30px,8vw,44px)}
   .modal h2{font-size:clamp(25px,7vw,38px)}
@@ -152,7 +149,6 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
   .utility-actions .utility-account{padding:8px 10px}
   .utility-actions>a{font-size:12px}
   .language-control select{max-width:130px}
-  .product-body ul{grid-template-columns:minmax(0,1fr)}
   .product-footer button{width:100%}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

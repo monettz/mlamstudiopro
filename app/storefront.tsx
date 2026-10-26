@@ -9,18 +9,16 @@ import SculptureHero from '@/components/ui/liquid-sculpture-hero';
 import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
 import RotatingLogo from './rotating-logo';
+import ProductCard, { type ProductCardProduct } from '@/components/ui/product-card';
 
-type Product = {
-  id: string; slug?: string; name: string; category: string; description: string;
-  price_cents: number; status: string; image: string; features: string; checkout_url: string; description_translations?:string;
-};
+type Product = ProductCardProduct;
 type Demo = { id:string; product_id:string; version:string; is_active:number; notes:string };
 
 const fallback: Product[] = [
   { id: "voice-midi", name: "MLAM Voice MIDI", category: "MIDI Instrument", description: "Geuza sauti, humming na melody kuwa MIDI inayoweza kuhaririwa ndani ya DAW yako.", price_cents: 2900, status: "published", image: "/plugins/mlam-voice-midi.png", features: "[\"Voice to MIDI\",\"Scale-aware notes\",\"VST3 for Windows\",\"Lifetime license\"]", checkout_url: "" },
   { id: "bushman-bass", name: "Bushman Bass", category: "Bass Instrument", description: "Expressive bass instrument yenye presets za electric, slap, fretless na deep sub.", price_cents: 4900, status: "coming-soon", image: "/plugins/bushman-bass.png", features: "[\"Expressive engine\",\"Preset browser\",\"MIDI control\",\"VST3\"]", checkout_url: "" },
   { id: "mlam-piano", name: "MLAM Piano", category: "Piano Instrument", description: "The piano instrument from MLAM Studio Pro. Standalone release coming soon.", price_cents: 0, status: "coming-soon", image: "/plugins/mlam-piano.png", features: "[\"Piano instrument\",\"MIDI keyboard\",\"MLAM studio design\"]", checkout_url: "" },
-  { id: "pro-eq", name: "MLAM Pro EQ", category: "Audio Effect", description: "Parametric EQ safi yenye spectrum ya realtime na workflow ya haraka kwa mixing.", price_cents: 2500, status: "coming-soon", image: "/plugins/mlam-voice-midi.png", features: "[\"Dynamic spectrum\",\"Zero latency\",\"A/B compare\",\"VST3\"]", checkout_url: "" },
+  { id: "pro-eq", name: "MLAM Pro EQ", category: "Audio Effect", description: "Parametric EQ safi yenye spectrum ya realtime na workflow ya haraka kwa mixing.", price_cents: 2500, status: "coming-soon", image: "", features: "[\"Dynamic spectrum\",\"Zero latency\",\"A/B compare\",\"VST3\"]", checkout_url: "" },
   { id: "stereo-imager", name: "MLAM Imager / Stereo Forge", category: "Stereo Effect", description: "The Stereo Forge Imager from MLAM Studio Pro. Shape stereo width with mid/side processing, input gain and output gain. Standalone release coming soon.", price_cents: 0, status: "coming-soon", image: "/plugins/mlam-imager.svg", features: "[\"Stereo Width 0–200%\",\"Mid/side processing\",\"Input / output gain\",\"Bypass\"]", checkout_url: "" },
   { id: "mlam-daw", name: "MLAM Studio Pro", category: "DAW", description: "Our complete workspace for recording, arranging and mixing music. Coming soon.", price_cents:0,status:"coming-soon",image:"/mlam-studio-pro-splash.png",features:'["Record","Arrange","Mix","Stock instruments"]',checkout_url:"" },
 ];
@@ -445,86 +443,16 @@ export default function Storefront() {
       </div>
       <div className="filters">{categories.map((category) => <button className={filter === category ? "active" : ""} key={category} onClick={() => setFilter(category)}>{category==='All'?t('all'):category}</button>)}</div>
       <div className="product-grid">
-        {visible.map((product, index) => {
-          const features = featureList(product.features);
-          const topHighlight = features[0] || (product.status === "published" ? "64-bit VST3 for Windows" : "Coming soon release");
-          const demo = demoFor(product);
-
-          return (
-            <article
-              className="product-card"
-              key={product.id}
-            >
-              {/* Media Art Cover with category & status pill */}
-              <div className={`product-art art-${index % 3}`}>
-                <img src={product.image || "/plugins/mlam-voice-midi.png"} alt={product.name} />
-                <span className="category-pill">{product.category}</span>
-                <span className={`status ${product.status}`}>
-                  {product.status === "published" ? t('available') : t('comingSoon')}
-                </span>
-              </div>
-
-              {/* Card Body with Title, localized Description, and Key Highlight */}
-              <div className="product-body">
-                <h3><button className="product-card-title" type="button" onClick={() => setSelected(product)}>{product.name}</button></h3>
-                
-                <div className="product-body-desc">
-                  <ProductDescription product={product} />
-                </div>
-
-                <div className="product-feature-highlight">
-                  <span className="product-feature-check" aria-hidden="true">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>{topHighlight}</span>
-                </div>
-
-                {/* Bottom Row: Pill Button + Price (Like Reference Picture) */}
-                <div className="product-card-bottom">
-                  <div className="product-card-actions">
-                    {product.status === "published" ? (
-                      <>
-                        <button className="product-pill-btn primary" onClick={() => buy(product)}>
-                          {t('buy')}
-                        </button>
-                        {demo && (
-                          <a className="product-pill-demo" href={`/api/demos/${demo.id}/download`} title={t('tryDemo')}>
-                            Demo ↓
-                          </a>
-                        )}
-                      </>
-                    ) : (
-                      <button className="product-pill-btn ghost" onClick={() => setSelected(product)}>
-                        {t('notify')}
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="product-card-price-wrap">
-                    {product.price_cents > 0 ? (
-                      <>
-                        <span className="product-card-price-value">${(product.price_cents / 100).toFixed(0)}</span>
-                        <small className="product-card-price-label">{product.status === "published" ? "USD" : "PLANNED"}</small>
-                      </>
-                    ) : (
-                      <span className="product-card-price-value" style={{ fontSize: '20px' }}>Free</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Subtle Details action */}
-                <Link className="product-quick-details" href={`/plugins/${encodeURIComponent(product.slug || product.id)}`} onClick={(event) => event.stopPropagation()}>
-                  <span>{t('details')}</span>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-            </article>
-          );
-        })}
+        {visible.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            highlight={featureList(product.features)[0] || (product.status === "published" ? "64-bit VST3 for Windows" : t('comingSoon'))}
+            demoId={demoFor(product)?.id}
+            onBuy={() => buy(product)}
+            onNotify={() => setSelected(product)}
+          />
+        ))}
       </div>
     </section>
 
@@ -630,7 +558,7 @@ export default function Storefront() {
 
             <img
               className="modal-product-image"
-              src={selected.image || "/plugins/mlam-voice-midi.png"}
+              src={selected.image || "/mlam-mark-3d-green-512.png"}
               alt={selected.name}
             />
 
