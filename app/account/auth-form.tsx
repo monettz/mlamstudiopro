@@ -25,6 +25,7 @@ export default function CustomerAuthForm({
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
   const [created, setCreated] = useState(false);
   const [until, setUntil] = useState(0);
   const [remaining, setRemaining] = useState(0);
@@ -43,10 +44,12 @@ export default function CustomerAuthForm({
     const element = event.currentTarget;
     const form = new FormData(element);
     if (register && form.get('password') !== form.get('confirm')) {
+      setIsError(true);
       setMessage(t('passwordMismatch'));
       return;
     }
     setBusy(true);
+    setIsError(true);
     setMessage('');
 
     const fullName =
@@ -82,6 +85,7 @@ export default function CustomerAuthForm({
       element.reset();
       if (register) {
         setCreated(true);
+        setIsError(false);
         setMessage(copy.registered);
       } else {
         location.assign(next);
@@ -96,6 +100,7 @@ export default function CustomerAuthForm({
   async function google() {
     if (!configured || busy || Date.now() < until) return;
     setBusy(true);
+    setIsError(true);
     setMessage('');
     try {
       const response = await fetch('/api/account/google', {
@@ -169,7 +174,7 @@ export default function CustomerAuthForm({
           </h2>
 
           {callbackFailed && (
-            <p className="access-feedback access-error" role="alert">
+            <p className="access-feedback access-error auth-exact-callback-error" role="alert">
               {copy.callbackFailed}
             </p>
           )}
@@ -179,12 +184,14 @@ export default function CustomerAuthForm({
             {register && (
               <>
                 <div className="auth-exact-form-group">
-                  <label className="auth-exact-label">Your Name</label>
+                  <label htmlFor="mlam-first-name" className="auth-exact-label">Your Name</label>
                   <div className="auth-exact-name-row">
                     <input
+                      id="mlam-first-name"
                       name="firstName"
                       className="auth-exact-input"
                       placeholder="First Name"
+                      aria-label="First Name"
                       autoComplete="given-name"
                       required
                       minLength={1}
@@ -192,9 +199,11 @@ export default function CustomerAuthForm({
                       disabled={!configured || busy}
                     />
                     <input
+                      id="mlam-last-name"
                       name="lastName"
                       className="auth-exact-input"
                       placeholder="Last Name"
+                      aria-label="Last Name"
                       autoComplete="family-name"
                       required
                       minLength={1}
@@ -205,12 +214,13 @@ export default function CustomerAuthForm({
                 </div>
 
                 <div className="auth-exact-form-group">
-                  <label className="auth-exact-label">Phone</label>
+                  <label htmlFor="mlam-phone" className="auth-exact-label">Phone</label>
                   <input
+                    id="mlam-phone"
                     type="tel"
                     name="phone"
                     className="auth-exact-input"
-                    placeholder="+99021585"
+                    placeholder="+255 7XX XXX XXX"
                     autoComplete="tel"
                     disabled={!configured || busy}
                   />
@@ -220,12 +230,13 @@ export default function CustomerAuthForm({
 
             {/* Email Field */}
             <div className="auth-exact-form-group">
-              <label className="auth-exact-label">Email</label>
+              <label htmlFor="mlam-email" className="auth-exact-label">Email</label>
               <input
+                id="mlam-email"
                 type="email"
                 name="email"
                 className="auth-exact-input"
-                placeholder={register ? 'pat@shuffle.dev' : 'jane.doe@gmail.com'}
+                placeholder="you@example.com"
                 autoComplete="email"
                 required
                 maxLength={254}
@@ -244,7 +255,7 @@ export default function CustomerAuthForm({
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   className="auth-exact-input"
-                  placeholder={register ? '************' : '••••••••••••'}
+                  placeholder="••••••••••••"
                   autoComplete={register ? 'new-password' : 'current-password'}
                   required
                   minLength={register ? 15 : undefined}
@@ -278,13 +289,14 @@ export default function CustomerAuthForm({
             {/* Confirm Password (Register only) */}
             {register && (
               <div className="auth-exact-form-group">
-                <label className="auth-exact-label">{t('confirm')}</label>
+                <label htmlFor="mlam-confirm" className="auth-exact-label">{t('confirm')}</label>
                 <div className="auth-exact-password-container">
                   <input
+                    id="mlam-confirm"
                     type={showConfirm ? 'text' : 'password'}
                     name="confirm"
                     className="auth-exact-input"
-                    placeholder="************"
+                    placeholder="••••••••••••"
                     autoComplete="new-password"
                     required
                     minLength={15}
@@ -294,6 +306,8 @@ export default function CustomerAuthForm({
                   <button
                     type="button"
                     className="password-visibility auth-exact-eye-btn"
+                    aria-controls="mlam-confirm"
+                    aria-pressed={showConfirm}
                     aria-label={showConfirm ? labels.hide : labels.show}
                     onClick={() => setShowConfirm((v) => !v)}
                     disabled={busy}
@@ -336,7 +350,7 @@ export default function CustomerAuthForm({
           </form>
 
           {message && (
-            <p className="access-feedback" role="status">
+            <p className={`access-feedback${isError ? ' access-error' : ''}`} role={isError ? 'alert' : 'status'}>
               {message}
             </p>
           )}
