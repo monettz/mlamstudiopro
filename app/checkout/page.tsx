@@ -44,7 +44,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
                 </ul>
               </details>
 
-              <CheckoutForm productId={product.id} productName={product.name} priceLabel={priceLabel} />
+              <CheckoutForm productId={product.id} priceLabel={priceLabel} />
             </div>
 
             <aside className="checkout-summary" aria-label="Order summary">

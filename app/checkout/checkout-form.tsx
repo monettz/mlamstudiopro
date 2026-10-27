@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, type FormEvent } from 'react';
-import { ArrowRight, Check, ChevronDown, CreditCard, Info, Lock, ShieldCheck, Smartphone } from 'lucide-react';
+import { ArrowRight, Check, ChevronDown, CreditCard, Lock, Smartphone } from 'lucide-react';
 import {
   MpesaSquareBadge,
   AirtelMoneySquareBadge,
@@ -17,10 +17,6 @@ const MOBILE_NETWORKS = [
   { id: 'halopesa', name: 'HaloPesa', badge: HalopesaSquareBadge, logoUrl: '/images/payments/halopesa.png', promptLabel: 'HaloPesa' },
 ];
 
-// Online payment is not connected yet (the server answers PAYMENT_NOT_CONFIGURED).
-// Flip this once ClickPesa is live so the notice above the button disappears.
-const PAYMENTS_LIVE = false;
-const SUPPORT_EMAIL = 'melaninentertainment255@gmail.com';
 
 // Expiry options from the current month up to 12 years ahead, so expired dates are never offered.
 function expiryOptions() {
@@ -59,7 +55,7 @@ function formatCardNumber(value: string) {
   return v.replace(/(.{4})(?=.)/g, '$1 ');
 }
 
-export default function CheckoutForm({ productId, productName, priceLabel }: { productId: string; productName: string; priceLabel: string }) {
+export default function CheckoutForm({ productId, priceLabel }: { productId: string; priceLabel: string }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'card'>('mpesa');
@@ -145,8 +141,6 @@ export default function CheckoutForm({ productId, productName, priceLabel }: { p
       setBusy(false);
     }
   }
-
-  const buyByEmail = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Buy ${productName}`)}`;
 
   return (
     <form className="checkout-details checkout-form-modern" onSubmit={submit}>
@@ -379,20 +373,12 @@ export default function CheckoutForm({ productId, productName, priceLabel }: { p
         )}
       </fieldset>
 
-      {!PAYMENTS_LIVE && (
-        <p className="checkout-launch-note">
-          <Info size={16} aria-hidden="true" />
-          <span>Online payment launches soon. No charge will be made today. To buy now, <a href={buyByEmail}>email MLAM support</a>.</span>
-        </p>
-      )}
-
       <button className="checkout-submit" disabled={busy || remaining > 0}>
         {busy ? 'Preparing payment…' : remaining > 0 ? `Please wait ${Math.ceil(remaining / 60)} min` : `Continue to payment · ${priceLabel}`}
         {!busy && remaining === 0 && <ArrowRight aria-hidden="true" size={18} />}
       </button>
 
       {message && <p className="checkout-result" role="status" aria-live="polite">{message}{remaining > 0 && <> Try again in {Math.ceil(remaining / 60)} minute(s).</>}</p>}
-      <p className="checkout-secure-note"><ShieldCheck aria-hidden="true" size={16} />Payments are processed securely by ClickPesa</p>
     </form>
   );
 }
