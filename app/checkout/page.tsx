@@ -22,16 +22,29 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
         {product ? (
           <section className="checkout-layout" aria-labelledby="checkout-title">
             <div className="checkout-main-panel">
-              <nav className="checkout-progress" aria-label="Checkout progress">
-                <Link href={`/plugins/${encodeURIComponent(product.slug || product.id)}`}>Product</Link>
-                <span aria-hidden="true">›</span>
-                <span aria-current="step">Information</span>
-                <span aria-hidden="true">›</span>
-                <span>Payment</span>
-              </nav>
-              <h1 id="checkout-title" className="checkout-title">Checkout.<br /><em>Complete your order.</em></h1>
-              <p className="checkout-intro">Review your order and choose your preferred payment method.</p>
-              <CheckoutForm productId={product.id} priceLabel={priceLabel} />
+              <Link className="checkout-back" href={`/plugins/${encodeURIComponent(product.slug || product.id)}`}>← Back to {product.name}</Link>
+              <h1 id="checkout-title" className="checkout-title">Checkout</h1>
+              <p className="checkout-intro">Two quick steps: your details, then how you want to pay.</p>
+
+              {/* Phones get a one-line order summary that expands; the full card is hidden there. */}
+              <details className="checkout-mobile-summary">
+                <summary>
+                  <img src={product.image || '/plugins/mlam-voice-midi.png'} alt="" />
+                  <span className="checkout-mobile-summary-name">{product.name}</span>
+                  <strong>{priceLabel}</strong>
+                </summary>
+                <div className="checkout-summary-lines">
+                  <div><span>Subtotal</span><strong>{priceLabel}</strong></div>
+                  <div><span>Delivery</span><strong>Digital download</strong></div>
+                  <div className="checkout-summary-total"><span>Total</span><strong>{priceLabel}</strong></div>
+                </div>
+                <ul className="checkout-summary-promise">
+                  <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>One-time purchase, no recurring charge</li>
+                  <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>License key and downloads after payment</li>
+                </ul>
+              </details>
+
+              <CheckoutForm productId={product.id} productName={product.name} priceLabel={priceLabel} />
             </div>
 
             <aside className="checkout-summary" aria-label="Order summary">
@@ -48,7 +61,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
               <ul className="checkout-summary-promise">
                 <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>One-time purchase, no recurring charge</li>
                 <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>License key and downloads after payment</li>
-                <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>Card details entered only on the provider’s secure page</li>
+                <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>Card number is never stored by MLAM</li>
               </ul>
               <Link className="checkout-summary-continue" href={`/plugins/${encodeURIComponent(product.slug || product.id)}`}>Review product details</Link>
             </aside>

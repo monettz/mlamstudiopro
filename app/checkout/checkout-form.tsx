@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, type FormEvent } from 'react';
-import { ArrowRight, Check, ChevronDown, CreditCard, Lock, ShieldCheck, Smartphone } from 'lucide-react';
+import { ArrowRight, Check, ChevronDown, CreditCard, Info, Lock, ShieldCheck, Smartphone } from 'lucide-react';
 import {
   MpesaSquareBadge,
   AirtelMoneySquareBadge,
@@ -17,23 +17,23 @@ const MOBILE_NETWORKS = [
   { id: 'halopesa', name: 'HaloPesa', badge: HalopesaSquareBadge, logoUrl: '/images/payments/halopesa.png', promptLabel: 'HaloPesa' },
 ];
 
-// Generates expiration month/year options (e.g., 01/25 to 12/36)
-const EXPIRY_OPTIONS = (() => {
+// Online payment is not connected yet (the server answers PAYMENT_NOT_CONFIGURED).
+// Flip this once ClickPesa is live so the notice above the button disappears.
+const PAYMENTS_LIVE = false;
+const SUPPORT_EMAIL = 'melaninentertainment255@gmail.com';
+
+// Expiry options from the current month up to 12 years ahead, so expired dates are never offered.
+function expiryOptions() {
   const list: { value: string; label: string }[] = [];
-  const startYear = 2025;
-  const endYear = 2036;
-  for (let year = startYear; year <= endYear; year++) {
-    const yy = String(year).slice(-2);
-    for (let month = 1; month <= 12; month++) {
-      const mm = month < 10 ? `0${month}` : String(month);
-      list.push({
-        value: `${mm}/${yy}`,
-        label: `${mm} / ${yy}`,
-      });
-    }
+  const now = new Date();
+  for (let i = 0; i < 12 * 12; i++) {
+    const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yy = String(date.getFullYear()).slice(-2);
+    list.push({ value: `${mm}/${yy}`, label: `${mm} / ${yy}` });
   }
   return list;
-})();
+}
 
 // Real Luhn algorithm (Mod 10) card validation criteria
 function checkLuhn(cardNum: string): boolean {
@@ -54,19 +54,24 @@ function checkLuhn(cardNum: string): boolean {
   return sum % 10 === 0;
 }
 
-export default function CheckoutForm({ productId, priceLabel }: { productId: string; priceLabel: string }) {
+function formatCardNumber(value: string) {
+  const v = value.replace(/\D/g, '').slice(0, 16);
+  return v.replace(/(.{4})(?=.)/g, '$1 ');
+}
+
+export default function CheckoutForm({ productId, productName, priceLabel }: { productId: string; productName: string; priceLabel: string }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'card'>('mpesa');
   const [mobileNetwork, setMobileNetwork] = useState('mpesa');
   const [mobileNumber, setMobileNumber] = useState('');
-  
-  // Card input states matching mockup
+
   const [cardHolder, setCardHolder] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvv, setCardCvv] = useState('');
   const [cardErrors, setCardErrors] = useState<{ [key: string]: string }>({});
+  const [expiryList] = useState(expiryOptions);
 
   const [limitedUntil, setLimitedUntil] = useState(0);
   const [remaining, setRemaining] = useState(0);
@@ -81,15 +86,6 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
 
   const selectedMobileNetwork = MOBILE_NETWORKS.find(n => n.id === mobileNetwork) || MOBILE_NETWORKS[0];
 
-  function formatCardNumber(value: string) {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '').slice(0, 16);
-    const parts = [];
-    for (let i = 0; i < v.length; i += 4) {
-      parts.push(v.substring(i, i + 4));
-    }
-    return parts.length ? parts.join(' ') : v;
-  }
-
   const rawCardNum = cardNumber.replace(/\s/g, '');
   const detectedCardBrand = rawCardNum.startsWith('4')
     ? 'visa'
@@ -100,26 +96,15 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
     if (busy || Date.now() < limitedUntil) return;
     const data = new FormData(event.currentTarget);
 
-    // Validate Card criteria if card method selected
     if (paymentMethod === 'card') {
       const errors: { [key: string]: string } = {};
-      if (!cardHolder.trim() || cardHolder.trim().length < 3) {
-        errors.cardHolder = 'Enter the full cardholder name as printed on the card.';
-      }
-      const cleanNum = cardNumber.replace(/\s/g, '');
-      if (!cleanNum || cleanNum.length < 15 || !checkLuhn(cleanNum)) {
-        errors.cardNumber = 'Enter a valid 16-digit card number.';
-      }
-      if (!/^\d{3,4}$/.test(cardCvv.trim())) {
-        errors.cardCvv = 'Enter a valid 3-digit CVV from the back of the card.';
-      }
-      if (!cardExpiry) {
-        errors.cardExpiry = 'Please select the card expiration date.';
-      }
-
+      if (cardHolder.trim().length < 3) errors.cardHolder = 'Enter the full cardholder name as printed on the card.';
+      if (rawCardNum.length < 15 || !checkLuhn(rawCardNum)) errors.cardNumber = 'Enter a valid card number.';
+      if (!/^\d{3,4}$/.test(cardCvv.trim())) errors.cardCvv = 'Enter the 3 or 4 digit CVV from the card.';
+      if (!cardExpiry) errors.cardExpiry = 'Select the card expiry date.';
       if (Object.keys(errors).length > 0) {
         setCardErrors(errors);
-        setMessage('Please correct the highlighted card details to proceed.');
+        setMessage('Please correct the highlighted card details to continue.');
         return;
       }
     }
@@ -144,6 +129,7 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
           paymentMethod,
           mobileNetwork: paymentMethod === 'mpesa' ? mobileNetwork : undefined,
           mobileNumber: paymentMethod === 'mpesa' ? `+255${cleanNumber}` : undefined,
+          // Only the brand leaves the browser; card number, CVV and expiry are never sent.
           cardBrand: paymentMethod === 'card' ? (detectedCardBrand || 'card') : undefined,
         }),
       });
@@ -159,6 +145,8 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
       setBusy(false);
     }
   }
+
+  const buyByEmail = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Buy ${productName}`)}`;
 
   return (
     <form className="checkout-details checkout-form-modern" onSubmit={submit}>
@@ -180,7 +168,10 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
 
       {/* Step 2: Payment Method */}
       <fieldset className="checkout-payment-options" disabled={busy}>
-        <legend><span className="checkout-step checkout-step-inline">02</span> Payment Method</legend>
+        <legend className="checkout-form-heading">
+          <span className="checkout-step">02</span>
+          <span><span className="checkout-legend-title">Payment method</span><span className="checkout-legend-sub">Choose how you want to pay.</span></span>
+        </legend>
 
         {/* Top Type Selector Tabs */}
         <div className="checkout-type-pills" role="tablist" aria-label="Payment methods">
@@ -209,9 +200,8 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
         {/* Mobile Money View */}
         {paymentMethod === 'mpesa' && (
           <div className="checkout-method-container">
-            <span className="checkout-section-subtitle">Select Mobile Network:</span>
-            
-            {/* 4-column compact network row */}
+            <span className="checkout-section-subtitle">Select mobile network</span>
+
             <div className="checkout-network-grid" role="radiogroup" aria-label="Mobile network">
               {MOBILE_NETWORKS.map((net) => {
                 const isSelected = mobileNetwork === net.id;
@@ -230,15 +220,15 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
                       if (input) input.focus();
                     }}
                   >
+                    <span className="checkout-network-badge-box">
+                      <Badge className="w-8 h-8" />
+                    </span>
+                    <span className="checkout-network-title">{net.name}</span>
                     {isSelected && (
-                      <span className="checkout-network-check" aria-label="Selected">
+                      <span className="checkout-network-check" aria-hidden="true">
                         <Check size={12} strokeWidth={3.5} />
                       </span>
                     )}
-                    <div className="checkout-network-badge-box">
-                      <Badge className="w-8 h-8" />
-                    </div>
-                    <span className="checkout-network-title">{net.name}</span>
                   </button>
                 );
               })}
@@ -247,7 +237,7 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
             {/* USSD Phone Number Input */}
             <div className="checkout-phone-section">
               <label htmlFor="checkout-mobile-number" className="checkout-phone-label">
-                {selectedMobileNetwork.promptLabel} Number for USSD Push *
+                {selectedMobileNetwork.promptLabel} number for the USSD prompt
               </label>
               <div className="checkout-phone-group">
                 <span className="checkout-phone-prefix">+255</span>
@@ -271,41 +261,31 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
           </div>
         )}
 
-        {/* Credit / Debit Card View matching User reference mockup */}
         {paymentMethod === 'card' && (
           <div className="checkout-method-container checkout-card-form-container">
-            <div className="checkout-card-header">
-              <p className="checkout-card-instruction">
-                Please add your credit card information<br />
-                for a successful purchase
-              </p>
-            </div>
+            <span className="checkout-section-subtitle">Card details</span>
 
             <div className="checkout-card-inputs-stack">
-              {/* Field 1: Card Holder */}
               <div className="checkout-card-field">
-                <label htmlFor="checkout-card-holder" className="sr-only">Card Holder</label>
+                <label htmlFor="checkout-card-holder" className="sr-only">Cardholder name</label>
                 <input
                   id="checkout-card-holder"
                   name="cardHolder"
                   type="text"
                   autoComplete="cc-name"
-                  placeholder="Card Holder"
+                  placeholder="Cardholder name"
                   value={cardHolder}
                   onChange={(e) => {
                     setCardHolder(e.target.value);
                     if (cardErrors.cardHolder) setCardErrors((prev) => ({ ...prev, cardHolder: '' }));
                   }}
                   className={cardErrors.cardHolder ? 'input-error' : ''}
-                  required={paymentMethod === 'card'}
-                  disabled={busy}
+                  aria-invalid={!!cardErrors.cardHolder}
+                  required
                 />
-                {cardErrors.cardHolder && (
-                  <span className="checkout-field-error-tip">{cardErrors.cardHolder}</span>
-                )}
+                {cardErrors.cardHolder && <span className="checkout-field-error-tip">{cardErrors.cardHolder}</span>}
               </div>
 
-              {/* Field 2: Card number */}
               <div className="checkout-card-field">
                 <label htmlFor="checkout-card-number" className="sr-only">Card number</label>
                 <div className="checkout-card-number-wrap">
@@ -323,10 +303,10 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
                       if (cardErrors.cardNumber) setCardErrors((prev) => ({ ...prev, cardNumber: '' }));
                     }}
                     className={cardErrors.cardNumber ? 'input-error' : ''}
-                    required={paymentMethod === 'card'}
-                    disabled={busy}
+                    aria-invalid={!!cardErrors.cardNumber}
+                    required
                   />
-                  <div className="checkout-card-number-icons">
+                  <div className="checkout-card-number-icons" aria-hidden="true">
                     {detectedCardBrand === 'visa' ? (
                       <VisaLogo className="checkout-card-detected-icon" />
                     ) : detectedCardBrand === 'mastercard' ? (
@@ -339,78 +319,72 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
                     )}
                   </div>
                 </div>
-                {cardErrors.cardNumber && (
-                  <span className="checkout-field-error-tip">{cardErrors.cardNumber}</span>
-                )}
+                {cardErrors.cardNumber && <span className="checkout-field-error-tip">{cardErrors.cardNumber}</span>}
               </div>
 
-              {/* Field 3: CVV */}
-              <div className="checkout-card-field">
-                <label htmlFor="checkout-card-cvv" className="sr-only">CVV</label>
-                <div className="checkout-card-cvv-wrap">
-                  <input
-                    id="checkout-card-cvv"
-                    name="cardCvv"
-                    type="password"
-                    inputMode="numeric"
-                    autoComplete="cc-csc"
-                    placeholder="CVV"
-                    maxLength={4}
-                    value={cardCvv}
-                    onChange={(e) => {
-                      const val = e.target.value.replace(/\D/g, '').slice(0, 4);
-                      setCardCvv(val);
-                      if (cardErrors.cardCvv) setCardErrors((prev) => ({ ...prev, cardCvv: '' }));
-                    }}
-                    className={cardErrors.cardCvv ? 'input-error' : ''}
-                    required={paymentMethod === 'card'}
-                    disabled={busy}
-                  />
-                  <Lock size={15} className="checkout-card-cvv-lock" />
+              <div className="checkout-card-row">
+                <div className="checkout-card-field">
+                  <label htmlFor="checkout-card-expiry" className="sr-only">Expiry date</label>
+                  <div className="checkout-card-select-wrap">
+                    <select
+                      id="checkout-card-expiry"
+                      name="cardExpiry"
+                      autoComplete="cc-exp"
+                      value={cardExpiry}
+                      onChange={(e) => {
+                        setCardExpiry(e.target.value);
+                        if (cardErrors.cardExpiry) setCardErrors((prev) => ({ ...prev, cardExpiry: '' }));
+                      }}
+                      className={`checkout-card-select ${!cardExpiry ? 'is-placeholder' : ''} ${cardErrors.cardExpiry ? 'input-error' : ''}`}
+                      aria-invalid={!!cardErrors.cardExpiry}
+                      required
+                    >
+                      <option value="" disabled>MM / YY</option>
+                      {expiryList.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                    </select>
+                    <ChevronDown size={18} className="checkout-card-select-chevron" aria-hidden="true" />
+                  </div>
+                  {cardErrors.cardExpiry && <span className="checkout-field-error-tip">{cardErrors.cardExpiry}</span>}
                 </div>
-                {cardErrors.cardCvv && (
-                  <span className="checkout-field-error-tip">{cardErrors.cardCvv}</span>
-                )}
-              </div>
 
-              {/* Field 4: Date of Expires with dropdown chevron */}
-              <div className="checkout-card-field">
-                <label htmlFor="checkout-card-expiry" className="sr-only">Date of Expires</label>
-                <div className="checkout-card-select-wrap">
-                  <select
-                    id="checkout-card-expiry"
-                    name="cardExpiry"
-                    value={cardExpiry}
-                    onChange={(e) => {
-                      setCardExpiry(e.target.value);
-                      if (cardErrors.cardExpiry) setCardErrors((prev) => ({ ...prev, cardExpiry: '' }));
-                    }}
-                    className={`checkout-card-select ${!cardExpiry ? 'is-placeholder' : ''} ${cardErrors.cardExpiry ? 'input-error' : ''}`}
-                    required={paymentMethod === 'card'}
-                    disabled={busy}
-                  >
-                    <option value="" disabled>Date of Expires</option>
-                    {EXPIRY_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown size={18} className="checkout-card-select-chevron" />
+                <div className="checkout-card-field">
+                  <label htmlFor="checkout-card-cvv" className="sr-only">CVV</label>
+                  <div className="checkout-card-cvv-wrap">
+                    <input
+                      id="checkout-card-cvv"
+                      name="cardCvv"
+                      type="password"
+                      inputMode="numeric"
+                      autoComplete="cc-csc"
+                      placeholder="CVV"
+                      maxLength={4}
+                      value={cardCvv}
+                      onChange={(e) => {
+                        setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 4));
+                        if (cardErrors.cardCvv) setCardErrors((prev) => ({ ...prev, cardCvv: '' }));
+                      }}
+                      className={cardErrors.cardCvv ? 'input-error' : ''}
+                      aria-invalid={!!cardErrors.cardCvv}
+                      required
+                    />
+                    <Lock size={15} className="checkout-card-cvv-lock" aria-hidden="true" />
+                  </div>
+                  {cardErrors.cardCvv && <span className="checkout-field-error-tip">{cardErrors.cardCvv}</span>}
                 </div>
-                {cardErrors.cardExpiry && (
-                  <span className="checkout-field-error-tip">{cardErrors.cardExpiry}</span>
-                )}
               </div>
             </div>
 
-            <div className="checkout-card-security-note">
-              <Lock size={13} />
-              <span>ClickPesa 3D-Secure 2.0 verification · 256-bit encrypted</span>
-            </div>
+            <p className="checkout-card-security-note"><Lock size={13} aria-hidden="true" /><span>Your card number is not stored by MLAM. 3-D Secure verification by your bank.</span></p>
           </div>
         )}
       </fieldset>
+
+      {!PAYMENTS_LIVE && (
+        <p className="checkout-launch-note">
+          <Info size={16} aria-hidden="true" />
+          <span>Online payment launches soon. No charge will be made today. To buy now, <a href={buyByEmail}>email MLAM support</a>.</span>
+        </p>
+      )}
 
       <button className="checkout-submit" disabled={busy || remaining > 0}>
         {busy ? 'Preparing payment…' : remaining > 0 ? `Please wait ${Math.ceil(remaining / 60)} min` : `Continue to payment · ${priceLabel}`}
@@ -418,7 +392,7 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
       </button>
 
       {message && <p className="checkout-result" role="status" aria-live="polite">{message}{remaining > 0 && <> Try again in {Math.ceil(remaining / 60)} minute(s).</>}</p>}
-      <p className="checkout-secure-note"><ShieldCheck aria-hidden="true" size={16} />ClickPesa verified payment gateway · 256-bit encryption</p>
+      <p className="checkout-secure-note"><ShieldCheck aria-hidden="true" size={16} />Payments are processed securely by ClickPesa</p>
     </form>
   );
 }
