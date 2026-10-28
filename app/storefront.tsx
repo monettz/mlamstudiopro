@@ -146,9 +146,10 @@ export default function Storefront() {
     <SculptureHero
       showNav={false}
       theme="dark"
-      darkBackground="#050e08"
-      textColor="#ffffff"
-      accentColor="#ffffff"
+      darkBackground="#ffffff"
+      className="hero-light"
+      textColor="#0b0b0b"
+      accentColor="#0b0b0b"
       backdropText=""
       src="/mlam-mark-3d-green-512.png"
       darkSrc="/mlam-mark-3d-green-512.png"
