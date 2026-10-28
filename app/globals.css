@@ -3223,18 +3223,16 @@ html, body {
   flex-direction: column;
   min-width: 0;
   border-radius: 22px;
-  background: linear-gradient(160deg, rgba(22, 52, 33, 0.62), rgba(6, 16, 10, 0.88));
-  border: 1px solid rgba(110, 231, 150, 0.14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 18px 40px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .pcard:hover {
   transform: translateY(-3px);
-  border-color: rgba(74, 222, 128, 0.45);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 22px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(74, 222, 128, 0.12);
+  border-color: #4ade80;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(74, 222, 128, 0.18);
 }
 
 .pcard:has(.pcard-link:focus-visible) {
@@ -3249,7 +3247,7 @@ html, body {
   border-radius: 16px;
   overflow: hidden;
   background: radial-gradient(circle at 50% 35%, #173f25, #06110a 70%);
-  border: 1px solid rgba(110, 231, 150, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .pcard-media > img {
@@ -3334,7 +3332,7 @@ html, body {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: #0b1f12;
   overflow-wrap: anywhere;
 }
 
@@ -3352,14 +3350,14 @@ html, body {
 }
 
 .pcard:hover .pcard-link {
-  color: #bbf7d0;
+  color: #15803d;
 }
 
 .pcard-desc {
   margin-bottom: 14px;
   font-size: 13.5px;
   line-height: 1.55;
-  color: #9db8a5;
+  color: #4b5b50;
 }
 
 .pcard-desc p {
@@ -3381,13 +3379,13 @@ html, body {
   margin: 0 0 18px;
   font-size: 12.5px;
   font-weight: 600;
-  color: #86efac;
+  color: #15803d;
 }
 
 .pcard-footer {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid rgba(110, 231, 150, 0.12);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3422,24 +3420,25 @@ html, body {
 
 .pcard-btn.primary {
   border: 0;
-  background: #4ade80;
-  color: #052e14;
-  box-shadow: 0 6px 18px rgba(74, 222, 128, 0.25);
+  background: #0b0b0b;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .pcard-btn.primary:hover {
-  background: #86efac;
+  background: #2a2a2a;
 }
 
 .pcard-btn.ghost {
-  border: 1px solid rgba(134, 239, 172, 0.3);
-  background: rgba(255, 255, 255, 0.03);
-  color: #d1fae5;
+  border: 1px solid #0b0b0b;
+  background: #ffffff;
+  color: #0b0b0b;
 }
 
 .pcard-btn.ghost:hover {
-  border-color: #4ade80;
-  background: rgba(74, 222, 128, 0.12);
+  border-color: #0b0b0b;
+  background: #0b0b0b;
+  color: #ffffff;
 }
 
 .pcard-price {
@@ -3453,7 +3452,7 @@ html, body {
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
-  color: #ffffff;
+  color: #0b1f12;
 }
 
 .pcard-price small {
@@ -3463,12 +3462,12 @@ html, body {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #6f9a7c;
+  color: #6b7a70;
 }
 
 .pcard-price.is-muted strong {
   font-size: 20px;
-  color: #9db8a5;
+  color: #6b7a70;
 }
 
 @media (max-width: 680px) {
