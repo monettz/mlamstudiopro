@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { database, ensureStore, listProducts, type Product } from '@/lib/store';
 import ProductDescription from '@/app/product-description';
 import ProductGallery from './product-gallery';
+import NotifyForm from './notify-form';
 import { RelatedProducts, StickyBuyBar } from './product-extras';
 import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
@@ -72,7 +73,7 @@ export default async function ProductPage({ params }: PageProps) {
   const isPlugin = product.category !== 'DAW';
   const price = product.price_cents > 0 ? `$${(product.price_cents / 100).toFixed(2)} USD` : '';
   const checkoutHref = `/checkout?product=${encodeURIComponent(product.id)}`;
-  const notifyHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Notify me: ${product.name}`)}`;
+  const notifyHref = '#notify';
   // The price line already says "Lifetime license", so leave it out of the chips.
   const chips = features.filter((feature) => !/lifetime licen[cs]e/i.test(feature)).slice(0, 4);
   const steps = howItWorks[product.id];
@@ -119,6 +120,7 @@ export default async function ProductPage({ params }: PageProps) {
               {purchasable && <span>One-time payment · Lifetime license</span>}
               {!available && price && <span>Expected price at launch</span>}
             </div>
+            {!available && <div id="notify"><NotifyForm productId={product.id} productName={product.name} /></div>}
             <div className="product-detail-actions">
               {purchasable ? (
                 <Link className="product-detail-buy" href={checkoutHref}>Buy now <span aria-hidden="true">→</span></Link>

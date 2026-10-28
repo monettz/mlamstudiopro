@@ -9,6 +9,7 @@ type Product = { id:string; slug:string; name:string; category:string; descripti
 type Release = { id:string; product_id:string; product_name:string; version:string; file_name:string; file_size:number; is_active:number };
 type License = { id:string; product_name:string; customer_email:string; license_key:string; status:string; download_count:number; max_downloads:number };
 type Order = { id:string; product_name:string; customer_email:string; amount_cents:number; status:string; created_at:string };
+type NotifyRequest = { id:string; product_name:string | null; email:string; created_at:string };
 type Tutorial = { id:string; product_name:string | null; title:string; description:string; file_name:string; file_size:number; is_published:number };
 const empty = { name:"", slug:"", category:"Instrument", description:"", price_cents:2900, status:"draft", image:"/plugins/mlam-voice-midi.png", features:"", checkout_url:"", gallery_images:"",description_translations:{} as DescriptionTranslations };
 
@@ -23,6 +24,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
   const [licenses,setLicenses] = useState<License[]>([]);
   const [orders,setOrders] = useState<Order[]>([]);
   const [tutorials,setTutorials] = useState<Tutorial[]>([]);
+  const [notifyRequests,setNotifyRequests] = useState<NotifyRequest[]>([]);
   const [uploadingVideo,setUploadingVideo] = useState(false);
   const [videoMessage,setVideoMessage] = useState("");
   const [form,setForm] = useState(empty);
@@ -44,15 +46,16 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
 
   const load = useCallback(async () => {
     const read = async <T,>(url:string) => { const response = await fetch(url); if (!response.ok) throw new Error(response.status === 401 ? "Session expired. Sign in again at /admin." : "Unable to load administration data"); return await response.json() as T; };
-    const [p,r,l,o,v,d] = await Promise.all([
+    const [p,r,l,o,v,d,n] = await Promise.all([
       read<{ products?: Product[] }>("/api/products"), read<{ releases?: Release[] }>("/api/releases"),
       read<{ licenses?: License[] }>("/api/licenses"), read<{ orders?: Order[] }>("/api/orders"),
       read<{ tutorials?: Tutorial[] }>("/api/tutorials"),
       read<{ demos?: Release[] }>("/api/demos"),
+      read<{ requests?: NotifyRequest[] }>("/api/notify"),
     ]);
     setProducts(p.products ?? []); setGalleryDrafts(Object.fromEntries((p.products ?? []).map(product=>[product.id,galleryText(product.gallery_images ?? "[]")]))); setReleases(r.releases ?? []); setLicenses(l.licenses ?? []); setOrders(o.orders ?? []);
     setTutorials(v.tutorials ?? []);
-    setDemos(d.demos ?? []);
+    setDemos(d.demos ?? []); setNotifyRequests(n.requests ?? []);
   }, []);
   useEffect(() => { load().catch(error=>setMessage(error instanceof Error ? error.message : "Unable to load store data")); }, [load]);
   const flash = (text:string) => { setMessage(text); setTimeout(()=>setMessage(""),3500); };
@@ -162,7 +165,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
 
   const metric = (title:string, value:string|number, detail:string, section:AdminSection) => <div key={title} role="button" tabIndex={0} title={`Open ${title}`} style={{cursor:"pointer"}} onClick={()=>setTab(section)} onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();setTab(section);}}}><span>{title}</span><strong>{value}</strong><small>{detail} · Open section →</small></div>;
 
-  const nav = [["overview","Overview","⌂"],["products","Products","◆"],["videos","Videos","▶"],["releases","Releases","⇧"],["licenses","Licenses","⌁"],["orders","Orders","≡"]];
+  const nav = [["overview","Overview","⌂"],["products","Products","◆"],["videos","Videos","▶"],["releases","Releases","⇧"],["licenses","Licenses","⌁"],["orders","Orders","≡"],["notify","Notify list","✉"]];
   return <main className="admin-shell" dir="ltr">
     <aside className="admin-nav" aria-label="Administration sections"><a className="brand" href="/"><img src="/mlam-mark-3d-green.png" alt=""/><span><b>MLAM</b> STUDIO PRO<small>ADMINISTRATION</small></span></a><div className="admin-user"><i>{user.slice(0,1).toUpperCase()}</i><span><b>{user}</b><small>Website owner</small></span></div>{nav.map(([id,label,icon])=><button key={id} aria-label={label} aria-pressed={tab===id} title={label} className={tab===id?"active":""} onClick={()=>setTab(id)}><span aria-hidden="true">{icon}</span><span className="admin-nav-label">{label}</span></button>)}<a className="signout" href={signOut}>Sign out</a></aside>
     <section className="admin-main"><header><div><span className="kicker">MLAM STUDIO PRO ADMINISTRATION</span><h1>{tab[0].toUpperCase()+tab.slice(1)}</h1></div><a className="button ghost" href="/" target="_blank" rel="noopener">View website ↗</a></header>{message&&<div className="toast" role="status">{message}</div>}
@@ -186,6 +189,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     {tab === "licenses" && <div className="split-admin"><form className="admin-card admin-form" onSubmit={addLicense}><h2>Issue license</h2><label>Product<select name="product_id" required><option value="">Select product</option>{products.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Customer email<input name="customer_email" type="email" required/></label><label>Download limit<input name="max_downloads" type="number" defaultValue="5" min="1"/></label><button className="button primary">Generate license</button></form><div className="admin-card"><h2>Customer licenses</h2><div className="license-table">{licenses.map(license=><div key={license.id}><span><b>{license.customer_email}</b><code>{license.license_key}</code><small>{license.product_name} · {license.download_count}/{license.max_downloads} downloads</small></span><button className={license.status} onClick={()=>toggleLicense(license)}>{license.status}</button></div>)}</div></div></div>}
 
     {tab === "videos" && <div className="split-admin"><form className="admin-card admin-form" onSubmit={uploadVideo}><h2>Upload How to use video</h2><fieldset className="video-upload-fields" disabled={uploadingVideo}><label>Product<select name="product_id"><option value="">General MLAM guide</option>{products.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Video title<input name="title" required maxLength={160} placeholder="How to use MLAM Imager"/></label><label>Description<textarea name="description" maxLength={2000} placeholder="What will the viewer learn?"/></label><label className="dropzone">Video file<input name="file" type="file" accept="video/mp4,video/webm,.mp4,.webm" required/><span>MP4 or WEBM · up to 50 MB</span></label><label className="publish-video-option"><input type="checkbox" name="published" defaultChecked/>Publish in How to use immediately</label><button className="button primary">{uploadingVideo ? "Uploading video…" : "Upload video"}</button></fieldset>{videoMessage && <p className="video-upload-message" role="status">{videoMessage}</p>}</form><div className="admin-card"><h2>Video library</h2><a className="details" href="/tutorials" target="_blank">View How to use ↗</a>{!tutorials.length ? <div className="empty-state"><b>No videos uploaded yet</b><span>Add your first product guide using the form.</span></div> : <div className="admin-video-list">{tutorials.map(item=><article key={item.id}><video controls playsInline preload="none" aria-label={item.title} src={`/api/tutorials/${item.id}/video`}/><h3>{item.title}</h3><p>{item.product_name ?? "General MLAM guide"} · {(item.file_size/1048576).toFixed(1)} MB</p><span>{item.is_published ? "Published" : "Draft / hidden"}</span><button className="button ghost" onClick={()=>void publishVideo(item)}>{item.is_published ? "Hide video" : "Publish video"}</button></article>)}</div>}</div></div>}
+    {tab === "notify" && <div className="admin-card"><h2>Launch notifications</h2>{notifyRequests.length === 0 ? <div className="empty-state"><b>No sign-ups yet</b><span>Emails from the Notify me form on coming-soon products appear here.</span></div> : <div className="license-table">{notifyRequests.map(item=><div key={item.id}><span><b>{item.email}</b><small>{item.product_name ?? "Unknown product"} · {new Date(item.created_at).toLocaleDateString()}</small></span><button className="button ghost" onClick={async()=>{await fetch(`/api/notify/${item.id}`,{method:"DELETE"});await load();}}>Remove</button></div>)}</div>}</div>}
     {tab === "orders" && <div className="admin-card"><h2>Orders</h2>{orders.length === 0 ? <div className="empty-state"><b>No orders yet</b><span>Orders will appear here after checkout integration.</span></div> : <div className="license-table">{orders.map(order=><div key={order.id}><span><b>{order.customer_email}</b><small>{order.product_name} · {new Date(order.created_at).toLocaleDateString()}</small></span><strong>${(order.amount_cents/100).toFixed(2)}</strong><em>{order.status}</em></div>)}</div>}</div>}
     </section>{editingDescriptions&&<DescriptionEditor product={editingDescriptions} onClose={()=>setEditingDescriptions(null)} onSaved={async()=>{await load();flash('Product descriptions saved');}}/>}
   </main>;

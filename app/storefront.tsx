@@ -451,7 +451,6 @@ export default function Storefront() {
             highlight={featureList(product.features)[0] || (product.status === "published" ? "64-bit VST3 for Windows" : t('comingSoon'))}
             demoId={demoFor(product)?.id}
             onBuy={() => buy(product)}
-            onNotify={() => setSelected(product)}
           />
         ))}
       </div>
@@ -602,9 +601,7 @@ export default function Storefront() {
                 onClick={() =>
                   selected.status === "published"
                     ? buy(selected)
-                    : (location.href = `mailto:melaninentertainment255@gmail.com?subject=${encodeURIComponent(
-                        `Notify me: ${selected.name}`
-                      )}`)
+                    : (location.href = `/plugins/${encodeURIComponent(selected.slug || selected.id)}`)
                 }
               >
                 {selected.status === "published" ? t('buy') : t('notify')}

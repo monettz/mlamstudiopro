@@ -4680,3 +4680,14 @@ input.input-error,select.input-error{border-color:#ff5252!important;box-shadow:0
     transition: none;
   }
 }
+
+/* Coming-soon "Notify me" signup on the product page */
+.notify-form { display: grid; gap: 8px; margin: 18px 0 0; max-width: 460px; }
+.notify-form label { font-size: 13px; font-weight: 600; color: #d6f5df; }
+.notify-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.notify-row input { flex: 1 1 220px; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: #fff; color: #0b1f12; font: inherit; font-size: 16px; }
+.notify-btn { min-height: 44px; padding: 0 22px; border-radius: 999px; border: 0; background: #0b0b0b; color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.notify-btn:hover { background: #2a2a2a; }
+.notify-btn:disabled { opacity: .6; cursor: default; }
+.notify-done { margin: 18px 0 0; padding: 12px 16px; border-radius: 14px; background: #fff; color: #0b1f12; font-weight: 600; max-width: 460px; }
+.notify-error { margin: 0; color: #fecaca; font-size: 13px; }

@@ -14,12 +14,12 @@ type Props = {
   highlight: string;
   demoId?: string;
   onBuy: () => void;
-  onNotify: () => void;
+  onNotify?: () => void;
 };
 
 // The whole card links to the product page through a stretched title link;
 // action buttons sit above that link so they keep their own behaviour.
-export default function ProductCard({ product, highlight, demoId, onBuy, onNotify }: Props) {
+export default function ProductCard({ product, highlight, demoId, onBuy }: Props) {
   const { t } = useLanguage();
   const available = product.status === "published";
   const href = `/plugins/${encodeURIComponent(product.slug || product.id)}`;
@@ -37,9 +37,7 @@ export default function ProductCard({ product, highlight, demoId, onBuy, onNotif
           </div>
         )}
         <span className="pcard-category">{product.category}</span>
-        <span className={`pcard-status ${available ? "published" : "coming-soon"}`}>
-          {available ? t("available") : t("comingSoon")}
-        </span>
+        {available && <span className="pcard-status published">{t("available")}</span>}
       </div>
 
       <div className="pcard-body">
@@ -68,7 +66,7 @@ export default function ProductCard({ product, highlight, demoId, onBuy, onNotif
                 )}
               </>
             ) : (
-              <button className="pcard-btn ghost" type="button" onClick={onNotify}>{t("notify")}</button>
+              <Link className="pcard-btn ghost" href={href}>{t("comingSoon")}</Link>
             )}
           </div>
 
@@ -77,12 +75,7 @@ export default function ProductCard({ product, highlight, demoId, onBuy, onNotif
               <strong>{price ?? "Free"}</strong>
               {price && <small>USD</small>}
             </div>
-          ) : price && (
-            <div className="pcard-price is-muted">
-              <strong>{price}</strong>
-              <small>{t("comingSoon")}</small>
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
     </article>

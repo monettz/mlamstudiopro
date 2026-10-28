@@ -1,4 +1,4 @@
-export const adminSections=['overview','products','videos','releases','licenses','orders'] as const;
+export const adminSections=['overview','products','videos','releases','licenses','orders','notify'] as const;
 export type AdminSection=typeof adminSections[number];
 export function adminSection(value:unknown):AdminSection{return typeof value==='string'&&adminSections.some(section=>section===value)?value as AdminSection:'overview';}
 export function adminDestination(value:unknown):string{const section=adminSection(value);return section==='overview'?'/admin':`/admin?section=${section}`;}

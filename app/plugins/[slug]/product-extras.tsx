@@ -19,7 +19,6 @@ export function RelatedProducts({ products }: { products: ProductCardProduct[] }
           product={product}
           highlight={featureList(product.features)[0] || product.category}
           onBuy={() => router.push(`/checkout?product=${encodeURIComponent(product.id)}`)}
-          onNotify={() => router.push(`/plugins/${encodeURIComponent(product.slug || product.id)}`)}
         />
       ))}
     </div>
