@@ -26,7 +26,7 @@ export default function ModernNav({ activeTab, overlay = false }: ModernNavProps
   const links = [
     { label: "Home", href: "/", id: "home" },
     { label: t("plugins") || "Plugins", href: "/#plugins", id: "plugins" },
-    { label: t("daw") || "DAW", href: "/#studio", id: "daw" },
+    { label: t("daw") || "DAW", href: "/#plugins", id: "daw" },
     { label: t("guides") || "How to use", href: "/tutorials", id: "guides" },
     { label: t("downloads") || "Downloads", href: "/downloads", id: "downloads" },
   ];

@@ -146,7 +146,7 @@ export default function Storefront() {
     <SculptureHero
       showNav={false}
       theme="dark"
-      darkBackground="#ffffff"
+      darkBackground="#f6f8f6"
       className="hero-light"
       textColor="#0b0b0b"
       accentColor="#0b0b0b"
@@ -189,7 +189,7 @@ export default function Storefront() {
       navLinks={[
         { label: "Home", href: "/" },
         { label: t('plugins'), href: '#plugins' },
-        { label: t('daw'), href: '#studio' },
+        { label: t('daw'), href: '#plugins' },
         { label: t('guides'), href: '/tutorials' },
         { label: t('downloads'), href: '/downloads' }
       ]}
@@ -346,81 +346,6 @@ export default function Storefront() {
           </div>
         </div>
 
-        {/* 4 Core Platform Architecture Cards */}
-        <div className="core-platform-cards-grid">
-          {[
-            {
-              title: "VST3 Audio",
-              badge: "Pro Audio",
-              badgeType: "pro",
-              description: "Native 64-bit float instruments & real-time effects with sample-accurate processing and zero latency.",
-              href: "#plugins",
-              icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
-                </svg>
-              )
-            },
-            {
-              title: "Neural MIDI",
-              badge: "Engine",
-              badgeType: "engine",
-              description: "Turn human voice, melodies and hums into editable scale-aware MIDI with dynamic velocity tracking.",
-              href: "#voice-midi",
-              icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              )
-            },
-            {
-              title: "MLAM DSP",
-              badge: "Original",
-              badgeType: "original",
-              description: "Original analog acoustics, expressive bass synth engines, and spatial mid/side stereo imaging.",
-              href: "#plugins",
-              icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M2 10v4M6 6v12M10 3v18M14 7v10M18 5v14M22 10v4" />
-                </svg>
-              )
-            },
-            {
-              title: "DAW Workspace",
-              badge: "Coming Soon",
-              badgeType: "soon",
-              description: "Unified production studio for seamless recording, multichannel arrangement, mixing and mastering.",
-              href: "#studio",
-              icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <path d="M3 9h18M9 21V9" />
-                </svg>
-              )
-            },
-          ].map((feat, index) => (
-            <a key={index} href={feat.href} className="core-platform-card">
-              <div className="core-platform-card-top">
-                <div className="core-platform-card-icon-wrap" aria-hidden="true">
-                  {feat.icon}
-                </div>
-                <span className={`core-platform-card-badge badge-${feat.badgeType}`}>{feat.badge}</span>
-              </div>
-              <div className="core-platform-card-body">
-                <h3 className="core-platform-card-title">{feat.title}</h3>
-                <p className="core-platform-card-desc">{feat.description}</p>
-              </div>
-              <div className="core-platform-card-footer">
-                <span className="core-platform-card-link-text">Explore</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
-            </a>
-          ))}
-        </div>
-
         {/* Center CTA Button */}
         <div>
           <a href="#plugins" className="core-platform-cta-btn">
@@ -454,46 +379,6 @@ export default function Storefront() {
             onBuy={() => buy(product)}
           />
         ))}
-      </div>
-    </section>
-
-    <section className="showcase-section" id="studio">
-      <div className="showcase-header">
-        <span className="showcase-kicker">In development</span>
-        <h2 className="showcase-title">Studio DAW</h2>
-        <p className="showcase-subtitle">
-          One unified workspace to record, arrange, mix and master, with every MLAM instrument built right in.
-        </p>
-      </div>
-      <div className="spotlight daw-coming-soon">
-      <div className="spotlight-content">
-        <div className="spotlight-product-row">
-          <span className="spotlight-product-name">MLAM Studio Pro.</span>
-          <span className="spotlight-badge-secondary">{t('comingSoon')}</span>
-        </div>
-        <div className="spotlight-description">
-          <ProductDescription product={products.find(product=>product.id==='mlam-daw')??fallback[5]}/>
-        </div>
-        <div className="spotlight-actions">
-          <a className="spotlight-cta-btn" href="#plugins">
-            <span>{t('explore')}</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div className="spotlight-image">
-        <div className="spotlight-image-bar">
-          <span className="spotlight-image-bar-title">
-            <span className="spotlight-live-led" />
-            Production Studio Workspace
-          </span>
-          <span className="spotlight-image-bar-tag">Coming Soon</span>
-        </div>
-        <img src="/mlam-studio-pro-splash.png" alt="MLAM Studio Pro music-production workspace"/>
-      </div>
       </div>
     </section>
 

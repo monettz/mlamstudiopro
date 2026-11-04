@@ -75,7 +75,7 @@ export default function ModernFooter() {
               <li><Link href="/#plugins">Features</Link></li>
               <li><Link href="/#voice-midi">Voice MIDI</Link></li>
               <li><Link href="/#plugins">Bushman Bass</Link></li>
-              <li><Link href="/#studio">MLAM DAW</Link></li>
+              <li><Link href="/#plugins">MLAM DAW</Link></li>
               <li><Link href="/#plugins">Sound Library</Link></li>
             </ul>
           </div>
