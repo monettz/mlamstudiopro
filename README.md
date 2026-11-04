@@ -49,7 +49,7 @@ These measures reduce brute-force/enumeration risks, not guarantee immunity. A t
 
 ## Next week's deployment
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md). The prepared route is one Render Node web service with a persistent disk for both the frontend/backend process and current SQLite/file storage. `render.yaml` configures a paid service and disk, but no account, domain, or billable resource has been created or purchased. Review the current price before applying the Blueprint. Cloudflare R2 is not connected to the current storage code.
+See [DEPLOYMENT.md](./DEPLOYMENT.md). The prepared route is one Render Node web service with a persistent disk for both the frontend/backend process and current SQLite/file storage. `render.yaml` configures a paid service and disk, but no account, domain, or billable resource has been created or purchased. Review the current price before applying the Blueprint. File storage can use Cloudflare R2 instead of the disk: set the four `R2_*` variables (see [R2-SETUP.md](./R2-SETUP.md)) and run `npm run storage:sync-r2` to copy existing uploads. The SQLite database still needs persistent storage.
 
 ## Not finished / release gates
 

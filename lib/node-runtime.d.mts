@@ -5,5 +5,6 @@ export type LocalBucket = { put(key: string, input: ArrayBuffer | ReadableStream
 export const localDatabase: LocalDatabase;
 export const bucket: LocalBucket;
 export function dataDirectory(): string;
+export function assertStorageKey(key: string): string;
 export function migrate(): void;
 export function rawDatabase(): import('node:sqlite').DatabaseSync;
