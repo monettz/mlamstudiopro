@@ -52,3 +52,11 @@ export function keyForLicense() {
   const raw = crypto.randomUUID().replaceAll("-", "").toUpperCase();
   return `MLAM-${raw.slice(0, 5)}-${raw.slice(5, 10)}-${raw.slice(10, 15)}-${raw.slice(15, 20)}`;
 }
+
+/** A new active license as a statement, so callers can batch it with related writes. */
+export function newLicense(productId: string, email: string, maxDownloads: number, expiresAt: string | null = null) {
+  const id = crypto.randomUUID(); const licenseKey = keyForLicense();
+  const statement = database().prepare(`INSERT INTO licenses (id,product_id,customer_email,license_key,status,download_count,max_downloads,expires_at,created_at) VALUES (?,?,?,?,?,?,?,?,?)`)
+    .bind(id, productId, email, licenseKey, "active", 0, maxDownloads, expiresAt, new Date().toISOString());
+  return { id, licenseKey, statement };
+}

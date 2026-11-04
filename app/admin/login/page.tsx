@@ -16,7 +16,6 @@ export default async function LoginPage({searchParams}:{searchParams:Promise<{se
       </a>
       <section className="admin-auth-card" aria-labelledby="admin-login-title">
         <div className="admin-card-header">
-          <span className="showcase-kicker">SECURE OWNER ACCESS</span>
           <h1 id="admin-login-title" className="admin-title">Admin sign in</h1>
           <p className="admin-subtitle">Sign in to manage your MLAM Studio Pro store, releases & tutorials.</p>
         </div>
@@ -25,8 +24,9 @@ export default async function LoginPage({searchParams}:{searchParams:Promise<{se
 
         {!ownerReady && (
           <div className="admin-setup-hint" role="status">
-            <strong>Supabase Admin access needs configuration.</strong>
-            <span>Set the private server variable <code>MLAM_ADMIN_EMAIL</code> to the confirmed Supabase account email allowed to manage this website. Public admin sign-up is disabled.</span>
+            {/* Setup details (environment variable names) live in README, not on this public page. */}
+            <strong>Owner sign-in is not set up yet.</strong>
+            <span>Finish the owner setup on the server, then sign in here.</span>
           </div>
         )}
 

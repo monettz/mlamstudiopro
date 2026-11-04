@@ -45,7 +45,7 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
     }
     const login = await request('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'owner@example.test',password})}); assert.equal(login.status,200);
     const setCookie=login.headers.get('set-cookie'); assert.match(setCookie,/HttpOnly/i); assert.match(setCookie,/SameSite=lax/i); cookie=login.headers.getSetCookie().map(value=>value.split(';')[0]).join('; ');
-    const adminHtml=await (await request('/admin')).text(); assert.ok(adminHtml.includes('MLAM STUDIO PRO ADMINISTRATION'));
+    const adminHtml=await (await request('/admin')).text(); assert.ok(adminHtml.includes('aria-label="Administration sections"'));assert.ok(adminHtml.includes('Website owner'));
     for(const [section,title] of [['products','Add plugin'],['releases','Upload plugin ZIP'],['videos','Upload How to use video']]){const direct=await(await request(`/admin?section=${section}`)).text();assert.ok(direct.includes(title),section);assert.ok(direct.includes('aria-label="Products"'));assert.ok(direct.includes('admin-nav-label'));}
     const created=await request('/api/products',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'Test-only localized plugin',slug:'test-localized-plugin',description:'Owner English description',description_translations:{fr:'Description française de test',sw:'Maelezo ya majaribio'},price_cents:7300,status:'published'})});assert.equal(created.status,201);const createdId=(await created.json()).id;
     let localizedCatalog=await(await fetch(`${base}/api/products?language=fr`)).json();assert.equal(localizedCatalog.products.find(product=>product.id===createdId).description,'Description française de test');
@@ -89,6 +89,29 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
     const issued=await request('/api/licenses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({product_id:'voice-midi',customer_email:'fixture@example.test',max_downloads:1})});assert.equal(issued.status,201);const key=(await issued.json()).license_key;
     const downloads=await Promise.all([1,2].map(()=>request('/api/download',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({licenseKey:key})})));
     assert.deepEqual(downloads.map(r=>r.status).sort(),[200,403]); await Promise.all(downloads.map(r=>r.arrayBuffer()));
+    // Manual M-Pesa payments: recorded once per transaction code, with the license issued in the same step.
+    const jsonPost=(path,body)=>request(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const paid=await jsonPost('/api/orders',{product_id:'voice-midi',customer_email:'Buyer@Example.test',amount:65000,currency:'TZS',payment_method:'mpesa',provider_ref:'sjk4xy7q2p',issue_license:true});
+    assert.equal(paid.status,201);const paidOrder=await paid.json();assert.match(paidOrder.license_key,/^MLAM-/);
+    assert.equal((await jsonPost('/api/orders',{product_id:'voice-midi',customer_email:'other@example.test',amount:65000,currency:'TZS',payment_method:'mpesa',provider_ref:'SJK4XY7Q2P'})).status,409);
+    assert.equal((await jsonPost('/api/orders',{product_id:'voice-midi',customer_email:'buyer@example.test',amount:0,currency:'TZS',payment_method:'mpesa',provider_ref:'X1'})).status,400);
+    const unlicensed=await jsonPost('/api/orders',{product_id:'voice-midi',customer_email:'later@example.test',amount:29,currency:'USD',payment_method:'bank',provider_ref:'BANK-77',issue_license:false});
+    assert.equal(unlicensed.status,201);const laterOrder=await unlicensed.json();assert.equal(laterOrder.license_id,null);
+    const lateLicense=await jsonPost(`/api/orders/${laterOrder.id}/license`,{});assert.equal(lateLicense.status,201);assert.match((await lateLicense.json()).license_key,/^MLAM-/);
+    assert.equal((await jsonPost(`/api/orders/${laterOrder.id}/license`,{})).status,409);
+    const recorded=(await (await request('/api/orders')).json()).orders;
+    const mpesaRow=recorded.find(order=>order.id===paidOrder.id);
+    assert.equal(mpesaRow.customer_email,'buyer@example.test');assert.equal(mpesaRow.currency,'TZS');assert.equal(mpesaRow.amount_cents,6500000);assert.equal(mpesaRow.provider_ref,'SJK4XY7Q2P');assert.equal(mpesaRow.license_key,paidOrder.license_key);
+    // Without an email provider the server refuses to send instead of pretending it did.
+    const email=await jsonPost('/api/admin/email',{kind:'license',license_id:paidOrder.license_id});assert.equal(email.status,503);assert.equal((await email.json()).code,'EMAIL_NOT_CONFIGURED');
+    // Videos and demo ZIPs can be deleted, which removes the stored file too.
+    assert.equal((await request(`/api/tutorials/${videoId}`,{method:'DELETE'})).status,200);
+    assert.equal((await fetch(`${base}/api/tutorials/${videoId}/video`)).status,404);
+    assert.equal((await request(`/api/tutorials/${videoId}`,{method:'DELETE'})).status,404);
+    const demoForm=new FormData();demoForm.set('product_id','voice-midi');demoForm.set('version','demo-test');demoForm.set('file',new File([zipBytes],'demo.zip'));
+    const uploadedDemo=await request('/api/demos',{method:'POST',body:demoForm});assert.equal(uploadedDemo.status,201);const demoId=(await uploadedDemo.json()).id;
+    assert.equal((await request(`/api/demos/${demoId}`,{method:'DELETE'})).status,200);
+    assert.equal(rawDatabase().prepare('SELECT COUNT(*) AS count FROM demo_releases WHERE id=?').get(demoId).count,0);
     rawDatabase().prepare('INSERT INTO auth_throttle (key,failures,reset_at) VALUES (?,?,?) ON CONFLICT(key) DO UPDATE SET failures=excluded.failures,reset_at=excluded.reset_at')
       .run(quotaKey('admin-protected-api','test-owner'),120,Date.now()+60000);
     const limited = await request('/api/orders'); assert.equal(limited.status,429); assert.ok(Number(limited.headers.get('retry-after'))>0);

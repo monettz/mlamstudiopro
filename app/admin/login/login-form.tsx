@@ -7,7 +7,10 @@ export default function LoginForm({destination='/admin'}:{destination?:string}) 
     const element = event.currentTarget; const form = new FormData(element);
     try {
       const response = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: form.get('email'), password: form.get('password') }) });
-      const data = await response.json(); element.reset();
+      const data = await response.json();
+      // Keep the email after a failed attempt; only the password is cleared.
+      const password = element.elements.namedItem('password');
+      if (password instanceof HTMLInputElement) password.value = '';
       if (!response.ok) throw new Error(data.error || 'Unable to sign in');
       window.location.assign(destination);
     } catch (err) { setError(err instanceof Error ? err.message : 'Connection failed'); } finally { setBusy(false); }
