@@ -5609,3 +5609,18 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
   font-size: 12.5px;
   line-height: 1.5;
 }
+/* Admin login: notice shown while the local test sign-in is on. */
+.admin-dev-hint {
+  display: grid;
+  gap: 4px;
+  margin: 18px 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(74, 222, 128, 0.45);
+  border-radius: 10px;
+  background: rgba(74, 222, 128, 0.1);
+  color: #14532d;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-dev-hint span { color: #1f5f37; }

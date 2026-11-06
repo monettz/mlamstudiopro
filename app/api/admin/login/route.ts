@@ -2,6 +2,8 @@ import { adminSupabase } from '@/lib/supabase-server';
 import { AUTH_HEADERS } from '@/lib/supabase-auth.mjs';
 import { supabaseAdminPasswordLogin } from '@/lib/admin-supabase-auth.mjs';
 import { clientAddress, takeQuota, rateLimitedResponse, INVALID_CREDENTIALS } from '@/lib/rate-limit.mjs';
+import { cookies } from 'next/headers';
+import { DEV_ADMIN_COOKIE, createDevAdminSession, devAdminEnabled, isLoopbackRequest } from '@/lib/dev-admin';
 export async function POST(request: Request) {
   const quota = takeQuota('admin-login-source', clientAddress(request), 30, 15 * 60 * 1000);
   if (!quota.allowed) return rateLimitedResponse(quota.retryAfter);
@@ -23,6 +25,13 @@ export async function POST(request: Request) {
     for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
     data = JSON.parse(new TextDecoder().decode(bytes));
   } catch { return Response.json({ error: INVALID_CREDENTIALS }, { status: 400, headers: { 'Cache-Control': 'no-store' } }); }
+  // Local test sign-in: any email and password, development builds on loopback only.
+  if (devAdminEnabled() && isLoopbackRequest(request)) {
+    const session = createDevAdminSession(typeof data.email === 'string' ? data.email : '');
+    const jar = await cookies();
+    jar.set(DEV_ADMIN_COOKIE, session.value, { httpOnly: true, sameSite: 'lax', path: '/', maxAge: session.maxAge });
+    return Response.json({ ok: true, dev: true }, { headers: AUTH_HEADERS });
+  }
   const result = await supabaseAdminPasswordLogin(await adminSupabase(), data);
   if (result.status === 429) return rateLimitedResponse(result.retryAfter ?? 1);
   if (!result.ok) return Response.json({ error: result.error }, { status: result.status, headers: AUTH_HEADERS });

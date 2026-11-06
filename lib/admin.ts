@@ -2,7 +2,14 @@ import { adminSupabase } from './supabase-server';
 import { verifiedCustomer } from './supabase-auth.mjs';
 import { configuredAdminEmail, isAuthorizedAdmin } from './admin-supabase-auth.mjs';
 import { takeQuota, rateLimitedResponse } from './rate-limit.mjs';
+import { cookies } from 'next/headers';
+import { DEV_ADMIN_COOKIE, devAdminEnabled, readDevAdminSession } from './dev-admin';
 export async function adminUser() {
+  // Local test sign-in (development only, opt-in); see lib/dev-admin.ts.
+  if (devAdminEnabled()) {
+    const devUser = readDevAdminSession((await cookies()).get(DEV_ADMIN_COOKIE)?.value);
+    if (devUser) return devUser;
+  }
   const allowedEmail=configuredAdminEmail();
   if(!allowedEmail) return null;
   const user=await verifiedCustomer(await adminSupabase());
