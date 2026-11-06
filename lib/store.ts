@@ -13,7 +13,15 @@ export type Release = {
 
 export function database(): LocalDatabase { return (env as unknown as { DB: LocalDatabase }).DB; }
 
-export async function ensureStore() {
+// Seeding runs once per server process: against Supabase each statement is a
+// network round trip, so repeating it on every request would slow pages down.
+let seeded: Promise<void> | null = null;
+export function ensureStore() {
+  seeded ??= seedStore().catch(error => { seeded = null; throw error; });
+  return seeded;
+}
+
+async function seedStore() {
   const db = database();
   const now = new Date().toISOString();
   const seeds: (string | number)[][] = [

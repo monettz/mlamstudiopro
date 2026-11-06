@@ -17,12 +17,12 @@ test('duplicate signup gives same response and does not reset the existing passw
 });
 test('wrong password and unknown email share status/error; valid session is revocable and not an admin session',async()=>{
   const a=await auth.loginCustomer({...details,password:'wrong'});const b=await auth.loginCustomer({email:'absent@example.test',password:'wrong'});assert.equal(a.status,401);assert.equal(b.status,401);assert.equal(a.error,b.error);
-  const result=await auth.loginCustomer(details);assert.equal(result.status,200);const user=auth.customerSession(result.token);assert.equal(user.email,'customer@example.test');assert.equal(user.email_verified_at,null);assert.equal(owner.sessionUser(result.token),null);
+  const result=await auth.loginCustomer(details);assert.equal(result.status,200);const user=await auth.customerSession(result.token);assert.equal(user.email,'customer@example.test');assert.equal(user.email_verified_at,null);assert.equal(await owner.sessionUser(result.token),null);
   assert.notEqual(runtime.rawDatabase().prepare('SELECT token_hash FROM customer_sessions').get().token_hash,result.token);
-  auth.revokeCustomerSession(result.token);assert.equal(auth.customerSession(result.token),null);
+  await auth.revokeCustomerSession(result.token);assert.equal(await auth.customerSession(result.token),null);
 });
 test('customer login limits cannot be bypassed by email case or whitespace',async()=>{
-  rate.resetQuota('customer-login-email','customer@example.test');for(let i=0;i<5;i++)assert.equal((await auth.loginCustomer({email:i%2?' CUSTOMER@EXAMPLE.TEST ':details.email,password:null})).status,401);
+  await rate.resetQuota('customer-login-email','customer@example.test');for(let i=0;i<5;i++)assert.equal((await auth.loginCustomer({email:i%2?' CUSTOMER@EXAMPLE.TEST ':details.email,password:null})).status,401);
   const limited=await auth.loginCustomer(details);assert.equal(limited.status,429);assert.ok(limited.retryAfter>0);
 });
 test('short passwords and open-redirect targets are rejected',async()=>{

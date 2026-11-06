@@ -43,9 +43,9 @@ test('media is outside the public directory, streams byte ranges and blocks trav
   await runtime.bucket.delete('tutorials/example.mp4'); assert.equal(await runtime.bucket.get('tutorials/example.mp4'),null);
 });
 test('no administrator or default password grants access before private setup', async () => {
-  assert.equal(auth.configuredAdmin(),null);
+  assert.equal(await auth.configuredAdmin(),null);
   assert.equal((await auth.loginAdmin('owner@example.test','not-a-real-password')).status,503);
-  assert.equal(auth.sessionUser(''),null);
+  assert.equal(await auth.sessionUser(''),null);
 });
 test('hashed password login creates a revocable, expiring server-side session', async () => {
   const password = randomBytes(32).toString('hex'); const hash = auth.passwordHash(password);
@@ -54,27 +54,27 @@ test('hashed password login creates a revocable, expiring server-side session', 
   const denied = await auth.loginAdmin('owner@example.test','wrong');
   assert.equal(denied.status,401); assert.equal(denied.error, INVALID_CREDENTIALS);
   assert.equal((await auth.loginAdmin('wrong@example.test',password)).status,401);
-  const result = await auth.loginAdmin('OWNER@example.test',password); assert.equal(result.status,200); assert.equal(auth.sessionUser(result.token).email,'owner@example.test');
+  const result = await auth.loginAdmin('OWNER@example.test',password); assert.equal(result.status,200); assert.equal((await auth.sessionUser(result.token)).email,'owner@example.test');
   const stored = runtime.rawDatabase().prepare('SELECT token_hash FROM admin_sessions').get(); assert.notEqual(stored.token_hash,result.token);
-  auth.revokeSession(result.token); assert.equal(auth.sessionUser(result.token),null);
-  const next = await auth.loginAdmin('owner@example.test',password); runtime.rawDatabase().prepare('UPDATE admin_sessions SET expires_at=0').run(); assert.equal(auth.sessionUser(next.token),null);
+  await auth.revokeSession(result.token); assert.equal(await auth.sessionUser(result.token),null);
+  const next = await auth.loginAdmin('owner@example.test',password); runtime.rawDatabase().prepare('UPDATE admin_sessions SET expires_at=0').run(); assert.equal(await auth.sessionUser(next.token),null);
 });
 test('repeated bad administrator attempts are throttled persistently', async () => {
-  resetQuota('admin-login-account', 'admin');
+  await resetQuota('admin-login-account', 'admin');
   for (let i = 0; i < 5; i++) assert.equal((await auth.loginAdmin('owner@example.test',null)).status,401);
   const denied = await auth.loginAdmin('owner@example.test','wrong'); assert.equal(denied.status,429); assert.ok(denied.retryAfter > 0 && denied.retryAfter <= 900);
   const before = runtime.rawDatabase().prepare('SELECT failures,reset_at FROM auth_throttle WHERE key=?').get(quotaKey('admin-login-account','admin'));
   await auth.loginAdmin('owner@example.test','wrong');
   assert.deepEqual(runtime.rawDatabase().prepare('SELECT failures,reset_at FROM auth_throttle WHERE key=?').get(quotaKey('admin-login-account','admin')), before);
 });
-test('per-user database quotas are isolated, bounded and reset after cooldown', () => {
+test('per-user database quotas are isolated, bounded and reset after cooldown', async () => {
   const now = 1700000000000; const subject = "user@example.test' OR 1=1 --";
-  assert.equal(takeQuota('test-user',subject,2,1000,now).allowed,true);
-  assert.equal(takeQuota('test-user',subject,2,1000,now+1).allowed,true);
-  assert.deepEqual(takeQuota('test-user',subject,2,1000,now+2),{allowed:false,retryAfter:1});
-  assert.equal(takeQuota('test-user','different-user',2,1000,now+2).allowed,true);
-  assert.equal(takeQuota('different-action',subject,2,1000,now+2).allowed,true);
-  assert.equal(takeQuota('test-user',subject,2,1000,now+1000).allowed,true);
+  assert.equal((await takeQuota('test-user',subject,2,1000,now)).allowed,true);
+  assert.equal((await takeQuota('test-user',subject,2,1000,now+1)).allowed,true);
+  assert.deepEqual(await takeQuota('test-user',subject,2,1000,now+2),{allowed:false,retryAfter:1});
+  assert.equal((await takeQuota('test-user','different-user',2,1000,now+2)).allowed,true);
+  assert.equal((await takeQuota('different-action',subject,2,1000,now+2)).allowed,true);
+  assert.equal((await takeQuota('test-user',subject,2,1000,now+1000)).allowed,true);
   assert.ok(!quotaKey('test-user',subject).includes('user@example.test'));
 });
 test('only explicitly trusted, single reverse-proxy IP headers identify callers', () => {
@@ -86,10 +86,10 @@ test('only explicitly trusted, single reverse-proxy IP headers identify callers'
   assert.equal(clientAddress(new Request('https://mlam.example',{headers:{'x-forwarded-for':'203.0.113.1'}})),'untrusted-shared');
   if(prior===undefined)delete process.env.MLAM_TRUST_PROXY_IP;else process.env.MLAM_TRUST_PROXY_IP=prior;
 });
-test('a separate fresh process cannot bypass an existing database cooldown', () => {
-  assert.equal(takeQuota('restart-test','test-user',1,60000).allowed,true);
+test('a separate fresh process cannot bypass an existing database cooldown', async () => {
+  assert.equal((await takeQuota('restart-test','test-user',1,60000)).allowed,true);
   const moduleURL = new URL('../lib/rate-limit.mjs',import.meta.url).href;
-  const child = spawnSync(process.execPath,['--input-type=module','-e',`import { takeQuota } from ${JSON.stringify(moduleURL)}; process.stdout.write(JSON.stringify(takeQuota('restart-test','test-user',1,60000)));`], {env:{...process.env,MLAM_DATA_DIR:folder},encoding:'utf8',windowsHide:true});
+  const child = spawnSync(process.execPath,['--input-type=module','-e',`import { takeQuota } from ${JSON.stringify(moduleURL)}; process.stdout.write(JSON.stringify(await takeQuota('restart-test','test-user',1,60000)));`], {env:{...process.env,MLAM_DATA_DIR:folder},encoding:'utf8',windowsHide:true});
   assert.equal(child.status,0,child.stderr);
   const result=JSON.parse(child.stdout); assert.equal(result.allowed,false); assert.ok(result.retryAfter>0);
 });

@@ -1,4 +1,5 @@
-import { localDatabase, bucket as localBucket, type LocalBucket } from './node-runtime.mjs';
+import { bucket as localBucket, type LocalBucket } from './node-runtime.mjs';
+import { db } from './database.mjs';
 import { createR2Bucket, r2Configuration } from './r2-bucket.mjs';
 
 // Files go to Cloudflare R2 when all R2_* variables are set, otherwise to
@@ -21,5 +22,6 @@ const releases: LocalBucket = {
 };
 
 // Server-only adapters; no platform-issued headers or remote Sites resources.
-export const env = { DB: localDatabase, RELEASES: releases };
+// DB is Supabase / PostgreSQL when DATABASE_URL is set, else local SQLite.
+export const env = { DB: db, RELEASES: releases };
 export const storageBackend = () => (r2Configuration() ? 'r2' : 'local');

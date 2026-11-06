@@ -75,7 +75,7 @@ test('Google PKCE has minimal scopes, safe callback, HttpOnly verifier and requi
 test('forged session identity is not trusted; per-email limit survives fresh clients',async()=>{
   const state=browser();const fake={access_token:'forged',refresh_token:'forged',expires_at:Math.floor(Date.now()/1000)+3600,user:{id:'spoof',email:'owner@example.test',user_metadata:{role:'admin'}}};
   state.jar.set(auth.SUPABASE_COOKIE,`base64-${Buffer.from(JSON.stringify(fake)).toString('base64url')}`);assert.equal(await auth.verifiedCustomer(state.client()),null);
-  rate.resetQuota('supabase-login-email','limit@example.test');
+  await rate.resetQuota('supabase-login-email','limit@example.test');
   for(let i=0;i<5;i++)assert.equal((await auth.supabasePasswordLogin(browser().client(),{email:i%2?' LIMIT@EXAMPLE.TEST ':'limit@example.test',password:'wrong'})).status,401);
   const blocked=await auth.supabasePasswordLogin(browser().client(),{email:'limit@example.test',password:'wrong'});assert.equal(blocked.status,429);assert.ok(blocked.retryAfter>0);
 });

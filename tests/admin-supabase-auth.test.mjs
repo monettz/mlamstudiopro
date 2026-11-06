@@ -50,7 +50,7 @@ test('only configured, confirmed Supabase email is granted Admin login',async()=
 
 test('Admin email login has its own per-email cooldown',async()=>{
   const email='throttle-owner@example.test';
-  resetQuota('admin-supabase-login-email',email);
+  await resetQuota('admin-supabase-login-email',email);
   for(let i=0;i<5;i++) assert.equal((await auth.supabaseAdminPasswordLogin(provider({password:'right'}),{email,password:'wrong'},email)).status,401);
   const blocked=await auth.supabaseAdminPasswordLogin(provider(),{email,password:'right'},email);
   assert.equal(blocked.status,429);assert.ok(blocked.retryAfter>0);

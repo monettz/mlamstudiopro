@@ -21,6 +21,6 @@ export async function rejectUnlessAdmin() {
   if (!user) return Response.json({ error: 'Admin sign-in required' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
   // One budget per authenticated account, not per token: creating a second
   // session or switching endpoints cannot bypass the same user's limit.
-  const quota = takeQuota('admin-protected-api', user.userId, 120, 60 * 1000);
+  const quota = await takeQuota('admin-protected-api', user.userId, 120, 60 * 1000);
   return quota.allowed ? null : rateLimitedResponse(quota.retryAfter);
 }

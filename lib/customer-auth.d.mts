@@ -5,6 +5,6 @@ export type AuthResult = {status:number;error?:string;message?:string;token?:str
 export function normalizeEmail(value:unknown): string|null;
 export function registerCustomer(input:unknown): Promise<AuthResult>;
 export function loginCustomer(input:unknown): Promise<AuthResult>;
-export function customerSession(token:string): Customer|null;
-export function revokeCustomerSession(token:string|undefined): void;
+export function customerSession(token:string): Promise<Customer|null>;
+export function revokeCustomerSession(token:string|undefined): Promise<void>;
 export function safeAccountReturn(value:unknown): string;

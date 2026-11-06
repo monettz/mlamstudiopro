@@ -12,7 +12,7 @@ export async function GET() {
 
 // Public "Notify me when it launches" signup for coming-soon products.
 export async function POST(request: Request) {
-  const source = takeQuota('notify-source', clientAddress(request), 20, 15 * 60 * 1000);
+  const source = await takeQuota('notify-source', clientAddress(request), 20, 15 * 60 * 1000);
   if (!source.allowed) return rateLimitedResponse(source.retryAfter);
   let productId = ''; let email = '';
   try {
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     email = typeof input?.email === 'string' ? input.email.trim().toLowerCase() : '';
   } catch { /* fall through to validation */ }
   if (!/^[a-zA-Z0-9-]{1,80}$/.test(productId) || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: 'Enter a valid email address.' }, 400);
-  const contact = takeQuota('notify-email', email, 5, 15 * 60 * 1000);
+  const contact = await takeQuota('notify-email', email, 5, 15 * 60 * 1000);
   if (!contact.allowed) return rateLimitedResponse(contact.retryAfter);
   await ensureStore();
   const product = await database().prepare("SELECT id FROM products WHERE id=? AND status='coming-soon'").bind(productId).first();

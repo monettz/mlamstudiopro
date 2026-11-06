@@ -11,6 +11,8 @@
     "start": "node scripts/start.mjs",
     "db:migrate": "node scripts/migrate.mjs",
     "admin:setup": "node scripts/setup-admin.mjs",
+    "db:password": "node scripts/set-database-password.mjs",
+    "db:copy-to-supabase": "node scripts/copy-sqlite-to-supabase.mjs",
     "storage:sync-r2": "node scripts/sync-uploads-to-r2.mjs",
     "test": "node --test tests/*.test.mjs"
   },
@@ -20,6 +22,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "lucide-react": "^1.56.0",
     "next": "16.2.6",
+    "postgres": "3.4.9",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },

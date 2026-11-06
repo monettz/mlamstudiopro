@@ -18,7 +18,7 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
   const base = 'http://127.0.0.1:4181'; let output = '';
   const supabase=await createSupabaseFixture();
   supabase.addUser('owner@example.test', password);
-  const server = spawn(process.execPath,['node_modules/next/dist/bin/next','start','-H','127.0.0.1','-p','4181'], { cwd:process.cwd(),env:{...process.env,MLAM_ORIGIN:base,MLAM_ADMIN_EMAIL:'owner@example.test',MLAM_TRUST_PROXY_IP:'0',SUPABASE_URL:supabase.url,SUPABASE_PUBLISHABLE_KEY:supabase.key,NEXT_TELEMETRY_DISABLED:'1'},stdio:['ignore','pipe','pipe'],windowsHide:true });
+  const server = spawn(process.execPath,['node_modules/next/dist/bin/next','start','-H','127.0.0.1','-p','4181'], { cwd:process.cwd(),env:{...process.env,MLAM_ORIGIN:base,MLAM_ADMIN_EMAIL:'owner@example.test',MLAM_TRUST_PROXY_IP:'0',SUPABASE_URL:supabase.url,SUPABASE_PUBLISHABLE_KEY:supabase.key,NEXT_TELEMETRY_DISABLED:'1',DATABASE_URL:''},stdio:['ignore','pipe','pipe'],windowsHide:true });
   server.stdout.on('data',chunk=>output+=chunk); server.stderr.on('data',chunk=>output+=chunk);
   try {
     let ready = false;
@@ -117,7 +117,7 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
     const limited = await request('/api/orders'); assert.equal(limited.status,429); assert.ok(Number(limited.headers.get('retry-after'))>0);
     // A valid session is not a way around the account-level quota.
     assert.equal((await request('/api/licenses')).status,429);
-    resetQuota('admin-protected-api','test-owner'); assert.equal((await request('/api/orders')).status,200);
+    await resetQuota('admin-protected-api','test-owner'); assert.equal((await request('/api/orders')).status,200);
     assert.equal((await request('/api/admin/logout',{method:'POST'})).status,200);cookie='';assert.equal((await request('/api/orders')).status,401);
     const signInPage=await (await fetch(`${base}/account/login`)).text();assert.ok(signInPage.includes('Welcome back.'));assert.ok(signInPage.includes('Create account'));assert.ok(signInPage.includes('Language'));assert.ok(signInPage.includes('Continue with Google / Gmail'));assert.ok(signInPage.includes('or continue with'));assert.ok(signInPage.includes('access-mode-tabs'));assert.ok(signInPage.includes('Show password'));assert.ok(!signInPage.includes('href="/admin"'));assert.ok(signInPage.indexOf('customer-access-form')<signInPage.indexOf('access-google'));
     const swPage=await (await fetch(`${base}/account/register`,{headers:{Cookie:'mlam_language=sw'}})).text();assert.ok(swPage.includes('Fungua akaunti'));assert.ok(swPage.includes('lang="sw"'));

@@ -5,7 +5,7 @@ import { clientAddress, takeQuota, rateLimitedResponse, INVALID_CREDENTIALS } fr
 import { cookies } from 'next/headers';
 import { DEV_ADMIN_COOKIE, createDevAdminSession, devAdminEnabled, isLoopbackRequest } from '@/lib/dev-admin';
 export async function POST(request: Request) {
-  const quota = takeQuota('admin-login-source', clientAddress(request), 30, 15 * 60 * 1000);
+  const quota = await takeQuota('admin-login-source', clientAddress(request), 30, 15 * 60 * 1000);
   if (!quota.allowed) return rateLimitedResponse(quota.retryAfter);
   let data: { email?: unknown; password?: unknown };
   try {

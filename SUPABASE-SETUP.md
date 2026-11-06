@@ -44,3 +44,14 @@ Kwa mradi mpya wa Free plan, Supabase hairuhusu kubadili auth email templates uk
 - Authentication si mfumo wa malipo/licensing. M-Pesa/cards na account-linked purchases bado ni hatua tofauti.
 
 Vyanzo rasmi: [Supabase SSR](https://supabase.com/docs/guides/auth/server-side/creating-a-client), [Google](https://supabase.com/docs/guides/auth/social-login/auth-google), [Email/password](https://supabase.com/docs/guides/auth/passwords), [Redirect URLs](https://supabase.com/docs/guides/auth/redirect-urls).
+
+## Database ya duka (Supabase Postgres)
+
+Ikiwa `DATABASE_URL` imewekwa kwenye `.env.local` (au kwenye hosting), bidhaa, orders, licenses, settings, tutorials, demos na rate-limits zote zinahifadhiwa kwenye Supabase badala ya `data/mlam.sqlite`.
+
+1. Supabase -> **Connect** -> **Session pooler** -> nakili connection string kwenye `DATABASE_URL=`.
+2. Endesha `npm run db:password` na andika password ya database kwenye dirisha linalofunguka.
+3. `npm run db:migrate` huunda table zote (pia hufanyika kila server inapowaka).
+4. `npm run db:copy-to-supabase` huhamisha rekodi zilizopo kwenye SQLite (salama kuendesha mara mbili).
+
+Table zote zina Row Level Security bila policies, na `anon` / `authenticated` hazina ruhusa, hivyo REST API ya Supabase haiwezi kuzisoma kwa publishable key. Ni server ya website pekee (kupitia `DATABASE_URL`) inayozifikia. Usiweke `DATABASE_URL` kwenye code wala GitHub.

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 const config: NextConfig = {
   poweredByHeader: false,
+  serverExternalPackages: ["postgres"],
   webpack(config) {
     // Avoid a large disposable build cache on the development PC's full drive.
     config.cache = false;
