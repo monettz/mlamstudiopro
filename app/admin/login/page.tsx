@@ -1,3 +1,4 @@
+import { ArrowLeft } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import { adminUser } from '@/lib/admin';
 import { configuredAdminEmail } from '@/lib/admin-supabase-auth.mjs';
@@ -12,7 +13,7 @@ export default async function LoginPage({searchParams}:{searchParams:Promise<{se
   if (await adminUser()) redirect(adminDestination(section));
   return (
     <main className="auth-exact-split-page admin-login-page" dir="ltr">
-      <a className="admin-login-return" href="/">← Back to MLAM Studio Pro</a>
+      <a className="admin-login-return" href="/" aria-label="Back to MLAM Studio Pro" title="Back to MLAM Studio Pro"><ArrowLeft className="account-store-return-icon" size={18} strokeWidth={2.25} aria-hidden="true" /><span className="account-store-return-text" aria-hidden="true">Back to MLAM Studio Pro</span></a>
 
       <aside className="auth-exact-photo-column" aria-hidden="true">
         <div className="auth-exact-halo" />
