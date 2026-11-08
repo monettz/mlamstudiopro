@@ -1863,7 +1863,7 @@
 /* ========================================================
    ADMIN LOGIN: same two-column layout as the customer login.
    ======================================================== */
-.admin-login-page.auth-exact-split-page { background: #030805 !important; }
+.admin-login-page.auth-exact-split-page { background: #f6f8f6 !important; }
 .admin-login-return {
   position: absolute;
   top: 18px;
@@ -2176,3 +2176,137 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
   }
   .account-access-utility .language-control select option { color: #0d2817; background: #ffffff; }
 }
+
+/* ========================================================
+   AUTH PAGES — LIGHT THEME (customer login/register + admin)
+   Off-white page like the homepage hero (#f6f8f6); the form card
+   uses the footer colour (#020704) with light text.
+   ======================================================== */
+.auth-exact-split-page {
+  background: #f6f8f6 !important;
+  color: #09090b !important;
+}
+.auth-exact-split-page::before {
+  opacity: 1 !important;
+  background-image: radial-gradient(rgba(22, 163, 74, 0.16) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+}
+.auth-exact-split-page .auth-exact-photo-column {
+  background: transparent !important;
+  border-right: 1px solid #e3eae5 !important;
+  border-bottom: 0 !important;
+}
+.auth-exact-split-page .auth-exact-halo {
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.06) 45%, transparent 70%) !important;
+}
+.auth-exact-split-page .auth-exact-photo-img,
+.auth-exact-split-page .auth-exact-photo-img:hover {
+  filter: drop-shadow(0 24px 40px rgba(2, 7, 4, 0.22)) drop-shadow(0 0 30px rgba(34, 197, 94, 0.25)) !important;
+}
+.auth-exact-split-page .auth-exact-form-column { background: transparent !important; }
+
+/* Kicker and big heading: dark on the light page. */
+.auth-exact-split-page .auth-exact-brand-kicker {
+  background: none !important;
+  -webkit-text-fill-color: #15803d !important;
+  color: #15803d !important;
+  filter: none !important;
+}
+.auth-exact-split-page .auth-exact-brand-kicker i { background: #16a34a !important; box-shadow: none !important; }
+.auth-exact-split-page .auth-exact-heading { color: #09090b !important; text-shadow: none !important; }
+.auth-exact-split-page .auth-exact-bottom-text { color: #4b5563 !important; }
+.auth-exact-split-page .auth-exact-switch-link { color: #15803d !important; text-shadow: none !important; }
+.auth-exact-split-page .auth-exact-switch-link:hover { color: #166534 !important; text-decoration: underline !important; }
+
+/* Back button: white pill on the light page. */
+.auth-exact-split-page ~ .account-access-utility a.account-store-return,
+.account-access-utility a.account-store-return,
+.admin-login-return {
+  background: #ffffff !important;
+  border: 1px solid #e2e8e4 !important;
+  color: #09090b !important;
+  box-shadow: 0 1px 3px rgba(2, 7, 4, 0.08) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.account-access-utility a.account-store-return:hover,
+.admin-login-return:hover { border-color: #16a34a !important; color: #15803d !important; transform: none !important; }
+.account-access-utility .account-store-return-icon,
+.admin-login-return .account-store-return-icon { color: #15803d; }
+.account-access-utility { justify-content: flex-start !important; }
+
+/* The card: footer colour. */
+.auth-exact-split-page .auth-exact-card {
+  background: #020704 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 30px 60px rgba(2, 7, 4, 0.22), 0 2px 6px rgba(2, 7, 4, 0.12) !important;
+  color: #f1fff5 !important;
+}
+.auth-exact-split-page .auth-exact-card-title { color: #ffffff !important; border-bottom-color: rgba(255, 255, 255, 0.08) !important; }
+.auth-exact-split-page .auth-exact-label,
+.auth-exact-split-page .customer-access-form .auth-exact-checkbox-label,
+.auth-exact-split-page .admin-auth-card .admin-login-form label { color: #d6e5db !important; }
+
+/* Fields inside the dark card. */
+.auth-exact-split-page .auth-exact-input,
+.auth-exact-split-page .admin-auth-card .admin-login-form input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+.auth-exact-split-page .auth-exact-input::placeholder,
+.auth-exact-split-page .admin-auth-card .admin-login-form input::placeholder { color: #7d9585 !important; }
+.auth-exact-split-page .auth-exact-input:focus,
+.auth-exact-split-page .admin-auth-card .admin-login-form input:focus {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18) !important;
+}
+.auth-exact-split-page .admin-auth-card .admin-login-form input[aria-invalid="true"] { border-color: #f87171 !important; }
+.auth-exact-split-page .auth-exact-input:-webkit-autofill,
+.auth-exact-split-page .admin-auth-card .admin-login-form input:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px #0d1a12 inset !important;
+  caret-color: #ffffff;
+}
+.auth-exact-split-page .auth-exact-eye-btn,
+.auth-exact-split-page .admin-password-toggle { color: #a3bcaa !important; }
+.auth-exact-split-page .auth-exact-eye-btn:hover,
+.auth-exact-split-page .admin-password-toggle:hover { color: #4ade80 !important; background: rgba(255, 255, 255, 0.05) !important; }
+.auth-exact-split-page .auth-exact-forgot-link { color: #a3bcaa !important; }
+.auth-exact-split-page .auth-exact-forgot-link:hover { color: #4ade80 !important; }
+.auth-exact-split-page .auth-exact-password-help { color: #8ea596 !important; }
+.auth-exact-split-page .customer-access-form .auth-exact-checkbox-input {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  accent-color: #22c55e !important;
+}
+.auth-exact-split-page .admin-auth-card .admin-subtitle { color: #a3bcaa !important; border-bottom-color: rgba(255, 255, 255, 0.08) !important; }
+
+/* Messages inside the dark card. */
+.auth-exact-split-page .auth-exact-card .access-feedback {
+  background: rgba(74, 222, 128, 0.1) !important;
+  border: 1px solid rgba(74, 222, 128, 0.3) !important;
+  color: #bbf7d0 !important;
+}
+.auth-exact-split-page .auth-exact-card .access-feedback.access-error,
+.auth-exact-split-page .admin-login-error {
+  background: rgba(220, 38, 38, 0.12) !important;
+  border: 1px solid rgba(248, 113, 113, 0.35) !important;
+  color: #fecaca !important;
+}
+.auth-exact-split-page .access-availability,
+.auth-exact-split-page .admin-dev-hint,
+.auth-exact-split-page .admin-setup-hint {
+  background: rgba(74, 222, 128, 0.08) !important;
+  border: 1px solid rgba(74, 222, 128, 0.24) !important;
+  color: #d6e5db !important;
+}
+.auth-exact-split-page .admin-dev-hint span,
+.auth-exact-split-page .admin-setup-hint span { color: #a3bcaa !important; }
+.auth-exact-split-page .access-confirm-link { color: #4ade80 !important; }
+
+@media (max-width: 860px) {
+  .auth-exact-split-page .auth-exact-photo-column { border-right: 0 !important; border-bottom: 1px solid #e3eae5 !important; }
+}
+.admin-setup-hint { display: grid; gap: 4px; margin: 18px 0 0; padding: 12px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
