@@ -2023,3 +2023,91 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
   .adm-sidebar-foot .panel-mode-switch { flex: 1 1 100%; margin-bottom: 4px; }
   .adm-sidebar-foot a { white-space: nowrap; }
 }
+
+/* ========================================================
+   AUTH PAGES ON PHONES: tidy top bar and a shorter logo area
+   so the form starts on the first screen.
+   ======================================================== */
+.account-access-utility .language-globe { color: #4ade80; flex: none; }
+@media (max-width: 860px) {
+  .account-access-utility {
+    top: 14px !important;
+    left: 16px !important;
+    right: 16px !important;
+    gap: 10px !important;
+  }
+  /* Back link and language picker: two matching slim pills. */
+  .account-access-utility a.account-store-return,
+  .account-access-utility .language-control,
+  .admin-login-return {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    height: 38px !important;
+    min-width: 0 !important;
+    padding: 0 14px !important;
+    border: 1px solid rgba(74, 222, 128, 0.24) !important;
+    border-radius: 999px !important;
+    background: rgba(4, 14, 8, 0.62) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: none !important;
+    color: #d9fbe2 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+  }
+  .account-access-utility a.account-store-return {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  .admin-login-return { top: 14px; left: 16px; }
+  .account-access-utility .language-control { flex: none !important; padding: 0 10px 0 12px !important; }
+  /* One clean field inside the pill, not a box within a box. */
+  .account-access-utility .language-control select {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    min-height: 0 !important;
+    height: 36px !important;
+    max-width: 120px !important;
+    padding: 0 20px 0 2px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 2px center !important;
+    color: #f1fff5 !important;
+    /* 16px stops iOS zooming the page when the picker is tapped. */
+    font-size: 16px !important;
+    font-weight: 600 !important;
+  }
+  .account-access-utility .language-control select option { color: #0d2817; background: #ffffff; }
+
+  /* Shorter logo area. */
+  .auth-exact-photo-column {
+    height: 190px !important;
+    min-height: 190px !important;
+    padding: 58px 24px 14px !important;
+  }
+  .auth-exact-photo-img { max-height: 112px !important; }
+  .auth-exact-halo { width: 220px !important; }
+  .auth-exact-form-column { padding: 26px 16px 44px !important; }
+  .auth-exact-brand-kicker { margin-bottom: 8px !important; font-size: 10.5px !important; }
+  .auth-exact-heading { font-size: 34px !important; margin-bottom: 20px !important; }
+}
+@media (max-width: 360px) {
+  .account-access-utility a.account-store-return { font-size: 12px !important; padding: 0 12px !important; }
+}
+@media (max-width: 860px) {
+  /* The picker hugs the chosen language instead of reserving empty space. */
+  .account-access-utility .language-control select { width: 96px !important; max-width: 96px !important; text-overflow: ellipsis; }
+  @supports (field-sizing: content) {
+    .account-access-utility .language-control select { field-sizing: content; width: auto !important; min-width: 64px !important; max-width: 130px !important; }
+  }
+  .account-access-utility a.account-store-return { flex: 0 1 auto !important; }
+}
+@media (max-width: 380px) {
+  .account-access-utility a.account-store-return,
+  .admin-login-return { font-size: 12.5px !important; padding: 0 11px !important; }
+  .account-access-utility .language-control { padding: 0 8px 0 10px !important; }
+}
+.account-store-return-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
