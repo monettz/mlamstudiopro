@@ -1741,3 +1741,103 @@
 
 
 
+
+/* Customer login/register on phones: the back link and language picker sit
+   above the artwork and scroll away with the page instead of staying fixed
+   over the form, and they no longer squeeze each other. */
+@media (max-width: 860px) {
+  .account-access-utility {
+    position: absolute !important;
+    top: 12px !important;
+    left: 16px !important;
+    right: 16px !important;
+    gap: 10px !important;
+  }
+  .account-access-utility a.account-store-return {
+    white-space: nowrap !important;
+    padding: 8px 12px !important;
+  }
+  .account-access-utility .language-control > span:nth-child(2) {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+  }
+  .account-access-utility .language-control select { min-height: 36px !important; }
+}
+
+/* Customer dashboard on phones: a compact profile header, every section
+   reachable at a glance, the license key on one line and orders as cards
+   instead of a table that cut off its last columns. */
+@media (max-width: 640px) {
+  .mlam-account-page .account-dashboard { gap: 18px; }
+  .customer-account-sidebar { padding: 18px 16px; border-radius: 20px; }
+  .customer-account-sidebar .access-brand { display: none; }
+  .customer-profile {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 2px;
+    align-items: center;
+    text-align: left;
+    padding: 0 0 16px;
+    margin-bottom: 14px;
+  }
+  .customer-avatar { grid-row: span 3; width: 52px; height: 52px; font-size: 20px; margin: 0; }
+  .customer-profile strong { font-size: 16px; overflow-wrap: anywhere; }
+  .customer-email { margin-top: 0; }
+  .customer-sidebar-verified { justify-self: start; margin-top: 4px; }
+  .customer-account-sidebar nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .customer-account-sidebar nav a { padding: 11px 12px; font-size: 13px; min-height: 44px; }
+  .customer-signout { margin-top: 12px; }
+
+  .account-section-heading { flex-wrap: wrap; }
+  .account-section-heading h2 { font-size: 18px; }
+
+  .license-key-box { flex-wrap: wrap; max-width: none; padding: 10px 12px; }
+  .license-key-value {
+    flex: 1 1 100%;
+    min-width: 0;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .license-key-actions { width: 100%; justify-content: flex-end; }
+  .key-action-btn { min-height: 40px; }
+  .license-download-actions, .license-download-btn { width: 100%; }
+  .license-download-btn { justify-content: center; }
+
+  .customer-orders-table thead { display: none; }
+  .customer-orders-table, .customer-orders-table tbody,
+  .customer-orders-table tr, .customer-orders-table td { display: block; width: 100%; }
+  .customer-orders-table tr {
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(74, 222, 128, 0.14);
+    border-radius: 14px;
+    background: rgba(2, 7, 4, 0.5);
+  }
+  .customer-orders-table td,
+  .customer-orders-table tr:last-child td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(74, 222, 128, 0.08);
+    text-align: right;
+  }
+  .customer-orders-table tr td:last-child { border-bottom: none; }
+  .customer-orders-table td::before {
+    content: attr(data-label);
+    color: #78a287;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+}

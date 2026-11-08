@@ -36,6 +36,22 @@ export type CustomerOrderItem = {
   product_image: string | null;
 };
 
+// Database rows can be null-prototype objects (node:sqlite) that React refuses
+// to pass to a Client Component, so copy each row into a plain object with
+// real numbers before rendering.
+function plainLicense(row: CustomerLicenseItem): CustomerLicenseItem {
+  return {
+    ...row,
+    download_count: Number(row.download_count) || 0,
+    max_downloads: Number(row.max_downloads) || 0,
+    release_file_size: row.release_file_size == null ? null : Number(row.release_file_size),
+  };
+}
+
+function plainOrder(row: CustomerOrderItem): CustomerOrderItem {
+  return { ...row, amount_cents: Number(row.amount_cents) || 0 };
+}
+
 export default async function AccountPage() {
   const user = await customerUser();
   if (!user) redirect('/account/login');
@@ -72,7 +88,7 @@ export default async function AccountPage() {
       ORDER BY l.created_at DESC
     `).bind(normalizedEmail).all<CustomerLicenseItem>();
 
-    licenses = (licensesResult?.results ?? []) as CustomerLicenseItem[];
+    licenses = ((licensesResult?.results ?? []) as CustomerLicenseItem[]).map(plainLicense);
   } catch (err) {
     console.error('Failed to load customer licenses:', err);
   }
@@ -95,7 +111,7 @@ export default async function AccountPage() {
       ORDER BY o.created_at DESC
     `).bind(normalizedEmail).all<CustomerOrderItem>();
 
-    orders = (ordersResult?.results ?? []) as CustomerOrderItem[];
+    orders = ((ordersResult?.results ?? []) as CustomerOrderItem[]).map(plainOrder);
   } catch (err) {
     console.error('Failed to load customer orders:', err);
   }

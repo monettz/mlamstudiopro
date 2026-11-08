@@ -419,15 +419,15 @@ export default function AccountPanel({
 
                         return (
                           <tr key={ord.id}>
-                            <td className="order-date">{dateFormatted}</td>
-                            <td className="order-product">
+                            <td className="order-date" data-label="Date">{dateFormatted}</td>
+                            <td className="order-product" data-label="Product">
                               <strong>{ord.product_name || 'MLAM Audio Product'}</strong>
                             </td>
-                            <td className="order-amount">{amountFormatted}</td>
-                            <td className="order-ref">
+                            <td className="order-amount" data-label="Amount">{amountFormatted}</td>
+                            <td className="order-ref" data-label="Reference">
                               <code>{ord.provider_ref ? ord.provider_ref.slice(0, 14) + '...' : ord.id.slice(0, 8)}</code>
                             </td>
-                            <td>
+                            <td data-label="Status">
                               <span className={`order-status-badge ${ord.status}`}>
                                 {ord.status === 'completed' || ord.status === 'paid' ? 'Paid' : ord.status}
                               </span>

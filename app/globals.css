@@ -5624,3 +5624,90 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
 }
 
 .admin-dev-hint span { color: #1f5f37; }
+/* ========================================================
+   Admin login form: light fields on the white card, a visible
+   error box and a show/hide password control.
+   ======================================================== */
+.admin-auth-card .admin-login-form { display: grid; gap: 8px; margin: 0; }
+.admin-auth-card .admin-login-form label {
+  margin-top: 8px;
+  color: #2f4a38;
+  font-size: 13px;
+  font-weight: 650;
+}
+.admin-auth-card .admin-login-form label:first-child { margin-top: 0; }
+.admin-auth-card .admin-login-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #d5e2d9;
+  border-radius: 12px;
+  background: #f6f9f7;
+  color: #0d2817;
+  font-size: 16px;
+  font-weight: 500;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.admin-auth-card .admin-login-form input::placeholder { color: #8aa094; font-weight: 400; }
+.admin-auth-card .admin-login-form input:focus {
+  outline: none;
+  border-color: #16a34a;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
+}
+.admin-auth-card .admin-login-form input[aria-invalid="true"] { border-color: #dc2626; }
+.admin-auth-card .admin-login-form input:disabled { opacity: .7; cursor: wait; }
+.admin-password-field { position: relative; }
+.admin-auth-card .admin-password-field input { padding-right: 52px; }
+.admin-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #4b6252;
+  cursor: pointer;
+}
+.admin-password-toggle:hover { color: #0d2817; background: rgba(13, 40, 23, .06); }
+.admin-password-toggle:focus-visible { outline: 2px solid #16a34a; outline-offset: 1px; }
+.admin-login-error {
+  margin: 6px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.admin-auth-card .admin-login-form .button.primary {
+  margin-top: 14px;
+  min-height: 50px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(22, 163, 74, .25);
+  cursor: pointer;
+}
+.admin-auth-card .admin-login-form .button.primary:hover:not(:disabled) { filter: brightness(1.05); }
+.admin-auth-card .admin-login-form .button.primary:disabled { opacity: .65; cursor: wait; }
+@media (max-width: 480px) {
+  .admin-login-page { padding: 28px 16px; }
+  .admin-auth-card { padding: 30px 20px; border-radius: 22px; }
+}
+
+/* Admin on phones: show every section instead of hiding most of them
+   in a horizontal strip with no scrollbar. */
+@media (max-width: 860px) {
+  .adm-nav { flex-wrap: wrap; overflow: visible; }
+  .adm-nav button { flex: 1 1 auto; justify-content: center; }
+}

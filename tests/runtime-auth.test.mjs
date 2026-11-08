@@ -99,6 +99,15 @@ test('cross-site, missing-Origin and spoofed browser mutations are blocked', () 
   for(const headers of [{},{Origin:'https://evil.example'},{Origin:'https://mlam.example','Sec-Fetch-Site':'cross-site'}]) assert.equal(trustedOrigin(new Request('http://127.0.0.1:4180/api/products',{headers})),false);
   if(old) process.env.MLAM_ORIGIN=old; else delete process.env.MLAM_ORIGIN;
 });
+test('without MLAM_ORIGIN, the browser-addressed host is same-origin even when the dev server reports localhost', () => {
+  const old = process.env.MLAM_ORIGIN; delete process.env.MLAM_ORIGIN;
+  // `next dev` hands middleware http://localhost:4180/... while the browser is on 127.0.0.1:4180.
+  const devRequest=(headers)=>new Request('http://localhost:4180/api/admin/login',{method:'POST',headers:{Host:'127.0.0.1:4180',...headers}});
+  assert.equal(trustedOrigin(devRequest({Origin:'http://127.0.0.1:4180','Sec-Fetch-Site':'same-origin'})),true);
+  assert.equal(trustedOrigin(devRequest({Origin:'http://localhost:4180'})),true);
+  for(const headers of [{},{Origin:'https://evil.example'},{Origin:'http://127.0.0.1:4180','Sec-Fetch-Site':'cross-site'},{Origin:'http://127.0.0.1:9999'}]) assert.equal(trustedOrigin(devRequest(headers)),false);
+  if(old) process.env.MLAM_ORIGIN=old;
+});
 test('combined site uses its own routes and never trusts platform-auth headers', () => {
   const front = readFileSync(new URL('../app/storefront.tsx',import.meta.url),'utf8');
   assert.ok(front.includes('/checkout?product=')); assert.ok(front.includes('STUDIO PRO')); assert.ok(front.includes('RotatingLogo'));
