@@ -8,6 +8,7 @@ import { accountLabels } from '@/lib/account-labels';
 import AccountIcon from './icons';
 import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
+import PanelModeSwitch from '@/components/ui/panel-mode-switch';
 import type { CustomerLicenseItem, CustomerOrderItem } from './page';
 
 interface AccountPanelProps {
@@ -174,6 +175,8 @@ export default function AccountPanel({
                 {t('guides')}
               </Link>
             </nav>
+
+            <PanelModeSwitch className="customer-mode-switch" />
 
             <button
               className="customer-signout"

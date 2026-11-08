@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import PanelModeSwitch from '@/components/ui/panel-mode-switch';
 import { Check, Copy, ExternalLink, FileArchive, Image as ImageIcon, KeyRound, Languages, LayoutDashboard, LogOut, Mail, Package, Pencil, PlayCircle, Receipt, Search, Send, Trash2, X } from "lucide-react";
 import DescriptionEditor,{DescriptionFields} from './description-editor';
 import type { DescriptionTranslations } from '@/lib/product-descriptions';
@@ -391,6 +392,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
         {NAV.map(({id,label,Icon})=><button key={id} type="button" aria-label={label} aria-current={tab===id ? "page" : undefined} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon size={18} strokeWidth={2} aria-hidden="true"/><span className="admin-nav-label">{label}</span>{id==="notify" && notifyRequests.length>0 && <i className="adm-count">{notifyRequests.length}</i>}</button>)}
       </nav>
       <div className="adm-sidebar-foot">
+        <PanelModeSwitch />
         <a href="/" target="_blank" rel="noopener"><ExternalLink size={17} aria-hidden="true"/> View website</a>
         <a href={signOut}><LogOut size={17} aria-hidden="true"/> Sign out</a>
       </div>
