@@ -121,7 +121,8 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
     assert.equal((await request('/api/admin/logout',{method:'POST'})).status,200);cookie='';assert.equal((await request('/api/orders')).status,401);
     const signInPage=await (await fetch(`${base}/account/login`)).text();assert.ok(signInPage.includes('Welcome back.'));assert.ok(signInPage.includes('Create account'));assert.ok(signInPage.includes('Language'));assert.ok(signInPage.includes('Continue with Google / Gmail'));assert.ok(signInPage.includes('or continue with'));assert.ok(signInPage.includes('access-mode-tabs'));assert.ok(signInPage.includes('Show password'));assert.ok(!signInPage.includes('href="/admin"'));assert.ok(signInPage.indexOf('customer-access-form')<signInPage.indexOf('access-google'));
     const swPage=await (await fetch(`${base}/account/register`,{headers:{Cookie:'mlam_language=sw'}})).text();assert.ok(swPage.includes('Fungua akaunti'));assert.ok(swPage.includes('lang="sw"'));
-    assert.equal((signInPage.match(/<select /g)||[]).length,1);assert.ok(signInPage.includes('<option value="en"'));assert.ok(!signInPage.includes('English — English'));
+    // The auth pages have no language picker; language is changed from the site footer.
+    assert.equal((signInPage.match(/<select /g)||[]).length,0);assert.ok(!signInPage.includes('language-control'));
     for(const [code,title,direction] of [['fr','Bienvenue à nouveau.','ltr'],['ja','おかえりなさい。','ltr'],['ar','مرحباً بعودتك.','rtl']]){
       const localized=await (await fetch(`${base}/account/login`,{headers:{Cookie:`mlam_language=${code}`}})).text();assert.ok(localized.includes(title),code);assert.ok(localized.includes(`lang="${code}" dir="${direction}"`),code);assert.ok(!localized.includes('translation is not available yet'),code);
     }
