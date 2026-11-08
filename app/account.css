@@ -2310,3 +2310,28 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
   .auth-exact-split-page .auth-exact-photo-column { border-right: 0 !important; border-bottom: 1px solid #e3eae5 !important; }
 }
 .admin-setup-hint { display: grid; gap: 4px; margin: 18px 0 0; padding: 12px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+
+/* Calmer auth pages: no glow around the card, the buttons or the logo. */
+.auth-exact-split-page .auth-exact-card {
+  border: 1px solid #1a2620 !important;
+  box-shadow: 0 1px 2px rgba(2, 7, 4, 0.06), 0 8px 24px rgba(2, 7, 4, 0.08) !important;
+}
+.auth-exact-split-page .auth-exact-submit-btn,
+.auth-exact-split-page .auth-exact-submit-btn:hover:not(:disabled),
+.auth-exact-split-page .admin-auth-card .admin-login-form .button.primary,
+.auth-exact-split-page .admin-auth-card .admin-login-form .button.primary:hover:not(:disabled) {
+  background: #16a34a !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+.auth-exact-split-page .auth-exact-submit-btn:hover:not(:disabled),
+.auth-exact-split-page .admin-auth-card .admin-login-form .button.primary:hover:not(:disabled) { background: #15803d !important; }
+.auth-exact-split-page .auth-exact-halo { display: none !important; }
+.auth-exact-split-page .auth-exact-photo-img,
+.auth-exact-split-page .auth-exact-photo-img:hover {
+  filter: drop-shadow(0 12px 24px rgba(2, 7, 4, 0.14)) !important;
+  transform: none !important;
+}
+.auth-exact-split-page .auth-exact-input:focus,
+.auth-exact-split-page .admin-auth-card .admin-login-form input:focus { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.14) !important; }
