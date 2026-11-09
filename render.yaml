@@ -4,17 +4,22 @@ services:
     runtime: node
     region: frankfurt
     plan: starter
-    buildCommand: corepack pnpm install --frozen-lockfile && corepack pnpm build
-    startCommand: corepack pnpm start
+    # The project uses npm (package-lock.json); there is no pnpm lockfile.
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
     envVars:
       - key: NODE_VERSION
-        value: 24.19.0
+        value: "22"
       - key: MLAM_BIND_HOST
         value: 0.0.0.0
       - key: MLAM_DATA_DIR
         value: /var/data/mlam
       - key: MLAM_TRUST_PROXY_IP
         value: "0"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      # Values below are entered privately in the Render dashboard.
       - key: MLAM_ORIGIN
         sync: false
       - key: SUPABASE_URL
@@ -23,6 +28,24 @@ services:
         sync: false
       - key: MLAM_ADMIN_EMAIL
         sync: false
+      # Supabase Postgres (Session pooler URL). Empty = SQLite on the disk below.
+      - key: DATABASE_URL
+        sync: false
+      # Optional: Cloudflare R2 for uploads (set all four or none).
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      # Optional: email from the admin through Resend.
+      - key: RESEND_API_KEY
+        sync: false
+      - key: MLAM_EMAIL_FROM
+        sync: false
+    # Holds SQLite and uploaded files when DATABASE_URL / R2 are not set.
     disk:
       name: mlam-studio-data
       mountPath: /var/data
