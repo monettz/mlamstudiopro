@@ -5942,3 +5942,14 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
 .pp-chip-check { color: #86efac; }
 /* Phone menu: solid, so page text never shows through behind the links. */
 .mn-mobile { background: #030a05 !important; }
+
+/* Scroll animation (app/scroll-reveal.tsx): a short fade and rise, once. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-revealed { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

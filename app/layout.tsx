@@ -5,6 +5,7 @@ import "./account.css";
 import { cookies } from 'next/headers';
 import { validLanguage,languageDirection } from '@/lib/languages';
 import LanguageProvider from './language-provider';
+import ScrollReveal from './scroll-reveal';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.MLAM_ORIGIN || 'http://127.0.0.1:4180'),
@@ -32,6 +33,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       </head>
       <body>
         <LanguageProvider initialLanguage={language}>{children}</LanguageProvider>
+        <ScrollReveal />
       </body>
     </html>
   );
