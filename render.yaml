@@ -3,7 +3,10 @@ services:
     name: mlam-studio-pro
     runtime: node
     region: frankfurt
-    plan: starter
+    # Free plan: no persistent disk, and the service sleeps after 15 minutes
+    # without visitors. DATABASE_URL and the four R2_* values are REQUIRED here,
+    # otherwise the database and uploads are wiped on every restart.
+    plan: free
     # The project uses npm (package-lock.json); there is no pnpm lockfile.
     buildCommand: npm ci && npm run build
     startCommand: npm start
@@ -13,8 +16,9 @@ services:
         value: "22"
       - key: MLAM_BIND_HOST
         value: 0.0.0.0
+      # Temporary scratch space only (free instances have no persistent disk).
       - key: MLAM_DATA_DIR
-        value: /var/data/mlam
+        value: /tmp/mlam-data
       - key: MLAM_TRUST_PROXY_IP
         value: "0"
       - key: NEXT_TELEMETRY_DISABLED
@@ -28,10 +32,10 @@ services:
         sync: false
       - key: MLAM_ADMIN_EMAIL
         sync: false
-      # Supabase Postgres (Session pooler URL). Empty = SQLite on the disk below.
+      # REQUIRED on the free plan: Supabase Postgres (Session pooler URL).
       - key: DATABASE_URL
         sync: false
-      # Optional: Cloudflare R2 for uploads (set all four or none).
+      # REQUIRED on the free plan: Cloudflare R2 for uploads (all four).
       - key: R2_ACCOUNT_ID
         sync: false
       - key: R2_ACCESS_KEY_ID
@@ -45,8 +49,3 @@ services:
         sync: false
       - key: MLAM_EMAIL_FROM
         sync: false
-    # Holds SQLite and uploaded files when DATABASE_URL / R2 are not set.
-    disk:
-      name: mlam-studio-data
-      mountPath: /var/data
-      sizeGB: 10
