@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Check } from 'lucide-react';
 import Link from "next/link";
 import { useLanguage } from "@/app/language-provider";
 import { languageOptions } from "@/lib/languages";
@@ -106,7 +107,7 @@ export default function ModernFooter() {
             <h4 className="tailark-heading">Subscribe to our newsletter</h4>
             {subscribed ? (
               <div className="tailark-subscribed-msg">
-                ✓ Thank you for subscribing!
+                <Check className="ic ic-before" size={16} aria-hidden="true" />Thank you for subscribing!
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="tailark-form">

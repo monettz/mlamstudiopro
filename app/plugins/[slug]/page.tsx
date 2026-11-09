@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ArrowRight, Check, Download } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { database, ensureStore, listProducts, type Product } from '@/lib/store';
@@ -112,7 +113,7 @@ export default async function ProductPage({ params }: PageProps) {
             <div className="pp-lead"><ProductDescription product={descriptionProduct} /></div>
             {chips.length > 0 && (
               <ul className="pp-chips">
-                {chips.map((feature) => <li key={feature}><span aria-hidden="true">✓</span>{feature}</li>)}
+                {chips.map((feature) => <li key={feature}><Check className="pp-chip-check" size={14} strokeWidth={3} aria-hidden="true" />{feature}</li>)}
               </ul>
             )}
             <div className="product-detail-price-row">
@@ -123,11 +124,11 @@ export default async function ProductPage({ params }: PageProps) {
             {!available && <div id="notify"><NotifyForm productId={product.id} productName={product.name} /></div>}
             <div className="product-detail-actions">
               {purchasable ? (
-                <Link className="product-detail-buy" href={checkoutHref}>Buy now <span aria-hidden="true">→</span></Link>
+                <Link className="product-detail-buy" href={checkoutHref}>Buy now<ArrowRight className="ic ic-after" size={16} aria-hidden="true" /></Link>
               ) : (
                 <a className="product-detail-buy" href={notifyHref}>Notify me when it launches</a>
               )}
-              {demo && <a className="product-detail-demo" href={`/api/demos/${demo.id}/download`}>Try free demo <span aria-hidden="true">↓</span></a>}
+              {demo && <a className="product-detail-demo" href={`/api/demos/${demo.id}/download`}>Try free demo<Download className="ic ic-after" size={16} aria-hidden="true" /></a>}
             </div>
           </div>
         </section>
@@ -156,7 +157,7 @@ export default async function ProductPage({ params }: PageProps) {
             </Link>
             <p className="pp-muted">
               {guideCount?.n ? `${guideCount.n} video guide${guideCount.n === 1 ? '' : 's'} for ${product.name}.` : `Video guides for ${product.name} are coming to the MLAM YouTube channel.`}{' '}
-              <Link href="/tutorials">Open How to use →</Link>
+              <Link href="/tutorials">Open How to use<ArrowRight className="ic ic-after" size={16} aria-hidden="true" /></Link>
             </p>
           </section>
 

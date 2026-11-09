@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, Check, Download, X } from 'lucide-react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLanguage } from './language-provider';
@@ -193,7 +194,7 @@ export default function Storefront() {
         { label: t('guides'), href: '/tutorials' },
         { label: t('downloads'), href: '/downloads' }
       ]}
-      navCta={{ label: `${t('account')} ↗`, href: "/account" }}
+      navCta={{ label: t('account'), href: "/account" }}
       height="94svh"
     />
 
@@ -437,7 +438,7 @@ export default function Storefront() {
     {selected && (
       <div className="modal-backdrop" onClick={() => setSelected(null)}>
         <div className="modal" role="dialog" aria-modal="true" aria-label={selected.name} onClick={(event) => event.stopPropagation()}>
-          <button className="modal-close" aria-label="Close product details" onClick={() => setSelected(null)}>×</button>
+          <button className="modal-close" aria-label="Close product details" onClick={() => setSelected(null)}><X size={20} aria-hidden="true" /></button>
 
           {/* Left Side: Hardware Preview Chassis */}
           <div className="modal-visual-side">
@@ -470,7 +471,7 @@ export default function Storefront() {
             <ul className="modal-features">
               {featureList(selected.features).map((feature) => (
                 <li key={feature} className="modal-feature-item">
-                  <span className="modal-feature-check">✓</span>
+                  <span className="modal-feature-check"><Check size={11} strokeWidth={3.5} aria-hidden="true" /></span>
                   <span>{feature}</span>
                 </li>
               ))}
@@ -499,7 +500,7 @@ export default function Storefront() {
 
               {demoFor(selected) ? (
                 <a className="modal-demo-btn" href={`/api/demos/${demoFor(selected)!.id}/download`}>
-                  {t('tryDemo')} ↓
+                  {t('tryDemo')}<Download className="ic ic-after" size={16} aria-hidden="true" />
                 </a>
               ) : (
                 <button className="modal-demo-btn" disabled>
@@ -510,12 +511,12 @@ export default function Storefront() {
 
             {selected.status === "published" && (
               <Link className="modal-secondary-link" href="/downloads">
-                {t('licensedDownload')} ↓
+                {t('licensedDownload')}<Download className="ic ic-after" size={16} aria-hidden="true" />
               </Link>
             )}
 
             <Link className="modal-secondary-link" href={`/plugins/${encodeURIComponent(selected.slug || selected.id)}`}>
-              Full product page →
+              Full product page<ArrowRight className="ic ic-after" size={16} aria-hidden="true" />
             </Link>
 
             {demoFor(selected)?.notes && (

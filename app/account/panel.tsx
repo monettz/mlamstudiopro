@@ -95,7 +95,7 @@ export default function AccountPanel({
       link.remove();
       setTimeout(() => URL.revokeObjectURL(url), 60000);
       setDownloadStatus({
-        message: `✓ Download started for ${lic.product_name || 'plugin'}. Check your browser downloads!`,
+        message: `Download started for ${lic.product_name || 'plugin'}. Check your browser downloads!`,
         type: 'success',
       });
     } catch (err) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ArrowRight, X } from 'lucide-react';
 import Link from "next/link";
 
 import ModernNav from "@/components/ui/modern-nav";
@@ -137,7 +138,7 @@ export default function TutorialsPage() {
                         Play video
                       </button>
                       {featured.productId && (
-                        <Link className="tut-btn ghost" href={`/plugins/${encodeURIComponent(featured.productId)}`}>Get {featured.productName} →</Link>
+                        <Link className="tut-btn ghost" href={`/plugins/${encodeURIComponent(featured.productId)}`}>Get {featured.productName}<ArrowRight className="ic ic-after" size={16} aria-hidden="true" /></Link>
                       )}
                     </div>
                   </div>
@@ -178,7 +179,7 @@ export default function TutorialsPage() {
       {active && (
         <div className="tut-modal-backdrop" onClick={() => setActive(null)}>
           <div className="tut-modal" role="dialog" aria-modal="true" aria-label={active.title} onClick={event => event.stopPropagation()}>
-            <button ref={closeRef} type="button" className="tut-modal-close" aria-label="Close video" onClick={() => setActive(null)}>×</button>
+            <button ref={closeRef} type="button" className="tut-modal-close" aria-label="Close video" onClick={() => setActive(null)}><X size={20} aria-hidden="true" /></button>
             <div className="tut-player">
               {active.youtubeId ? (
                 <iframe
@@ -212,7 +213,7 @@ export default function TutorialsPage() {
                   </a>
                 )}
                 {active.productId && (
-                  <Link className="tut-btn ghost" href={`/plugins/${encodeURIComponent(active.productId)}`}>Get {active.productName} →</Link>
+                  <Link className="tut-btn ghost" href={`/plugins/${encodeURIComponent(active.productId)}`}>Get {active.productName}<ArrowRight className="ic ic-after" size={16} aria-hidden="true" /></Link>
                 )}
               </div>
             </div>

@@ -9,6 +9,7 @@
  */
 
 import * as React from "react"
+import { ArrowRight } from 'lucide-react';
 import Link from "next/link"
 
 /* ────────────────────────────────────────────────────────────────────
@@ -1856,7 +1857,7 @@ export default function SculptureHero(props: SculptureHeroProps) {
                   }}
                 >
                   <span>{l.label}</span>
-                  <span style={{ opacity: 0.5, fontSize: "18px" }}>→</span>
+                  <ArrowRight size={18} style={{ opacity: 0.5 }} aria-hidden="true" />
                 </Link>
               );
             })}

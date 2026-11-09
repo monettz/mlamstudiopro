@@ -1,5 +1,6 @@
 'use client';
 import { useState,type FormEvent } from 'react';
+import { X } from 'lucide-react';
 import { languageOptions,languageDirection,type InterfaceLanguage } from '@/lib/languages';
 import { builtInTranslations,readDescriptionTranslations,type DescriptionTranslations } from '@/lib/product-descriptions';
 
@@ -16,5 +17,5 @@ export default function DescriptionEditor({product,onClose,onSaved}:{product:{id
     try{const response=await fetch(`/api/products/${encodeURIComponent(product.id)}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({description_translations:value})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Unable to save descriptions');await onSaved();onClose();}
     catch(error){setError(error instanceof Error?error.message:'Unable to save descriptions');}finally{setBusy(false);}
   }
-  return <div className="modal-backdrop"><section className="modal" role="dialog" aria-modal="true" aria-label={`Edit descriptions for ${product.name}`} dir="ltr"><button className="modal-close" type="button" aria-label="Close description editor" disabled={busy} onClick={onClose}>×</button><h2>{product.name}</h2><form className="admin-form" onSubmit={submit}><DescriptionFields value={value} onChange={setValue} disabled={busy}/><button className="button primary" disabled={busy}>{busy?'Saving…':'Save descriptions'}</button>{error&&<p role="alert">{error}</p>}</form></section></div>;
+  return <div className="modal-backdrop"><section className="modal" role="dialog" aria-modal="true" aria-label={`Edit descriptions for ${product.name}`} dir="ltr"><button className="modal-close" type="button" aria-label="Close description editor" disabled={busy} onClick={onClose}><X size={20} aria-hidden="true" /></button><h2>{product.name}</h2><form className="admin-form" onSubmit={submit}><DescriptionFields value={value} onChange={setValue} disabled={busy}/><button className="button primary" disabled={busy}>{busy?'Saving…':'Save descriptions'}</button>{error&&<p role="alert">{error}</p>}</form></section></div>;
 }

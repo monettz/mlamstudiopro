@@ -5930,3 +5930,15 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
   .tailark-footer .tailark-input { flex: none; width: 100%; height: 48px; font-size: 16px; }
   .tailark-footer .tailark-btn { height: 48px; }
 }
+
+/* Icons from lucide-react placed inside text, buttons and links. */
+.ic { display: inline-block; flex: none; vertical-align: -0.18em; }
+.ic-after { margin-left: 0.4em; }
+.ic-before { margin-right: 0.4em; }
+.pp-chip-check { flex: none; color: #22c55e; }
+.modal-feature-check svg { display: block; }
+.product-detail-buy .ic-after, .product-detail-demo .ic-after { margin-left: 0; transition: transform 0.2s ease; }
+.product-detail-buy:hover .ic-after { transform: translateX(3px); }
+.pp-chip-check { color: #86efac; }
+/* Phone menu: solid, so page text never shows through behind the links. */
+.mn-mobile { background: #030a05 !important; }
