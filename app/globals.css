@@ -5791,3 +5791,142 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
   .help-section .help-card-title { font-size: 19px; }
   .help-section .help-card-btn { align-self: stretch !important; width: 100%; }
 }
+
+/* ========================================================
+   INFO PAGES: About, Licence, Privacy, Contact (components/ui/info-page)
+   ======================================================== */
+.info-page {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 72px 20px 96px;
+  color: #d6e5db;
+}
+.info-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 44px;
+  text-align: center;
+}
+.info-header .subpage-title { margin: 0; color: #ffffff; filter: none; text-shadow: none; }
+.info-header .subpage-subtitle { max-width: 620px; margin: 0; color: #a3bcaa; }
+.info-updated { margin: 0; color: #7d9585; font-size: 13px; }
+.info-body { display: grid; gap: 16px; }
+.info-section {
+  padding: 24px 26px;
+  border: 1px solid rgba(134, 239, 172, 0.14);
+  border-radius: 20px;
+  background: #0c1811;
+}
+.info-section h2 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+.info-section p { margin: 0 0 12px; color: #a3bcaa; font-size: 15px; line-height: 1.7; }
+.info-section p:last-child { margin-bottom: 0; }
+.info-section a { color: #4ade80; text-decoration: underline; text-underline-offset: 3px; }
+.info-section a:hover { color: #86efac; }
+.info-points { display: grid; gap: 10px; margin: 0 0 12px; padding: 0; list-style: none; }
+.info-points:last-child { margin-bottom: 0; }
+.info-points li {
+  position: relative;
+  padding-left: 22px;
+  color: #a3bcaa;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.info-points li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+.info-points strong { color: #ffffff; font-weight: 650; }
+.info-note { color: #7d9585 !important; font-size: 13.5px !important; }
+
+.info-product-list, .info-link-grid { display: grid; gap: 10px; margin: 0 0 12px; padding: 0; list-style: none; }
+.info-link-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
+.info-product-list a, .info-link-grid a {
+  display: grid;
+  gap: 3px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none !important;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.info-product-list a:hover, .info-link-grid a:hover { border-color: rgba(74, 222, 128, 0.4); background: rgba(74, 222, 128, 0.05); }
+.info-product-list strong, .info-link-grid strong { color: #ffffff; font-size: 15px; }
+.info-product-list span, .info-link-grid span { color: #a3bcaa; font-size: 13.5px; line-height: 1.5; }
+
+.info-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 12px; }
+.info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 1px solid #16a34a;
+  border-radius: 12px;
+  background: #16a34a;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+.info-btn:hover { background: #15803d; border-color: #15803d; }
+.info-btn.ghost { background: transparent; border-color: rgba(255, 255, 255, 0.2); }
+.info-btn.ghost:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.35); }
+.info-btn:focus-visible { outline: 2px solid #4ade80; outline-offset: 2px; }
+
+.info-contact-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(22, 163, 74, 0.14), rgba(12, 24, 17, 1) 60%);
+}
+.info-contact-label { display: block; margin-bottom: 4px; color: #4ade80; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.info-contact-email { display: inline-block; margin-bottom: 6px; color: #ffffff; font-size: 19px; font-weight: 700; overflow-wrap: anywhere; text-decoration: none; }
+.info-contact-email:hover { color: #86efac; }
+.info-contact-card p { margin: 0; color: #a3bcaa; font-size: 14px; line-height: 1.6; }
+
+@media (max-width: 640px) {
+  .info-page { padding: 44px 16px 72px; }
+  .info-header { margin-bottom: 30px; }
+  .info-section { padding: 20px 18px; border-radius: 18px; }
+  .info-link-grid { grid-template-columns: minmax(0, 1fr); }
+  .info-contact-card { flex-direction: column; align-items: stretch; padding: 22px 18px; }
+  .info-contact-email { font-size: 17px; }
+  .info-cta .info-btn { flex: 1 1 100%; }
+}
+
+/* Footer on phones: link groups side by side instead of one long column. */
+@media (max-width: 640px) {
+  .tailark-footer .tailark-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 28px 20px !important;
+  }
+  .tailark-footer .tailark-newsletter-col { grid-column: 1 / -1 !important; }
+  .tailark-footer .tailark-links { gap: 12px; }
+}
+@media (max-width: 640px) {
+  /* Stacked newsletter form: the email field keeps its height. */
+  .tailark-footer .tailark-form { gap: 10px; }
+  .tailark-footer .tailark-input { flex: none; width: 100%; height: 48px; font-size: 16px; }
+  .tailark-footer .tailark-btn { height: 48px; }
+}
