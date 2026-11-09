@@ -5711,3 +5711,83 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
   .adm-nav { flex-wrap: wrap; overflow: visible; }
   .adm-nav button { flex: 1 1 auto; justify-content: center; }
 }
+
+/* ========================================================
+   SUPPORT SECTION ("From install to first sound"): dark cards that
+   match the section, icon beside the title, one button style.
+   ======================================================== */
+.help-section .showcase-title { text-shadow: none; filter: none; }
+.help-section .help-grid { gap: 16px; }
+.help-section .help-card {
+  padding: 24px;
+  border-radius: 20px;
+  background: #0c1811;
+  border: 1px solid rgba(134, 239, 172, 0.14);
+  box-shadow: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.help-section .help-card:hover {
+  transform: none;
+  background: #0f1d15;
+  border-color: rgba(74, 222, 128, 0.35);
+  box-shadow: none;
+}
+.help-section .help-card-top {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.help-section .help-card-icon,
+.help-section .help-card:hover .help-card-icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  color: #4ade80;
+  transform: none;
+}
+.help-card-heading { display: grid; gap: 4px; min-width: 0; }
+.help-section .help-card-badge {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #4ade80;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.help-section .help-card-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.2;
+}
+.help-section .help-card-desc {
+  margin: 0 0 20px;
+  color: #a3bcaa;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.help-section .help-card-btn,
+.help-section .help-card-btn.primary {
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 12px;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 14px;
+  box-shadow: none;
+}
+.help-section .help-card-btn.primary:hover { background: #15803d; transform: none; box-shadow: none; }
+.help-section .help-card-btn:focus-visible { outline: 2px solid #4ade80; outline-offset: 2px; }
+@media (max-width: 768px) {
+  .help-section .help-card { padding: 20px 18px !important; }
+  .help-section .help-card-title { font-size: 19px; }
+  .help-section .help-card-btn { align-self: stretch !important; width: 100%; }
+}

@@ -401,11 +401,13 @@ export default function Storefront() {
                 <polyline points="22,6 12,13 2,6" />
               </svg>
             </div>
-            <span className="help-card-badge">Direct support</span>
+            <div className="help-card-heading">
+              <span className="help-card-badge">Direct support</span>
+              <h3 className="help-card-title">Contact support</h3>
+            </div>
           </div>
-          <h3 className="help-card-title">Contact support</h3>
           <p className="help-card-desc">Need help with setup, licensing or DAW compatibility? Talk directly to the MLAM team and get answers fast.</p>
-          <a className="help-card-btn ghost" href="mailto:melaninentertainment255@gmail.com">
+          <a className="help-card-btn primary" href="mailto:melaninentertainment255@gmail.com">
             <span>Contact support</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </a>
@@ -417,9 +419,11 @@ export default function Storefront() {
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
             </div>
-            <span className="help-card-badge">Learn with MLAM</span>
+            <div className="help-card-heading">
+              <span className="help-card-badge">Learn with MLAM</span>
+              <h3 className="help-card-title">How to use</h3>
+            </div>
           </div>
-          <h3 className="help-card-title">How to use</h3>
           <p className="help-card-desc">Watch video guides for every MLAM product, from your very first setup to mastering each control.</p>
           <Link className="help-card-btn primary" href="/tutorials">
             <span>Watch guides</span>
