@@ -1741,3 +1741,15 @@
 
 
 
+
+/* Back link is an arrow only; its name comes from aria-label */
+.account-access-utility a.account-store-return {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  font-size: 18px !important;
+  border-radius: 999px !important;
+}
