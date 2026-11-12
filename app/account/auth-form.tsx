@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState, type FormEvent } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../language-provider';
 import { authCopy } from '@/lib/auth-copy';
 import { accountLabels, accountContinueLabel } from '@/lib/account-labels';
@@ -357,7 +358,7 @@ export default function CustomerAuthForm({
 
           {created && (
             <a className="access-confirm-link" href={`/account/login?next=${encodeURIComponent(next)}`}>
-              {t('login')} →
+              {t('login')}<ArrowRight className="ic ic-after" size={16} aria-hidden="true" />
             </a>
           )}
 

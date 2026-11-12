@@ -5624,3 +5624,332 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
 }
 
 .admin-dev-hint span { color: #1f5f37; }
+/* ========================================================
+   Admin login form: light fields on the white card, a visible
+   error box and a show/hide password control.
+   ======================================================== */
+.admin-auth-card .admin-login-form { display: grid; gap: 8px; margin: 0; }
+.admin-auth-card .admin-login-form label {
+  margin-top: 8px;
+  color: #2f4a38;
+  font-size: 13px;
+  font-weight: 650;
+}
+.admin-auth-card .admin-login-form label:first-child { margin-top: 0; }
+.admin-auth-card .admin-login-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #d5e2d9;
+  border-radius: 12px;
+  background: #f6f9f7;
+  color: #0d2817;
+  font-size: 16px;
+  font-weight: 500;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.admin-auth-card .admin-login-form input::placeholder { color: #8aa094; font-weight: 400; }
+.admin-auth-card .admin-login-form input:focus {
+  outline: none;
+  border-color: #16a34a;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
+}
+.admin-auth-card .admin-login-form input[aria-invalid="true"] { border-color: #dc2626; }
+.admin-auth-card .admin-login-form input:disabled { opacity: .7; cursor: wait; }
+.admin-password-field { position: relative; }
+.admin-auth-card .admin-password-field input { padding-right: 52px; }
+.admin-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #4b6252;
+  cursor: pointer;
+}
+.admin-password-toggle:hover { color: #0d2817; background: rgba(13, 40, 23, .06); }
+.admin-password-toggle:focus-visible { outline: 2px solid #16a34a; outline-offset: 1px; }
+.admin-login-error {
+  margin: 6px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.admin-auth-card .admin-login-form .button.primary {
+  margin-top: 14px;
+  min-height: 50px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(22, 163, 74, .25);
+  cursor: pointer;
+}
+.admin-auth-card .admin-login-form .button.primary:hover:not(:disabled) { filter: brightness(1.05); }
+.admin-auth-card .admin-login-form .button.primary:disabled { opacity: .65; cursor: wait; }
+@media (max-width: 480px) {
+  .admin-login-page { padding: 28px 16px; }
+  .admin-auth-card { padding: 30px 20px; border-radius: 22px; }
+}
+
+/* Admin on phones: show every section instead of hiding most of them
+   in a horizontal strip with no scrollbar. */
+@media (max-width: 860px) {
+  .adm-nav { flex-wrap: wrap; overflow: visible; }
+  .adm-nav button { flex: 1 1 auto; justify-content: center; }
+}
+
+/* ========================================================
+   SUPPORT SECTION ("From install to first sound"): dark cards that
+   match the section, icon beside the title, one button style.
+   ======================================================== */
+.help-section .showcase-title { text-shadow: none; filter: none; }
+.help-section .help-grid { gap: 16px; }
+.help-section .help-card {
+  padding: 24px;
+  border-radius: 20px;
+  background: #0c1811;
+  border: 1px solid rgba(134, 239, 172, 0.14);
+  box-shadow: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.help-section .help-card:hover {
+  transform: none;
+  background: #0f1d15;
+  border-color: rgba(74, 222, 128, 0.35);
+  box-shadow: none;
+}
+.help-section .help-card-top {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.help-section .help-card-icon,
+.help-section .help-card:hover .help-card-icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  color: #4ade80;
+  transform: none;
+}
+.help-card-heading { display: grid; gap: 4px; min-width: 0; }
+.help-section .help-card-badge {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #4ade80;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.help-section .help-card-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.2;
+}
+.help-section .help-card-desc {
+  margin: 0 0 20px;
+  color: #a3bcaa;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.help-section .help-card-btn,
+.help-section .help-card-btn.primary {
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 12px;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 14px;
+  box-shadow: none;
+}
+.help-section .help-card-btn.primary:hover { background: #15803d; transform: none; box-shadow: none; }
+.help-section .help-card-btn:focus-visible { outline: 2px solid #4ade80; outline-offset: 2px; }
+@media (max-width: 768px) {
+  .help-section .help-card { padding: 20px 18px !important; }
+  .help-section .help-card-title { font-size: 19px; }
+  .help-section .help-card-btn { align-self: stretch !important; width: 100%; }
+}
+
+/* ========================================================
+   INFO PAGES: About, Licence, Privacy, Contact (components/ui/info-page)
+   ======================================================== */
+.info-page {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 72px 20px 96px;
+  color: #d6e5db;
+}
+.info-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 44px;
+  text-align: center;
+}
+.info-header .subpage-title { margin: 0; color: #ffffff; filter: none; text-shadow: none; }
+.info-header .subpage-subtitle { max-width: 620px; margin: 0; color: #a3bcaa; }
+.info-updated { margin: 0; color: #7d9585; font-size: 13px; }
+.info-body { display: grid; gap: 16px; }
+.info-section {
+  padding: 24px 26px;
+  border: 1px solid rgba(134, 239, 172, 0.14);
+  border-radius: 20px;
+  background: #0c1811;
+}
+.info-section h2 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+.info-section p { margin: 0 0 12px; color: #a3bcaa; font-size: 15px; line-height: 1.7; }
+.info-section p:last-child { margin-bottom: 0; }
+.info-section a { color: #4ade80; text-decoration: underline; text-underline-offset: 3px; }
+.info-section a:hover { color: #86efac; }
+.info-points { display: grid; gap: 10px; margin: 0 0 12px; padding: 0; list-style: none; }
+.info-points:last-child { margin-bottom: 0; }
+.info-points li {
+  position: relative;
+  padding-left: 22px;
+  color: #a3bcaa;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.info-points li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+.info-points strong { color: #ffffff; font-weight: 650; }
+.info-note { color: #7d9585 !important; font-size: 13.5px !important; }
+
+.info-product-list, .info-link-grid { display: grid; gap: 10px; margin: 0 0 12px; padding: 0; list-style: none; }
+.info-link-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
+.info-product-list a, .info-link-grid a {
+  display: grid;
+  gap: 3px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none !important;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.info-product-list a:hover, .info-link-grid a:hover { border-color: rgba(74, 222, 128, 0.4); background: rgba(74, 222, 128, 0.05); }
+.info-product-list strong, .info-link-grid strong { color: #ffffff; font-size: 15px; }
+.info-product-list span, .info-link-grid span { color: #a3bcaa; font-size: 13.5px; line-height: 1.5; }
+
+.info-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 12px; }
+.info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 1px solid #16a34a;
+  border-radius: 12px;
+  background: #16a34a;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+.info-btn:hover { background: #15803d; border-color: #15803d; }
+.info-btn.ghost { background: transparent; border-color: rgba(255, 255, 255, 0.2); }
+.info-btn.ghost:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.35); }
+.info-btn:focus-visible { outline: 2px solid #4ade80; outline-offset: 2px; }
+
+.info-contact-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(22, 163, 74, 0.14), rgba(12, 24, 17, 1) 60%);
+}
+.info-contact-label { display: block; margin-bottom: 4px; color: #4ade80; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.info-contact-email { display: inline-block; margin-bottom: 6px; color: #ffffff; font-size: 19px; font-weight: 700; overflow-wrap: anywhere; text-decoration: none; }
+.info-contact-email:hover { color: #86efac; }
+.info-contact-card p { margin: 0; color: #a3bcaa; font-size: 14px; line-height: 1.6; }
+
+@media (max-width: 640px) {
+  .info-page { padding: 44px 16px 72px; }
+  .info-header { margin-bottom: 30px; }
+  .info-section { padding: 20px 18px; border-radius: 18px; }
+  .info-link-grid { grid-template-columns: minmax(0, 1fr); }
+  .info-contact-card { flex-direction: column; align-items: stretch; padding: 22px 18px; }
+  .info-contact-email { font-size: 17px; }
+  .info-cta .info-btn { flex: 1 1 100%; }
+}
+
+/* Footer on phones: link groups side by side instead of one long column. */
+@media (max-width: 640px) {
+  .tailark-footer .tailark-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 28px 20px !important;
+  }
+  .tailark-footer .tailark-newsletter-col { grid-column: 1 / -1 !important; }
+  .tailark-footer .tailark-links { gap: 12px; }
+}
+@media (max-width: 640px) {
+  /* Stacked newsletter form: the email field keeps its height. */
+  .tailark-footer .tailark-form { gap: 10px; }
+  .tailark-footer .tailark-input { flex: none; width: 100%; height: 48px; font-size: 16px; }
+  .tailark-footer .tailark-btn { height: 48px; }
+}
+
+/* Icons from lucide-react placed inside text, buttons and links. */
+.ic { display: inline-block; flex: none; vertical-align: -0.18em; }
+.ic-after { margin-left: 0.4em; }
+.ic-before { margin-right: 0.4em; }
+.pp-chip-check { flex: none; color: #22c55e; }
+.modal-feature-check svg { display: block; }
+.product-detail-buy .ic-after, .product-detail-demo .ic-after { margin-left: 0; transition: transform 0.2s ease; }
+.product-detail-buy:hover .ic-after { transform: translateX(3px); }
+.pp-chip-check { color: #86efac; }
+/* Phone menu: solid, so page text never shows through behind the links. */
+.mn-mobile { background: #030a05 !important; }
+
+/* Scroll animation (app/scroll-reveal.tsx): a short fade and rise, once. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-revealed { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

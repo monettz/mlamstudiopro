@@ -8,6 +8,7 @@ import { accountLabels } from '@/lib/account-labels';
 import AccountIcon from './icons';
 import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
+import PanelModeSwitch from '@/components/ui/panel-mode-switch';
 import type { CustomerLicenseItem, CustomerOrderItem } from './page';
 
 interface AccountPanelProps {
@@ -94,7 +95,7 @@ export default function AccountPanel({
       link.remove();
       setTimeout(() => URL.revokeObjectURL(url), 60000);
       setDownloadStatus({
-        message: `✓ Download started for ${lic.product_name || 'plugin'}. Check your browser downloads!`,
+        message: `Download started for ${lic.product_name || 'plugin'}. Check your browser downloads!`,
         type: 'success',
       });
     } catch (err) {
@@ -174,6 +175,8 @@ export default function AccountPanel({
                 {t('guides')}
               </Link>
             </nav>
+
+            <PanelModeSwitch className="customer-mode-switch" />
 
             <button
               className="customer-signout"
@@ -419,15 +422,15 @@ export default function AccountPanel({
 
                         return (
                           <tr key={ord.id}>
-                            <td className="order-date">{dateFormatted}</td>
-                            <td className="order-product">
+                            <td className="order-date" data-label="Date">{dateFormatted}</td>
+                            <td className="order-product" data-label="Product">
                               <strong>{ord.product_name || 'MLAM Audio Product'}</strong>
                             </td>
-                            <td className="order-amount">{amountFormatted}</td>
-                            <td className="order-ref">
+                            <td className="order-amount" data-label="Amount">{amountFormatted}</td>
+                            <td className="order-ref" data-label="Reference">
                               <code>{ord.provider_ref ? ord.provider_ref.slice(0, 14) + '...' : ord.id.slice(0, 8)}</code>
                             </td>
-                            <td>
+                            <td data-label="Status">
                               <span className={`order-status-badge ${ord.status}`}>
                                 {ord.status === 'completed' || ord.status === 'paid' ? 'Paid' : ord.status}
                               </span>

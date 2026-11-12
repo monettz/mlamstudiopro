@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Download } from 'lucide-react';
 import { useLanguage } from "@/app/language-provider";
 import ProductDescription from "@/app/product-description";
 
@@ -62,7 +63,7 @@ export default function ProductCard({ product, highlight, demoId, onBuy }: Props
               <>
                 <button className="pcard-btn primary" type="button" onClick={onBuy}>{t("buy")}</button>
                 {demoId && (
-                  <a className="pcard-btn ghost" href={`/api/demos/${demoId}/download`}>{t("tryDemo")} ↓</a>
+                  <a className="pcard-btn ghost" href={`/api/demos/${demoId}/download`}>{t("tryDemo")}<Download className="ic ic-after" size={16} aria-hidden="true" /></a>
                 )}
               </>
             ) : (

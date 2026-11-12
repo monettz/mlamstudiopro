@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { ArrowUpRight } from 'lucide-react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/app/language-provider";
@@ -138,7 +139,7 @@ export default function ModernNav({ activeTab, overlay = false }: ModernNavProps
               </Link>
             ))}
             <Link className="mn-mobile-cta" href="/account" onClick={() => setMenuOpen(false)}>
-              {t("account") || "Account"} ↗
+              {t("account") || "Account"}<ArrowUpRight className="ic ic-after" size={16} aria-hidden="true" />
             </Link>
           </div>
         </div>

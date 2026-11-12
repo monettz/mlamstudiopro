@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Check } from 'lucide-react';
 import Link from "next/link";
 import { useLanguage } from "@/app/language-provider";
 import { languageOptions } from "@/lib/languages";
@@ -72,11 +73,10 @@ export default function ModernFooter() {
           <div className="tailark-col">
             <h4 className="tailark-heading">Product</h4>
             <ul className="tailark-links">
-              <li><Link href="/#plugins">Features</Link></li>
-              <li><Link href="/#voice-midi">Voice MIDI</Link></li>
-              <li><Link href="/#plugins">Bushman Bass</Link></li>
-              <li><Link href="/#plugins">MLAM DAW</Link></li>
-              <li><Link href="/#plugins">Sound Library</Link></li>
+              <li><Link href="/plugins">All plugins</Link></li>
+              <li><Link href="/plugins/voice-midi">Voice MIDI</Link></li>
+              <li><Link href="/plugins/bushman-bass">Bushman Bass</Link></li>
+              <li><Link href="/plugins/mlam-daw">MLAM DAW</Link></li>
             </ul>
           </div>
 
@@ -86,8 +86,8 @@ export default function ModernFooter() {
             <ul className="tailark-links">
               <li><Link href="/tutorials">Tutorials & Guides</Link></li>
               <li><Link href="/downloads">Customer Downloads</Link></li>
-              <li><Link href="/tutorials">Documentation</Link></li>
-              <li><Link href="/#support">Support Hub</Link></li>
+              <li><Link href="/account">My account</Link></li>
+              <li><Link href="/contact">Support Hub</Link></li>
             </ul>
           </div>
 
@@ -95,10 +95,10 @@ export default function ModernFooter() {
           <div className="tailark-col">
             <h4 className="tailark-heading">Company</h4>
             <ul className="tailark-links">
-              <li><Link href="/#support">About MLAM</Link></li>
-              <li><Link href="/downloads">Licence</Link></li>
-              <li><Link href="/#support">Privacy</Link></li>
-              <li><a href="mailto:melaninentertainment255@gmail.com">Contact</a></li>
+              <li><Link href="/about">About MLAM</Link></li>
+              <li><Link href="/licence">Licence</Link></li>
+              <li><Link href="/privacy">Privacy</Link></li>
+              <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
 
@@ -107,7 +107,7 @@ export default function ModernFooter() {
             <h4 className="tailark-heading">Subscribe to our newsletter</h4>
             {subscribed ? (
               <div className="tailark-subscribed-msg">
-                ✓ Thank you for subscribing!
+                <Check className="ic ic-before" size={16} aria-hidden="true" />Thank you for subscribing!
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="tailark-form">

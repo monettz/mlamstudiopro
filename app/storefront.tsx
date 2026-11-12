@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, Check, Download, X } from 'lucide-react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLanguage } from './language-provider';
@@ -193,7 +194,7 @@ export default function Storefront() {
         { label: t('guides'), href: '/tutorials' },
         { label: t('downloads'), href: '/downloads' }
       ]}
-      navCta={{ label: `${t('account')} ↗`, href: "/account" }}
+      navCta={{ label: t('account'), href: "/account" }}
       height="94svh"
     />
 
@@ -401,11 +402,13 @@ export default function Storefront() {
                 <polyline points="22,6 12,13 2,6" />
               </svg>
             </div>
-            <span className="help-card-badge">Direct support</span>
+            <div className="help-card-heading">
+              <span className="help-card-badge">Direct support</span>
+              <h3 className="help-card-title">Contact support</h3>
+            </div>
           </div>
-          <h3 className="help-card-title">Contact support</h3>
           <p className="help-card-desc">Need help with setup, licensing or DAW compatibility? Talk directly to the MLAM team and get answers fast.</p>
-          <a className="help-card-btn ghost" href="mailto:melaninentertainment255@gmail.com">
+          <a className="help-card-btn primary" href="mailto:melaninentertainment255@gmail.com">
             <span>Contact support</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
           </a>
@@ -417,9 +420,11 @@ export default function Storefront() {
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
             </div>
-            <span className="help-card-badge">Learn with MLAM</span>
+            <div className="help-card-heading">
+              <span className="help-card-badge">Learn with MLAM</span>
+              <h3 className="help-card-title">How to use</h3>
+            </div>
           </div>
-          <h3 className="help-card-title">How to use</h3>
           <p className="help-card-desc">Watch video guides for every MLAM product, from your very first setup to mastering each control.</p>
           <Link className="help-card-btn primary" href="/tutorials">
             <span>Watch guides</span>
@@ -433,7 +438,7 @@ export default function Storefront() {
     {selected && (
       <div className="modal-backdrop" onClick={() => setSelected(null)}>
         <div className="modal" role="dialog" aria-modal="true" aria-label={selected.name} onClick={(event) => event.stopPropagation()}>
-          <button className="modal-close" aria-label="Close product details" onClick={() => setSelected(null)}>×</button>
+          <button className="modal-close" aria-label="Close product details" onClick={() => setSelected(null)}><X size={20} aria-hidden="true" /></button>
 
           {/* Left Side: Hardware Preview Chassis */}
           <div className="modal-visual-side">
@@ -466,7 +471,7 @@ export default function Storefront() {
             <ul className="modal-features">
               {featureList(selected.features).map((feature) => (
                 <li key={feature} className="modal-feature-item">
-                  <span className="modal-feature-check">✓</span>
+                  <span className="modal-feature-check"><Check size={11} strokeWidth={3.5} aria-hidden="true" /></span>
                   <span>{feature}</span>
                 </li>
               ))}
@@ -495,7 +500,7 @@ export default function Storefront() {
 
               {demoFor(selected) ? (
                 <a className="modal-demo-btn" href={`/api/demos/${demoFor(selected)!.id}/download`}>
-                  {t('tryDemo')} ↓
+                  {t('tryDemo')}<Download className="ic ic-after" size={16} aria-hidden="true" />
                 </a>
               ) : (
                 <button className="modal-demo-btn" disabled>
@@ -506,12 +511,12 @@ export default function Storefront() {
 
             {selected.status === "published" && (
               <Link className="modal-secondary-link" href="/downloads">
-                {t('licensedDownload')} ↓
+                {t('licensedDownload')}<Download className="ic ic-after" size={16} aria-hidden="true" />
               </Link>
             )}
 
             <Link className="modal-secondary-link" href={`/plugins/${encodeURIComponent(selected.slug || selected.id)}`}>
-              Full product page →
+              Full product page<ArrowRight className="ic ic-after" size={16} aria-hidden="true" />
             </Link>
 
             {demoFor(selected)?.notes && (

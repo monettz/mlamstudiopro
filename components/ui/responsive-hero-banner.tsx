@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '@/app/language-provider';
 import { languageOptions } from '@/lib/languages';
 import RotatingLogo from '@/app/rotating-logo';
@@ -201,7 +202,7 @@ const ResponsiveHeroBanner: React.FC<ResponsiveHeroBannerProps> = ({
                                 style={{ color: '#09090b', backgroundColor: '#ffffff' }}
                                 className="block text-center mt-3 w-full rounded-full px-4 py-2.5 text-sm font-bold shadow-md hover:bg-neutral-100"
                             >
-                                <span style={{ color: '#09090b' }}>{ctaButtonText} ↗</span>
+                                <span style={{ color: '#09090b' }}>{ctaButtonText}<ArrowUpRight className="ic ic-after" size={16} aria-hidden="true" /></span>
                             </a>
                         </div>
                     )}

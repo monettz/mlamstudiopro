@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import { Check } from 'lucide-react';
 import { database, ensureStore, type Product } from '@/lib/store';
 import CheckoutForm from './checkout-form';
@@ -22,7 +23,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
         {product ? (
           <section className="checkout-layout" aria-labelledby="checkout-title">
             <div className="checkout-main-panel">
-              <Link className="checkout-back" href={`/plugins/${encodeURIComponent(product.slug || product.id)}`}>← Back to {product.name}</Link>
+              <Link className="checkout-back" href={`/plugins/${encodeURIComponent(product.slug || product.id)}`}><ArrowLeft className="ic ic-before" size={16} aria-hidden="true" />Back to {product.name}</Link>
               <h1 id="checkout-title" className="checkout-title">Checkout</h1>
               <p className="checkout-intro">Two quick steps: your details, then how you want to pay.</p>
 

@@ -6,13 +6,18 @@ No account purchase, domain registration, remote server write, payment capture o
 
 This project now has a Render Blueprint (`render.yaml`) and a start command that keeps local use on `127.0.0.1:4180` but binds to Render's public port when deployed. Render will host both the frontend and backend in one Node service.
 
-The Blueprint specifies a paid Starter service and a 10 GB persistent disk. **The local config file does not create anything or charge you.** Applying it in Render starts billable resources, so review and approve the current price there before confirming. A free instance cannot attach the disk this app needs.
+The Blueprint uses Render's **free** web service. **The local config file does not create anything or charge you.**
 
-The disk stores the SQLite database and uploaded ZIPs, images and tutorials under `/var/data/mlam`. It is a finite 10 GB starting space, not unlimited storage. Cloudflare R2 is not connected to this app yet; switching to it requires implementing and testing a storage adapter and migrating files.
+Free-plan limits to know:
+- **No persistent disk.** Local files are wiped on every restart, deploy and wake-up. `DATABASE_URL` (Supabase Postgres) and all four `R2_*` variables are therefore **required**; without them the database and uploads disappear. The server log warns at startup when either is missing.
+- **Sleeps after 15 minutes without visitors.** The next visitor waits about a minute while it wakes up.
+- Limited monthly free hours and a small memory allowance. Upgrade the plan in Render if the site outgrows them.
 
-1. This folder is not connected to a Git repository yet. Create a private GitHub repository and upload the project without `.env.local`, `.env`, `data/`, `node_modules/` or `.next/`.
+On a paid plan with a disk added, and without `DATABASE_URL` and R2, the disk stores the SQLite database and uploaded ZIPs, images and tutorials under `/var/data/mlam` (a finite 10 GB starting space). With `DATABASE_URL` set (Supabase Postgres, see `SUPABASE-SETUP.md`) and all four `R2_*` variables set (see `R2-SETUP.md`), data and files live outside the server instead.
+
+1. The code is on GitHub (`monettz/mlamstudiopro`). Render builds it with `npm ci && npm run build` and starts it with `npm start`.
 2. In Render, create a Blueprint from that repository and review the paid service and persistent disk before applying it. Render will provide a temporary public `onrender.com` address. Customers see your website and its address—not the hosting dashboard.
-3. In Render's private environment settings, set `MLAM_ORIGIN` to that exact HTTPS address, and enter the real Supabase project URL, publishable key, and `MLAM_ADMIN_EMAIL`. **Never add a Supabase secret/service-role key.**
+3. In Render's private environment settings, set `MLAM_ORIGIN` to that exact HTTPS address, and enter the real Supabase project URL, publishable key, `MLAM_ADMIN_EMAIL` and (when using Supabase Postgres) `DATABASE_URL`. R2 and Resend variables are optional. **Never add a Supabase secret/service-role key.**
 4. Add that production address and its `/auth/callback` (and `/auth/confirm` when used) to Supabase Auth → URL Configuration. The currently saved `127.0.0.1:4180` address is only for this computer and will not authenticate production customers.
 5. Test customer login, owner Admin login, image/video uploads, ZIP upload/download and persistence after redeploy. Set up backups before adding real products. A custom domain can be connected later; it is not required for this first test.
 6. Finish the payment-provider integration and release gates in `README.md` before advertising paid purchases. The current checkout does not yet process live payments.

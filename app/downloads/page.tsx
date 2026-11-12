@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { Download } from 'lucide-react';
 
 import ModernNav from "@/components/ui/modern-nav";
 import ModernFooter from "@/components/ui/modern-footer";
@@ -76,7 +77,7 @@ export default function DownloadsPage() {
                 className="download-text-input"
               />
               <button className="download-submit-btn" type="submit" disabled={busy}>
-                {busy ? "Preparing…" : "Download ZIP ↓"}
+                {busy ? "Preparing…" : <>Download ZIP<Download className="ic ic-after" size={16} aria-hidden="true" /></>}
               </button>
             </div>
           </form>
