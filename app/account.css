@@ -7,11 +7,11 @@
   min-height: 100vh;
   margin: 0;
   padding: 40px 20px 60px;
-  background-color: #000000;
+  background-color: #141414;
   background-image:
     radial-gradient(circle at 50% 0%, rgba(81, 81, 81, 0.22) 0%, transparent 60%),
     radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-    linear-gradient(180deg, #000000 0%, #000000 50%, #000000 100%);
+    linear-gradient(180deg, #141414 0%, #141414 50%, #141414 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -102,7 +102,7 @@
   font-size: 38px;
   font-weight: 400;
   line-height: 1.1;
-  color: #1d1d1f;
+  color: #232325;
   margin: 0 0 8px;
   letter-spacing: -0.015em;
 }
@@ -140,7 +140,7 @@
 
 .access-mode-tabs a[aria-current="page"] {
   background: #ffffff;
-  color: #1d1d1f;
+  color: #232325;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -171,7 +171,7 @@
   border-radius: 12px;
   border: 1.5px solid #e2e2e2;
   background: #f8faf9;
-  color: #1d1d1f;
+  color: #232325;
   font-size: 15px;
   font-family: inherit;
   outline: none;
@@ -355,11 +355,11 @@
 
 .mlam-account-page {
   min-height: calc(100vh - 120px);
-  background-color: #000000;
+  background-color: #141414;
   background-image:
     radial-gradient(circle at 50% 0%, rgba(81, 81, 81, 0.18) 0%, transparent 60%),
     radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
-    linear-gradient(180deg, #000000 0%, #000000 50%, #000000 100%);
+    linear-gradient(180deg, #141414 0%, #141414 50%, #141414 100%);
   color: #f5f5f7;
   padding: 40px 24px 80px;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -778,7 +778,7 @@
   height: 76px;
   border-radius: 16px;
   overflow: hidden;
-  background: #000000;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
   flex-shrink: 0;
@@ -887,7 +887,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #000000;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 12px;
   padding: 6px 10px 6px 14px;
@@ -1221,7 +1221,7 @@
   flex-direction: row !important;
   align-items: stretch !important;
   justify-content: stretch !important;
-  background: #000000 !important;
+  background: #141414 !important;
   color: #f5f5f7 !important;
   position: relative !important;
   overflow-x: hidden !important;
@@ -1250,7 +1250,7 @@
   height: 100vh !important;
   position: sticky !important;
   top: 0 !important;
-  background-color: #000000 !important;
+  background-color: #141414 !important;
   background-image:
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18) 0%, transparent 65%),
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
@@ -1307,7 +1307,7 @@
   background:
     radial-gradient(circle at 80% 20%, rgba(81, 81, 81, 0.28) 0%, transparent 60%),
     radial-gradient(circle at 20% 85%, rgba(255, 255, 255, 0.12) 0%, transparent 55%),
-    linear-gradient(180deg, #000000 0%, #000000 50%, #000000 100%) !important;
+    linear-gradient(180deg, #141414 0%, #141414 50%, #141414 100%) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -1381,7 +1381,7 @@
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
   font-size: 20px !important;
   font-weight: 700 !important;
-  color: #1d1d1f !important;
+  color: #232325 !important;
   margin: 0 0 24px 0 !important;
   padding-bottom: 20px !important;
   border-bottom: 1px solid #f0f0f0 !important;
@@ -1430,7 +1430,7 @@
   border-radius: 12px !important;
   background: #f8faf9 !important;
   font-size: 16px !important;
-  color: #1d1d1f !important;
+  color: #232325 !important;
   box-sizing: border-box !important;
   outline: none !important;
   transition: border-color 0.18s, box-shadow 0.18s, background-color 0.18s !important;
@@ -1683,7 +1683,7 @@
 }
 
 .account-access-utility .language-control select {
-  background: #000000 !important;
+  background: #141414 !important;
   color: #f8f8f8 !important;
   border: 1px solid #3a3a3a !important;
   border-radius: 6px !important;
@@ -1945,7 +1945,7 @@
 /* ---------- Glass mode: frosted panels over soft green light ---------- */
 html[data-panel-mode="glass"] .mlam-account-page,
 html[data-panel-mode="glass"] .adm-shell {
-  background-color: #000000;
+  background-color: #141414;
   background-image:
     radial-gradient(38% 32% at 12% 14%, rgba(255, 255, 255, 0.34), transparent 70%),
     radial-gradient(34% 30% at 90% 10%, rgba(145, 145, 145, 0.26), transparent 70%),
@@ -1994,20 +1994,20 @@ html[data-panel-mode="glass"] .adm-search {
 html[data-panel-mode="glass"] .panel-mode-switch { background: rgba(0, 0, 0, 0.22); border-color: rgba(255, 255, 255, 0.1); }
 
 /* ---------- Solid mode: opaque, flat panels ---------- */
-html[data-panel-mode="solid"] .mlam-account-page { background: #000000; }
+html[data-panel-mode="solid"] .mlam-account-page { background: #141414; }
 html[data-panel-mode="solid"] .customer-account-sidebar,
 html[data-panel-mode="solid"] .customer-profile-card,
 html[data-panel-mode="solid"] .customer-library-card,
 html[data-panel-mode="solid"] .customer-orders-card,
 html[data-panel-mode="solid"] .customer-account-links a {
-  background: #000000;
+  background: #141414;
   border-color: rgba(255, 255, 255, 0.12);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   box-shadow: none;
 }
 html[data-panel-mode="solid"] .customer-profile-card dl > div,
-html[data-panel-mode="solid"] .license-card { background: #1d1d1f; }
+html[data-panel-mode="solid"] .license-card { background: #232325; }
 
 @media (prefers-reduced-transparency: reduce) {
   html[data-panel-mode="glass"] .customer-account-sidebar,
@@ -2016,7 +2016,7 @@ html[data-panel-mode="solid"] .license-card { background: #1d1d1f; }
   html[data-panel-mode="glass"] .customer-orders-card,
   html[data-panel-mode="glass"] .adm-shell .admin-card,
   html[data-panel-mode="glass"] .adm-kpi,
-  html[data-panel-mode="glass"] .adm-sidebar { background: #1d1d1f; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  html[data-panel-mode="glass"] .adm-sidebar { background: #232325; backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 @media (max-width: 860px) {
   .adm-sidebar-foot { flex-wrap: wrap; gap: 6px; }
@@ -2080,7 +2080,7 @@ html[data-panel-mode="solid"] .license-card { background: #1d1d1f; }
     font-size: 16px !important;
     font-weight: 600 !important;
   }
-  .account-access-utility .language-control select option { color: #1d1d1f; background: #ffffff; }
+  .account-access-utility .language-control select option { color: #232325; background: #ffffff; }
 
   /* Shorter logo area. */
   .auth-exact-photo-column {
@@ -2174,13 +2174,13 @@ html[data-panel-mode="solid"] .license-card { background: #1d1d1f; }
     font-size: 13px !important;
     font-weight: 600 !important;
   }
-  .account-access-utility .language-control select option { color: #1d1d1f; background: #ffffff; }
+  .account-access-utility .language-control select option { color: #232325; background: #ffffff; }
 }
 
 /* ========================================================
    AUTH PAGES — LIGHT THEME (customer login/register + admin)
    Off-white page like the homepage hero (#f6f8f6); the form card
-   uses the footer colour (#000000) with light text.
+   uses the footer colour (#141414) with light text.
    ======================================================== */
 .auth-exact-split-page {
   background: #f6f8f6 !important;
@@ -2237,7 +2237,7 @@ html[data-panel-mode="solid"] .license-card { background: #1d1d1f; }
 
 /* The card: footer colour. */
 .auth-exact-split-page .auth-exact-card {
-  background: #000000 !important;
+  background: #141414 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.12) !important;
   color: #f5f5f7 !important;
@@ -2266,7 +2266,7 @@ html[data-panel-mode="solid"] .license-card { background: #1d1d1f; }
 .auth-exact-split-page .auth-exact-input:-webkit-autofill,
 .auth-exact-split-page .admin-auth-card .admin-login-form input:-webkit-autofill {
   -webkit-text-fill-color: #ffffff !important;
-  -webkit-box-shadow: 0 0 0 1000px #1d1d1f inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #232325 inset !important;
   caret-color: #ffffff;
 }
 .auth-exact-split-page .auth-exact-eye-btn,
@@ -2313,7 +2313,7 @@ html[data-panel-mode="solid"] .license-card { background: #1d1d1f; }
 
 /* Calmer auth pages: no glow around the card, the buttons or the logo. */
 .auth-exact-split-page .auth-exact-card {
-  border: 1px solid #1d1d1f !important;
+  border: 1px solid #232325 !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08) !important;
 }
 .auth-exact-split-page .auth-exact-submit-btn,

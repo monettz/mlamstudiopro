@@ -1122,7 +1122,7 @@ const DEFAULTS = {
   mobileSrc: "/logo-mark-black-512.png",
   mobileDarkSrc: "/logo-mark-black-512.png",
   imageAlt: "BLACK-XPACE 3D Logo",
-  imageBackground: "#000000",
+  imageBackground: "#141414",
   brand: "BLACK-XPACE",
   navLinks: [
     { label: "Work", href: "#" },
@@ -1229,7 +1229,7 @@ const CSS = `
 .sh-capsule-item:hover{color:#ffffff;background:rgba(255,255,255,0.08)}
 .sh-capsule-item.active{color:#ffffff;font-weight:600}
 .sh-capsule-cta{display:inline-flex;align-items:center;gap:6px;margin-left:14px;padding:8px 20px;border-radius:9999px;
-  background:#ffffff;color:#000000!important;font-size:13px;font-weight:700;letter-spacing:-0.01em;
+  background:#ffffff;color:#141414!important;font-size:13px;font-weight:700;letter-spacing:-0.01em;
   text-decoration:none;white-space:nowrap;transition:all .2s cubic-bezier(.2,.7,.2,1);box-shadow:0 2px 10px rgba(0,0,0,0.25)}
 .sh-capsule-cta:hover{background:#f0f0f0;transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,255,255,0.2)}
 .sh-nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -1281,7 +1281,7 @@ const CSS = `
   font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:all .2s ease}
 .sh-mobile-item:hover,.sh-mobile-item.active{background:rgba(255, 255, 255,0.12);border-color:rgba(255, 255, 255,0.35);color:#ffffff}
 .sh-mobile-cta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;padding:16px 24px;
-  border-radius:9999px;background:#ffffff;color:#000000!important;font-size:15px;font-weight:700;
+  border-radius:9999px;background:#ffffff;color:#141414!important;font-size:15px;font-weight:700;
   text-decoration:none;box-shadow:0 4px 20px rgba(255,255,255,0.2);transition:all .2s ease}
 @media (max-width:860px){
   .sh-capsule{display:none!important}

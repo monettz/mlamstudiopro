@@ -86,16 +86,16 @@ const ResponsiveHeroBanner: React.FC<ResponsiveHeroBannerProps> = ({
     const { language, setLanguage } = useLanguage();
 
     return (
-        <section className="w-full isolate min-h-screen overflow-hidden relative bg-[#000000]">
+        <section className="w-full isolate min-h-screen overflow-hidden relative bg-[#141414]">
             {/* Deep Studio Emerald + Obsidian Black Atmospheric Background */}
             <div className="absolute inset-0 pointer-events-none select-none overflow-hidden -z-10">
                 {/* Base Deep Emerald Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1d1d1f] via-[#000000] to-[#000000]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#232325] via-[#141414] to-[#141414]" />
                 
                 {/* Atmospheric Emerald Light Orbs (blended smoothly with black) */}
                 <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[950px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(40, 40, 40,0.6)_0%,rgba(0, 0, 0,0.25)_45%,transparent_70%)] blur-2xl" />
                 <div className="absolute top-1/4 right-[5%] w-[650px] h-[650px] bg-[radial-gradient(circle_at_center,rgba(39, 39, 39,0.65)_0%,rgba(0, 0, 0,0.2)_50%,transparent_70%)] blur-3xl" />
-                <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#000000] to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#141414] to-transparent" />
                 
                 {/* Subtle Studio Acoustic Micro-Grid Texture */}
                 <div 

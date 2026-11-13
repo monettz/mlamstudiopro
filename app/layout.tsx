@@ -7,7 +7,7 @@ import { validLanguage,languageDirection } from '@/lib/languages';
 import LanguageProvider from './language-provider';
 import ScrollReveal from './scroll-reveal';
 
-export const viewport: Viewport = { themeColor: "#000000", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#141414", colorScheme: "dark" };
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.MLAM_ORIGIN || 'http://127.0.0.1:4180'),
