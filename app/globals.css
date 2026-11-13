@@ -6020,3 +6020,30 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
   font-size: clamp(28px, 3.4vw, 46px);
   line-height: 1.05;
 }
+
+/* Homepage hero: muted studio video fills the whole hero behind the text. */
+.hero-video .sh-stage { padding: 0; }
+.hero-video .hero-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+/* Darken the video so the white headline and buttons stay readable. */
+.hero-video .sh-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.45) 0%, rgba(20, 20, 20, 0.35) 45%, rgba(20, 20, 20, 0.85) 100%);
+}
+.hero-video .sh-accent { color: #ffffff !important; }
+.hero-video .sh-btn { background: #ffffff; color: #141414; }
+.hero-video .sh-btn:hover { background: #e8e8e8; }
+.hero-video .sh-txt { border-color: rgba(255, 255, 255, 0.55); color: #ffffff; }
+.hero-video .sh-txt:hover { background: rgba(255, 255, 255, 0.12); border-color: #ffffff; color: #ffffff; }
+body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color: #ffffff; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-video .hero-bg-video { display: none; }
+}

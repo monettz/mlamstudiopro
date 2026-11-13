@@ -9,7 +9,6 @@ import ProductDescription from './product-description';
 import SculptureHero from '@/components/ui/liquid-sculpture-hero';
 import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
-import RotatingLogo from './rotating-logo';
 import ProductCard, { type ProductCardProduct } from '@/components/ui/product-card';
 import FaqSection from '@/components/ui/faq-section';
 
@@ -157,10 +156,10 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
     <SculptureHero
       showNav={false}
       theme="dark"
-      darkBackground="#f6f8f6"
-      className="hero-light"
-      textColor="#141414"
-      accentColor="#141414"
+      darkBackground="#141414"
+      className="hero-light hero-video"
+      textColor="#ffffff"
+      accentColor="#ffffff"
       backdropText=""
       src="/logo-mark-black-512.png"
       darkSrc="/logo-mark-black-512.png"
@@ -172,7 +171,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       strength={0}
       turbulence={0}
       ambient={false}
-      centerNode={<RotatingLogo />}
+      centerNode={<video className="hero-bg-video" src="/videos/hero-studio.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" />}
       brandNode={
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', color: '#ffffff' }}>
           <img
