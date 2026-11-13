@@ -4,7 +4,7 @@ import InfoPage, { InfoSection } from '@/components/ui/info-page';
 import { SITE_LOCATION, SUPPORT_EMAIL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contact & Support — MLAM Studio Pro',
+  title: 'Contact & Support — BLACK-XPACE',
   description: 'Get help with installing MLAM plugins, licence keys, downloads and DAW compatibility.',
 };
 

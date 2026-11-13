@@ -32,7 +32,7 @@ export function licenseEmail({ productName, licenseKey, maxDownloads, origin = s
   return {
     subject: `Your ${productName} license key`,
     text: [
-      `Thank you for buying ${productName} from MLAM Studio Pro.`,
+      `Thank you for buying ${productName} from BLACK-XPACE.`,
       '',
       `Your license key: ${licenseKey}`,
       '',
@@ -44,7 +44,7 @@ export function licenseEmail({ productName, licenseKey, maxDownloads, origin = s
       `This key includes ${maxDownloads} download${maxDownloads === 1 ? '' : 's'}. Keep this email safe.`,
       '',
       'Need help? Reply to this email.',
-      '— MLAM Studio Pro',
+      '— BLACK-XPACE',
     ].join('\n'),
   };
 }

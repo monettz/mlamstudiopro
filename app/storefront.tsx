@@ -21,7 +21,7 @@ const fallback: Product[] = [
   { id: "bushman-bass", name: "Bushman Bass", category: "Bass Instrument", description: "Expressive bass instrument yenye presets za electric, slap, fretless na deep sub.", price_cents: 4900, status: "coming-soon", image: "/plugins/bushman-bass.png", features: "[\"Expressive engine\",\"Preset browser\",\"MIDI control\",\"VST3\"]", checkout_url: "" },
   { id: "mlam-piano", name: "MLAM Piano", category: "Piano Instrument", description: "The piano instrument from MLAM Studio Pro. Standalone release coming soon.", price_cents: 0, status: "coming-soon", image: "/plugins/mlam-piano.png", features: "[\"Piano instrument\",\"MIDI keyboard\",\"MLAM studio design\"]", checkout_url: "" },
   { id: "pro-eq", name: "MLAM Pro EQ", category: "Audio Effect", description: "Parametric EQ safi yenye spectrum ya realtime na workflow ya haraka kwa mixing.", price_cents: 2500, status: "coming-soon", image: "", features: "[\"Dynamic spectrum\",\"Zero latency\",\"A/B compare\",\"VST3\"]", checkout_url: "" },
-  { id: "stereo-imager", name: "MLAM Imager / Stereo Forge", category: "Stereo Effect", description: "The Stereo Forge Imager from MLAM Studio Pro. Shape stereo width with mid/side processing, input gain and output gain. Standalone release coming soon.", price_cents: 0, status: "coming-soon", image: "/plugins/mlam-imager.svg", features: "[\"Stereo Width 0–200%\",\"Mid/side processing\",\"Input / output gain\",\"Bypass\"]", checkout_url: "" },
+  { id: "stereo-imager", name: "MLAM Imager / Stereo Forge", category: "Stereo Effect", description: "The Stereo Forge Imager from BLACK-XPACE. Shape stereo width with mid/side processing, input gain and output gain. Standalone release coming soon.", price_cents: 0, status: "coming-soon", image: "/plugins/mlam-imager.svg", features: "[\"Stereo Width 0–200%\",\"Mid/side processing\",\"Input / output gain\",\"Bypass\"]", checkout_url: "" },
   { id: "mlam-daw", name: "MLAM Studio Pro", category: "DAW", description: "Our complete workspace for recording, arranging and mixing music. Coming soon.", price_cents:0,status:"coming-soon",image:"/mlam-studio-pro-splash.png",features:'["Record","Arrange","Mix","Stock instruments"]',checkout_url:"" },
 ];
 
@@ -173,7 +173,7 @@ export default function Storefront() {
               width: '32px',
               height: '32px',
               objectFit: 'contain',
-              filter: 'drop-shadow(0 2px 8px rgba(74, 222, 128, 0.4))'
+              filter: 'drop-shadow(0 2px 8px rgba(255, 255, 255, 0.4))'
             }}
           />
           <span style={{ letterSpacing: '-0.02em', fontSize: '16.5px', opacity: 0.75 }}>

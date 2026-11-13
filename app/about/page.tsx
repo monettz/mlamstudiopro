@@ -4,8 +4,8 @@ import InfoPage, { InfoSection } from '@/components/ui/info-page';
 import { SITE_LOCATION } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'About MLAM — MLAM Studio Pro',
-  description: 'MLAM Studio Pro builds instruments, MIDI tools and audio effects for music producers, from Dar es Salaam.',
+  title: 'About MLAM — BLACK-XPACE',
+  description: 'BLACK-XPACE builds instruments, MIDI tools and audio effects for music producers, from Dar es Salaam.',
 };
 
 const products = [
@@ -21,7 +21,7 @@ export default function AboutPage() {
     <InfoPage
       kicker="ABOUT MLAM"
       title={<>Made by producers,<br />for producers.</>}
-      intro={<>MLAM Studio Pro makes instruments, MIDI tools and audio effects for music producers. We build them in {SITE_LOCATION}, for producers everywhere.</>}
+      intro={<>BLACK-XPACE makes instruments, MIDI tools and audio effects for music producers. We build them in {SITE_LOCATION}, for producers everywhere.</>}
     >
       <InfoSection title="What we do">
         <p>

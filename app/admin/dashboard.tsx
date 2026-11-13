@@ -352,7 +352,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     const product = products.find(item => item.id === productId);
     const name = product?.name ?? "Our new plugin";
     const link = product ? `${window.location.origin}/plugins/${encodeURIComponent(product.slug || product.id)}` : window.location.origin;
-    setAnnouncement({ productId, subject:`${name} is out now`, message:`Hi,\n\nYou asked us to tell you when ${name} launches. It is available now:\n${link}\n\n— MLAM Studio Pro` });
+    setAnnouncement({ productId, subject:`${name} is out now`, message:`Hi,\n\nYou asked us to tell you when ${name} launches. It is available now:\n${link}\n\n— BLACK-XPACE` });
   }
 
   async function deleteFile(kind:"release"|"demo"|"video", id:string, label:string) {
@@ -387,7 +387,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
 
   return <main className="adm-shell" dir="ltr">
     <aside className="adm-sidebar" aria-label="Administration sections">
-      <a className="adm-brand" href="/"><img src="/mlam-mark-3d-green.png" alt=""/><span><b>MLAM</b> Studio Pro</span></a>
+      <a className="adm-brand" href="/"><img src="/mlam-mark-3d-green.png" alt=""/><span><b>BLACK-XPACE</b></span></a>
       <nav className="adm-nav">
         {NAV.map(({id,label,Icon})=><button key={id} type="button" aria-label={label} aria-current={tab===id ? "page" : undefined} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon size={18} strokeWidth={2} aria-hidden="true"/><span className="admin-nav-label">{label}</span>{id==="notify" && notifyRequests.length>0 && <i className="adm-count">{notifyRequests.length}</i>}</button>)}
       </nav>

@@ -30,9 +30,9 @@ export default function ModernFooter() {
         {/* Top Brand Row */}
         <div className="tailark-brand-row">
           <div className="tailark-brand">
-            <img src="/mlam-mark-3d-green-512.png" alt="MLAM Studio Pro" className="tailark-brand-logo" />
+            <img src="/mlam-mark-3d-green-512.png" alt="BLACK-XPACE" className="tailark-brand-logo" />
             <span className="tailark-brand-name">
-              MLAM <span>STUDIO PRO</span>
+              BLACK-XPACE
             </span>
           </div>
           <p className="tailark-location">
@@ -133,7 +133,7 @@ export default function ModernFooter() {
         {/* Bottom Bar */}
         <div className="tailark-bottom-bar">
           <span className="tailark-copyright">
-            © 2026 MLAM Studio Pro, All rights reserved
+            © 2026 BLACK-XPACE, All rights reserved
           </span>
 
           <div className="tailark-bottom-actions">

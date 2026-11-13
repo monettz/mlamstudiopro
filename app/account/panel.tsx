@@ -130,7 +130,7 @@ export default function AccountPanel({
             <Link className="brand access-brand" href="/" dir="ltr">
               <img src="/mlam-mark-3d-green-512.png" alt="" />
               <span>
-                <b>MLAM</b> STUDIO PRO
+                <b>BLACK-XPACE</b>
                 <small>CUSTOMER HUB</small>
               </span>
             </Link>

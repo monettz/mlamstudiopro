@@ -149,7 +149,7 @@ export default function CustomerAuthForm({
         <div className="auth-exact-halo" aria-hidden="true" />
         <img
           src="/images/auth/auth-hero-logo.png"
-          alt="MLAM Studio Pro Logo"
+          alt="BLACK-XPACE Logo"
           className="auth-exact-photo-img"
           loading="eager"
         />
@@ -160,7 +160,7 @@ export default function CustomerAuthForm({
         {/* Brand Kicker */}
         <span className="auth-exact-brand-kicker">
           <i aria-hidden="true" />
-          MLAM STUDIO PRO
+          BLACK-XPACE
         </span>
 
         {/* Big centered title with Instrument Serif italic elegance */}

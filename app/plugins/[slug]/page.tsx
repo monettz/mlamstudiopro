@@ -48,11 +48,11 @@ function productGalleryImages(value: string) {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await findProduct(slug);
-  if (!product) return { title: 'Product not found | MLAM Studio Pro' };
+  if (!product) return { title: 'Product not found | BLACK-XPACE' };
   return {
-    title: `${product.name} | MLAM Studio Pro`,
+    title: `${product.name} | BLACK-XPACE`,
     description: product.description,
-    openGraph: { title: `${product.name} | MLAM Studio Pro`, description: product.description, images: [product.image] },
+    openGraph: { title: `${product.name} | BLACK-XPACE`, description: product.description, images: [product.image] },
   };
 }
 

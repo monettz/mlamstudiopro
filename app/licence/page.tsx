@@ -4,7 +4,7 @@ import InfoPage, { InfoSection } from '@/components/ui/info-page';
 import { POLICIES_UPDATED, SITE_NAME, SUPPORT_EMAIL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Licence — MLAM Studio Pro',
+  title: 'Licence — BLACK-XPACE',
   description: 'What your MLAM plugin licence allows: lifetime use, music you make is yours, and your licence key is personal.',
 };
 

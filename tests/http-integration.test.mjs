@@ -24,7 +24,7 @@ test('single-site HTTP flow: owner/customer isolation, checkout, media and licen
     let ready = false;
     for(let i=0;i<80;i++){if(server.exitCode!==null) throw new Error(output); try { if((await fetch(base)).ok){ready=true;break;} }catch{} await new Promise(r=>setTimeout(r,250));}
     assert.ok(ready,output);
-    const html = await (await fetch(base)).text(); assert.ok(html.includes('MLAM Studio Pro')); assert.ok(!html.includes('https://mlam-plugins.'));
+    const html = await (await fetch(base)).text(); assert.ok(html.includes('BLACK-XPACE')); assert.ok(!html.includes('https://mlam-plugins.'));
     assert.ok(html.includes('Turn your voice, humming and melodies into editable MIDI inside your DAW.'));assert.ok(!html.includes('Geuza sauti, humming na melody'));
     for(const [language,copy] of [['sw','Geuza sauti yako, humming na melodi'],['fr','Transformez votre voix, vos fredonnements'],['ar','حوّل صوتك وهمهماتك وألحانك'],['ja','声、ハミング、メロディーを']]){
       const localized=await(await fetch(base,{headers:{Cookie:`mlam_language=${language}`}})).text();assert.ok(localized.includes(copy),language);

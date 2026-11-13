@@ -1,7 +1,7 @@
 "use client"
 
 /**
- * MLAM Studio Pro — Liquid particle hero
+ * BLACK-XPACE — Liquid particle hero
  *
  * The sculpture is rebuilt from ~100k GPU-simulated particles sampled from
  * its own pixels. The cursor turns the material liquid; it settles back into
@@ -1121,9 +1121,9 @@ const DEFAULTS = {
   darkSrc: "/mlam-mark-3d-green-512.png",
   mobileSrc: "/mlam-mark-3d-green-512.png",
   mobileDarkSrc: "/mlam-mark-3d-green-512.png",
-  imageAlt: "MLAM Studio Pro 3D Logo",
+  imageAlt: "BLACK-XPACE 3D Logo",
   imageBackground: "#050e08",
-  brand: "MLAM Studio Pro",
+  brand: "BLACK-XPACE",
   navLinks: [
     { label: "Work", href: "#" },
     { label: "Studio", href: "#" },
@@ -1279,7 +1279,7 @@ const CSS = `
 .sh-mobile-item{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-radius:14px;
   background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#ffffff;font-size:16px;
   font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:all .2s ease}
-.sh-mobile-item:hover,.sh-mobile-item.active{background:rgba(67,237,120,0.12);border-color:rgba(67,237,120,0.35);color:#9affb0}
+.sh-mobile-item:hover,.sh-mobile-item.active{background:rgba(255, 255, 255,0.12);border-color:rgba(255, 255, 255,0.35);color:#ffffff}
 .sh-mobile-cta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;padding:16px 24px;
   border-radius:9999px;background:#ffffff;color:#030805!important;font-size:15px;font-weight:700;
   text-decoration:none;box-shadow:0 4px 20px rgba(255,255,255,0.2);transition:all .2s ease}

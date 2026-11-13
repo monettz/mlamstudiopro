@@ -4,8 +4,8 @@ import InfoPage, { InfoSection } from '@/components/ui/info-page';
 import { POLICIES_UPDATED, SITE_NAME, SUPPORT_EMAIL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Privacy — MLAM Studio Pro',
-  description: 'What information MLAM Studio Pro collects, why, where it is kept, and your choices.',
+  title: 'Privacy — BLACK-XPACE',
+  description: 'What information BLACK-XPACE collects, why, where it is kept, and your choices.',
 };
 
 export default function PrivacyPage() {

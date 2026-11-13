@@ -93,15 +93,15 @@ const ResponsiveHeroBanner: React.FC<ResponsiveHeroBannerProps> = ({
                 <div className="absolute inset-0 bg-gradient-to-b from-[#07190e] via-[#030b06] to-[#020704]" />
                 
                 {/* Atmospheric Emerald Light Orbs (blended smoothly with black) */}
-                <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[950px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(16,48,26,0.6)_0%,rgba(6,22,12,0.25)_45%,transparent_70%)] blur-2xl" />
-                <div className="absolute top-1/4 right-[5%] w-[650px] h-[650px] bg-[radial-gradient(circle_at_center,rgba(15,48,26,0.65)_0%,rgba(5,18,10,0.2)_50%,transparent_70%)] blur-3xl" />
+                <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[950px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(40, 40, 40,0.6)_0%,rgba(6,22,12,0.25)_45%,transparent_70%)] blur-2xl" />
+                <div className="absolute top-1/4 right-[5%] w-[650px] h-[650px] bg-[radial-gradient(circle_at_center,rgba(39, 39, 39,0.65)_0%,rgba(5,18,10,0.2)_50%,transparent_70%)] blur-3xl" />
                 <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#020704] to-transparent" />
                 
                 {/* Subtle Studio Acoustic Micro-Grid Texture */}
                 <div 
                     className="absolute inset-0 opacity-[0.14] mix-blend-screen"
                     style={{
-                        backgroundImage: `radial-gradient(rgba(74, 222, 128, 0.25) 1px, transparent 1px)`,
+                        backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px)`,
                         backgroundSize: '32px 32px'
                     }}
                 />

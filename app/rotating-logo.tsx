@@ -8,7 +8,7 @@ export default function RotatingLogo() {
     <div
       className="studio-logo-scene"
       role="img"
-      aria-label="MLAM Studio Pro 3D logo rotating 360 degrees around its axis"
+      aria-label="BLACK-XPACE 3D logo rotating 360 degrees around its axis"
     >
       <style>{`
         @keyframes studio-axis-turn {
@@ -26,7 +26,7 @@ export default function RotatingLogo() {
           aspect-ratio: 1;
           perspective: 1000px;
           animation: none !important;
-          filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 35px rgba(74, 222, 128, 0.25));
+          filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 35px rgba(255, 255, 255, 0.25));
           display: flex;
           align-items: center;
           justify-content: center;
@@ -57,7 +57,7 @@ export default function RotatingLogo() {
         .studio-logo-depth {
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #62bf73 0%, #206d39 50%, #0d2c17 100%);
+          background: linear-gradient(135deg, #ffffff 0%, #595959 50%, #242424 100%);
           mask: url('/mlam-mark-3d-green-512.png') center/contain no-repeat;
           -webkit-mask: url('/mlam-mark-3d-green-512.png') center/contain no-repeat;
           pointer-events: none;
