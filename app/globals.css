@@ -3554,7 +3554,7 @@ html, body {
   position: relative;
   display: block;
   aspect-ratio: 16 / 9;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   background: radial-gradient(circle at 50% 35%, #353535, #141414 70%);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -6049,39 +6049,13 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
 /* Featured Release, "Split" card (components/ui/featured-release.tsx).
    One card with the heading, the YouTube tutorial on the left and the
    product panel on the right, as in the chosen mockup. */
-.fr-section { padding-top: 40px; padding-bottom: 40px; }
-.fr-card {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: clamp(20px, 3vw, 36px);
-  border-radius: 24px;
-  background: #1a1a1c;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #f5f5f7;
-}
-.fr-kicker {
-  font-family: Inter, 'Segoe UI', Arial, sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #a1a1a6;
-}
-.fr-title {
-  margin: 6px 0 22px;
-  font-family: 'Jost', 'Futura', system-ui, sans-serif;
-  font-weight: 900;
-  font-size: clamp(28px, 3.4vw, 44px);
-  line-height: 1;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  color: #f5f5f7;
-}
 .fr-split {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  gap: 20px;
-  align-items: stretch;
+  gap: clamp(20px, 3vw, 40px);
+  align-items: start;
+  max-width: 1240px;
+  margin: 0 auto;
 }
 .fr-video {
   position: relative;
@@ -6119,7 +6093,7 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
 .fr-progress i { display: block; width: 34%; height: 100%; background: #f5f5f7; }
 .fr-product {
   display: flex; flex-direction: column; gap: 10px; min-width: 0;
-  padding: 18px; border-radius: 16px; background: #232325;
+  padding: 24px; border-radius: 18px; background: #232325; border: 1px solid rgba(255, 255, 255, 0.06);
 }
 .fr-product-art {
   width: 100%; height: clamp(110px, 12vw, 160px); object-fit: cover; object-position: top center;

@@ -212,13 +212,18 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
 
     {/* Featured Release - Flagship Voice-to-MIDI Instrument */}
     <section className="showcase-section fr-section" id="voice-midi">
+      <div className="showcase-header">
+        <span className="showcase-kicker">New from BLACK-XPACE</span>
+        <h2 className="showcase-title">Featured Release</h2>
+        <p className="showcase-subtitle">
+          Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes.
+        </p>
+      </div>
       <FeaturedRelease
         product={featured}
         videoId={FEATURED_VIDEO.id}
         videoTitle={FEATURED_VIDEO.title}
         demoId={demoFor(featured)?.id}
-        kicker="New from BLACK-XPACE"
-        title="Featured release"
         onBuy={() => buy(featured)}
       />
     </section>

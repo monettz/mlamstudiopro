@@ -10,8 +10,6 @@ type Props = {
   videoId: string;
   videoTitle: string;
   demoId?: string;
-  kicker: string;
-  title: string;
   onBuy: () => void;
 };
 
@@ -22,10 +20,10 @@ function featureLine(value: string) {
   } catch { return ""; }
 }
 
-// Featured Release, "Split" card: one dark card holding the heading, a
+// Featured Release, "Split" layout: below the section heading, a
 // YouTube tutorial that plays in place (left) and the product panel (right).
 // The YouTube player only loads after a click, so the homepage stays light.
-export default function FeaturedRelease({ product, videoId, videoTitle, demoId, kicker, title, onBuy }: Props) {
+export default function FeaturedRelease({ product, videoId, videoTitle, demoId, onBuy }: Props) {
   const [playing, setPlaying] = useState(false);
   const available = product.status === "published";
   const price = product.price_cents > 0 ? `$${(product.price_cents / 100).toFixed(0)}` : null;
@@ -34,11 +32,7 @@ export default function FeaturedRelease({ product, videoId, videoTitle, demoId, 
   const subline = featureLine(product.features) || product.category;
 
   return (
-    <div className="fr-card">
-      <div className="fr-kicker">{kicker}</div>
-      <h2 className="fr-title">{title}</h2>
-
-      <div className="fr-split">
+    <div className="fr-split">
         <div className="fr-video">
           {playing && videoId ? (
             <iframe
@@ -85,7 +79,6 @@ export default function FeaturedRelease({ product, videoId, videoTitle, demoId, 
             )}
           </div>
         </aside>
-      </div>
     </div>
   );
 }
