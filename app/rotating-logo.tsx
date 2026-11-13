@@ -57,7 +57,7 @@ export default function RotatingLogo() {
         .studio-logo-depth {
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #ffffff 0%, #595959 50%, #242424 100%);
+          background: linear-gradient(135deg, #ffffff 0%, #595959 50%, #1d1d1f 100%);
           mask: url('/mlam-mark-3d-green-512.png') center/contain no-repeat;
           -webkit-mask: url('/mlam-mark-3d-green-512.png') center/contain no-repeat;
           pointer-events: none;
