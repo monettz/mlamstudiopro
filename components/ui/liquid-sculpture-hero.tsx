@@ -1122,7 +1122,7 @@ const DEFAULTS = {
   mobileSrc: "/mlam-mark-3d-green-512.png",
   mobileDarkSrc: "/mlam-mark-3d-green-512.png",
   imageAlt: "BLACK-XPACE 3D Logo",
-  imageBackground: "#050e08",
+  imageBackground: "#0c0c0c",
   brand: "BLACK-XPACE",
   navLinks: [
     { label: "Work", href: "#" },
@@ -1220,7 +1220,7 @@ const CSS = `
 .sh-brand{font-family:var(--sh-head);font-weight:700;font-size:16px;letter-spacing:-.02em;color:inherit;text-decoration:none}
 .sh-nav-center{display:flex;align-items:center;justify-content:flex-end;flex:1}
 .sh-capsule{display:inline-flex;align-items:center;padding:4px 5px 4px 22px;border-radius:9999px;
-  background:rgba(12,18,14,0.78);border:1px solid rgba(255,255,255,0.14);
+  background:rgba(16, 16, 16,0.78);border:1px solid rgba(255,255,255,0.14);
   box-shadow:0 8px 32px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.12);
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);gap:2px}
 .sh-capsule-item{display:inline-flex;align-items:center;justify-content:center;padding:7px 14px;border-radius:9999px;
@@ -1229,7 +1229,7 @@ const CSS = `
 .sh-capsule-item:hover{color:#ffffff;background:rgba(255,255,255,0.08)}
 .sh-capsule-item.active{color:#ffffff;font-weight:600}
 .sh-capsule-cta{display:inline-flex;align-items:center;gap:6px;margin-left:14px;padding:8px 20px;border-radius:9999px;
-  background:#ffffff;color:#050d07!important;font-size:13px;font-weight:700;letter-spacing:-0.01em;
+  background:#ffffff;color:#0b0b0b!important;font-size:13px;font-weight:700;letter-spacing:-0.01em;
   text-decoration:none;white-space:nowrap;transition:all .2s cubic-bezier(.2,.7,.2,1);box-shadow:0 2px 10px rgba(0,0,0,0.25)}
 .sh-capsule-cta:hover{background:#f0f0f0;transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,255,255,0.2)}
 .sh-nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -1267,11 +1267,11 @@ const CSS = `
   .sh-h1{font-size:clamp(40px,min(9.5cqw,9cqh),96px)}
 }
 .sh-mobile-toggle{display:none;align-items:center;justify-content:center;width:42px;height:42px;border-radius:9999px;
-  background:rgba(12,18,14,0.85);border:1px solid rgba(255,255,255,0.18);color:#ffffff;cursor:pointer;
+  background:rgba(16, 16, 16,0.85);border:1px solid rgba(255,255,255,0.18);color:#ffffff;cursor:pointer;
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:102;transition:all .2s ease;
   box-shadow:0 4px 16px rgba(0,0,0,0.4)}
 .sh-mobile-toggle:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.35)}
-.sh-mobile-overlay{position:fixed;inset:0;background:rgba(3,10,5,0.97);backdrop-filter:blur(28px);
+.sh-mobile-overlay{position:fixed;inset:0;background:rgba(8, 8, 8,0.97);backdrop-filter:blur(28px);
   -webkit-backdrop-filter:blur(28px);z-index:100;display:flex;flex-direction:column;padding:92px 24px 36px;
   animation:shMobileFade .25s cubic-bezier(.16,1,.3,1) both;overflow-y:auto}
 @keyframes shMobileFade{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
@@ -1281,7 +1281,7 @@ const CSS = `
   font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:all .2s ease}
 .sh-mobile-item:hover,.sh-mobile-item.active{background:rgba(255, 255, 255,0.12);border-color:rgba(255, 255, 255,0.35);color:#ffffff}
 .sh-mobile-cta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;padding:16px 24px;
-  border-radius:9999px;background:#ffffff;color:#030805!important;font-size:15px;font-weight:700;
+  border-radius:9999px;background:#ffffff;color:#070707!important;font-size:15px;font-weight:700;
   text-decoration:none;box-shadow:0 4px 20px rgba(255,255,255,0.2);transition:all .2s ease}
 @media (max-width:860px){
   .sh-capsule{display:none!important}

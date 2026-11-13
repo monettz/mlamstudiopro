@@ -7,18 +7,18 @@
   min-height: 100vh;
   margin: 0;
   padding: 40px 20px 60px;
-  background-color: #030805;
+  background-color: #070707;
   background-image:
     radial-gradient(circle at 50% 0%, rgba(81, 81, 81, 0.22) 0%, transparent 60%),
     radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-    linear-gradient(180deg, #020704 0%, #06110a 50%, #030805 100%);
+    linear-gradient(180deg, #060606 0%, #0e0e0e 50%, #070707 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  color: #f1fff5;
+  color: #fbfbfb;
 }
 
 .mlam-access-page::before {
@@ -119,9 +119,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 4px;
-  background: #f1f5f3;
+  background: #f4f4f4;
   border-radius: 9999px;
-  border: 1px solid #e2e8e4;
+  border: 1px solid #e6e6e6;
   margin-bottom: 24px;
 }
 
@@ -169,7 +169,7 @@
   height: 48px;
   padding: 0 16px;
   border-radius: 12px;
-  border: 1.5px solid #dbe5df;
+  border: 1.5px solid #e2e2e2;
   background: #f8faf9;
   color: #212121;
   font-size: 15px;
@@ -185,7 +185,7 @@
 }
 
 .customer-access-form input::placeholder {
-  color: #94a399;
+  color: #9f9f9f;
 }
 
 .access-password {
@@ -263,7 +263,7 @@
   align-items: center;
   gap: 14px;
   margin: 22px 0;
-  color: #ffffff;
+  color: #989898;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -275,7 +275,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: #e2e8e4;
+  background: #e6e6e6;
 }
 
 /* Google Auth Button */
@@ -287,7 +287,7 @@
   width: 100%;
   height: 48px;
   border-radius: 9999px;
-  border: 1.5px solid #dbe5df;
+  border: 1.5px solid #e2e2e2;
   background: #ffffff;
   color: #1e293b;
   font-size: 14px;
@@ -312,8 +312,8 @@
 .access-feedback {
   padding: 12px 16px;
   border-radius: 12px;
-  background: #ecfdf5;
-  border: 1px solid #ffffff;
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
   color: #5d5d5d;
   font-size: 13px;
   line-height: 1.5;
@@ -333,16 +333,16 @@
   justify-content: center;
   gap: 8px;
   font-size: 12px;
-  color: #ffffff;
+  color: #989898;
   margin-top: 18px;
   padding-top: 16px;
-  border-top: 1px solid #edf1ee;
+  border-top: 1px solid #f0f0f0;
 }
 
 .access-footnote {
   width: min(460px, 100%);
   margin: 20px 0 0;
-  color: #ffffff;
+  color: #a5a5a5;
   text-align: center;
   font-size: 12px;
   line-height: 1.6;
@@ -355,12 +355,12 @@
 
 .mlam-account-page {
   min-height: calc(100vh - 120px);
-  background-color: #020704;
+  background-color: #060606;
   background-image:
     radial-gradient(circle at 50% 0%, rgba(81, 81, 81, 0.18) 0%, transparent 60%),
     radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
-    linear-gradient(180deg, #020704 0%, #06120a 50%, #030805 100%);
-  color: #f1fff5;
+    linear-gradient(180deg, #060606 0%, #0f0f0f 50%, #070707 100%);
+  color: #fbfbfb;
   padding: 40px 24px 80px;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   position: relative;
@@ -377,7 +377,7 @@
 
 /* Sidebar */
 .customer-account-sidebar {
-  background: rgba(10, 22, 14, 0.78);
+  background: rgba(19, 19, 19, 0.78);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 24px;
@@ -386,7 +386,7 @@
   box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.6),
     0 0 30px rgba(255, 255, 255, 0.05);
-  color: #f1fff5;
+  color: #fbfbfb;
   position: sticky;
   top: 96px;
 }
@@ -432,7 +432,7 @@
 
 .customer-email {
   font-size: 12.5px;
-  color: #ffffff;
+  color: #a5a5a5;
   margin-top: 4px;
   word-break: break-all;
 }
@@ -463,7 +463,7 @@
   padding: 12px 14px;
   font-size: 13.5px;
   font-weight: 600;
-  color: #ffffff;
+  color: #bbbbbb;
   text-decoration: none;
   border-radius: 12px;
   border: 1px solid transparent;
@@ -559,13 +559,13 @@
 }
 
 .customer-account-heading p {
-  color: #ffffff;
+  color: #a5a5a5;
   font-size: 15px;
   margin: 0;
 }
 
 .customer-account-heading p strong {
-  color: #f1fff5;
+  color: #fbfbfb;
 }
 
 /* Status Toast */
@@ -601,7 +601,7 @@
 .customer-profile-card,
 .customer-library-card,
 .customer-orders-card {
-  background: rgba(10, 22, 14, 0.75);
+  background: rgba(19, 19, 19, 0.75);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 24px;
@@ -610,7 +610,7 @@
   box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.55),
     0 0 35px rgba(255, 255, 255, 0.04);
-  color: #f1fff5;
+  color: #fbfbfb;
 }
 
 .account-section-heading {
@@ -673,7 +673,7 @@
 }
 
 .customer-profile-card dl > div {
-  background: rgba(16, 32, 22, 0.5);
+  background: rgba(28, 28, 28, 0.5);
   padding: 16px 20px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -682,7 +682,7 @@
 .customer-profile-card dt {
   font-size: 11px;
   font-weight: 800;
-  color: #ffffff;
+  color: #979797;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 6px;
@@ -733,7 +733,7 @@
 }
 
 .license-card {
-  background: rgba(15, 30, 20, 0.72);
+  background: rgba(26, 26, 26, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding: 24px 26px;
@@ -778,7 +778,7 @@
   height: 76px;
   border-radius: 16px;
   overflow: hidden;
-  background: #030805;
+  background: #070707;
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
   flex-shrink: 0;
@@ -845,7 +845,7 @@
 
 .license-meta-desc {
   font-size: 13px;
-  color: #ffffff;
+  color: #a5a5a5;
   line-height: 1.45;
   margin: 0;
 }
@@ -874,7 +874,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #ffffff;
+  color: #979797;
 }
 
 .license-key-label svg {
@@ -887,7 +887,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #020704;
+  background: #060606;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 12px;
   padding: 6px 10px 6px 14px;
@@ -917,7 +917,7 @@
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  color: #bbbbbb;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -957,7 +957,7 @@
 
 .quota-text {
   font-size: 12px;
-  color: #ffffff;
+  color: #a5a5a5;
 }
 
 .quota-text strong {
@@ -1031,7 +1031,7 @@
 }
 
 .customer-library-pending p {
-  color: #ffffff;
+  color: #bbbbbb;
   font-size: 15px;
   line-height: 1.55;
   max-width: 480px;
@@ -1067,14 +1067,14 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #ffffff;
+  color: #979797;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .customer-orders-table td {
   padding: 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  color: #f1fff5;
+  color: #fbfbfb;
 }
 
 .customer-orders-table tr:last-child td {
@@ -1089,7 +1089,7 @@
 .order-ref code {
   font-family: monospace;
   font-size: 12px;
-  color: #ffffff;
+  color: #a5a5a5;
   background: rgba(0, 0, 0, 0.4);
   padding: 3px 6px;
   border-radius: 6px;
@@ -1120,7 +1120,7 @@
   gap: 16px;
   padding: 22px 26px;
   border-radius: 20px;
-  background: rgba(10, 22, 14, 0.75);
+  background: rgba(19, 19, 19, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -1157,7 +1157,7 @@
 
 .link-sub {
   font-size: 12px;
-  color: #ffffff;
+  color: #a5a5a5;
 }
 
 .customer-account-links a:hover {
@@ -1221,8 +1221,8 @@
   flex-direction: row !important;
   align-items: stretch !important;
   justify-content: stretch !important;
-  background: #030805 !important;
-  color: #f1fff5 !important;
+  background: #070707 !important;
+  color: #fbfbfb !important;
   position: relative !important;
   overflow-x: hidden !important;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
@@ -1250,7 +1250,7 @@
   height: 100vh !important;
   position: sticky !important;
   top: 0 !important;
-  background-color: #020704 !important;
+  background-color: #060606 !important;
   background-image:
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18) 0%, transparent 65%),
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
@@ -1307,7 +1307,7 @@
   background:
     radial-gradient(circle at 80% 20%, rgba(81, 81, 81, 0.28) 0%, transparent 60%),
     radial-gradient(circle at 20% 85%, rgba(255, 255, 255, 0.12) 0%, transparent 55%),
-    linear-gradient(180deg, #020704 0%, #06120a 50%, #030805 100%) !important;
+    linear-gradient(180deg, #060606 0%, #0f0f0f 50%, #070707 100%) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -1384,7 +1384,7 @@
   color: #212121 !important;
   margin: 0 0 24px 0 !important;
   padding-bottom: 20px !important;
-  border-bottom: 1px solid #edf1ee !important;
+  border-bottom: 1px solid #f0f0f0 !important;
   text-align: left !important;
   letter-spacing: -0.015em !important;
 }
@@ -1426,7 +1426,7 @@
   width: 100% !important;
   height: 48px !important;
   padding: 0 16px !important;
-  border: 1.5px solid #dbe5df !important;
+  border: 1.5px solid #e2e2e2 !important;
   border-radius: 12px !important;
   background: #f8faf9 !important;
   font-size: 16px !important;
@@ -1443,7 +1443,7 @@
 }
 
 .auth-exact-input::placeholder {
-  color: #94a399 !important;
+  color: #9f9f9f !important;
   font-size: 15px !important;
 }
 
@@ -1538,7 +1538,7 @@
   padding: 0 !important;
   border-radius: 4px !important;
   box-shadow: none !important;
-  border: 1.5px solid #c2d4c8 !important;
+  border: 1.5px solid #cfcfcf !important;
   background: #ffffff !important;
   accent-color: #646464 !important;
   cursor: pointer !important;
@@ -1580,7 +1580,7 @@
 .auth-exact-bottom-text {
   margin: 28px 0 0 !important;
   font-size: 13.5px !important;
-  color: #ffffff !important;
+  color: #a5a5a5 !important;
   text-align: center !important;
 }
 
@@ -1624,8 +1624,8 @@
   margin: 14px 0 0 !important;
   padding: 8px 12px !important;
   border-radius: 8px !important;
-  background: #f1f8f3 !important;
-  border: 1px solid #ffffff !important;
+  background: #f6f6f6 !important;
+  border: 1px solid #e5e5e5 !important;
 }
 
 /* Floating Utility Bar (Back & Language) */
@@ -1645,13 +1645,13 @@
 }
 
 .account-access-utility a.account-store-return {
-  color: #ffffff !important;
+  color: #eeeeee !important;
   font-weight: 600 !important;
   font-size: 12.5px !important;
   text-decoration: none !important;
   padding: 7px 14px !important;
   border-radius: 8px !important;
-  background: rgba(10, 24, 16, 0.85) !important;
+  background: rgba(20, 20, 20, 0.85) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
   border: 1px solid rgba(255, 255, 255, 0.22) !important;
@@ -1667,13 +1667,13 @@
 }
 
 .account-access-utility .language-control {
-  color: #ffffff !important;
+  color: #bbbbbb !important;
   font-size: 12.5px !important;
   font-weight: 600 !important;
   display: flex !important;
   align-items: center !important;
   gap: 7px !important;
-  background: rgba(10, 24, 16, 0.85) !important;
+  background: rgba(20, 20, 20, 0.85) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
   padding: 5px 12px !important;
@@ -1683,8 +1683,8 @@
 }
 
 .account-access-utility .language-control select {
-  background: #050e08 !important;
-  color: #ffffff !important;
+  background: #0c0c0c !important;
+  color: #f8f8f8 !important;
   border: 1px solid #3a3a3a !important;
   border-radius: 6px !important;
   padding: 4px 8px !important;
@@ -1818,7 +1818,7 @@
     margin-bottom: 10px;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 14px;
-    background: rgba(2, 7, 4, 0.5);
+    background: rgba(6, 6, 6, 0.5);
   }
   .customer-orders-table td,
   .customer-orders-table tr:last-child td {
@@ -1833,7 +1833,7 @@
   .customer-orders-table tr td:last-child { border-bottom: none; }
   .customer-orders-table td::before {
     content: attr(data-label);
-    color: #ffffff;
+    color: #979797;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -1872,11 +1872,11 @@
   padding: 7px 14px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 8px;
-  background: rgba(10, 24, 16, 0.85);
+  background: rgba(20, 20, 20, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-  color: #ffffff;
+  color: #eeeeee;
   font-size: 12.5px;
   font-weight: 600;
   text-decoration: none;
@@ -1891,7 +1891,7 @@
 .admin-auth-card .admin-subtitle {
   margin: 0 0 22px;
   padding-bottom: 18px;
-  border-bottom: 1px solid #edf1ee;
+  border-bottom: 1px solid #f0f0f0;
   color: #5c5c5c;
   font-size: 14px;
   line-height: 1.5;
@@ -1925,17 +1925,17 @@
   border: 0;
   border-radius: 9px;
   background: transparent;
-  color: #ffffff;
+  color: #b5b5b5;
   font: inherit;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.panel-mode-switch button:hover { color: #f1fff5; }
+.panel-mode-switch button:hover { color: #fbfbfb; }
 .panel-mode-switch button[aria-pressed="true"] {
   background: rgba(255, 255, 255, 0.16);
-  color: #f1fff5;
+  color: #fbfbfb;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.38);
 }
 .panel-mode-switch button:focus-visible { outline: 2px solid #ffffff; outline-offset: 1px; }
@@ -1945,7 +1945,7 @@
 /* ---------- Glass mode: frosted panels over soft green light ---------- */
 html[data-panel-mode="glass"] .mlam-account-page,
 html[data-panel-mode="glass"] .adm-shell {
-  background-color: #020604;
+  background-color: #050505;
   background-image:
     radial-gradient(38% 32% at 12% 14%, rgba(255, 255, 255, 0.34), transparent 70%),
     radial-gradient(34% 30% at 90% 10%, rgba(145, 145, 145, 0.26), transparent 70%),
@@ -1979,7 +1979,7 @@ html[data-panel-mode="glass"] .adm-sidebar {
   -webkit-backdrop-filter: blur(24px) saturate(150%);
 }
 html[data-panel-mode="glass"] .adm-topbar {
-  background: rgba(3, 9, 6, 0.42);
+  background: rgba(8, 8, 8, 0.42);
   border-color: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
@@ -1994,20 +1994,20 @@ html[data-panel-mode="glass"] .adm-search {
 html[data-panel-mode="glass"] .panel-mode-switch { background: rgba(0, 0, 0, 0.22); border-color: rgba(255, 255, 255, 0.1); }
 
 /* ---------- Solid mode: opaque, flat panels ---------- */
-html[data-panel-mode="solid"] .mlam-account-page { background: #050c08; }
+html[data-panel-mode="solid"] .mlam-account-page { background: #0a0a0a; }
 html[data-panel-mode="solid"] .customer-account-sidebar,
 html[data-panel-mode="solid"] .customer-profile-card,
 html[data-panel-mode="solid"] .customer-library-card,
 html[data-panel-mode="solid"] .customer-orders-card,
 html[data-panel-mode="solid"] .customer-account-links a {
-  background: #0a1510;
+  background: #121212;
   border-color: rgba(255, 255, 255, 0.12);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   box-shadow: none;
 }
 html[data-panel-mode="solid"] .customer-profile-card dl > div,
-html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
+html[data-panel-mode="solid"] .license-card { background: #191919; }
 
 @media (prefers-reduced-transparency: reduce) {
   html[data-panel-mode="glass"] .customer-account-sidebar,
@@ -2016,7 +2016,7 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
   html[data-panel-mode="glass"] .customer-orders-card,
   html[data-panel-mode="glass"] .adm-shell .admin-card,
   html[data-panel-mode="glass"] .adm-kpi,
-  html[data-panel-mode="glass"] .adm-sidebar { background: #0c1a12; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  html[data-panel-mode="glass"] .adm-sidebar { background: #161616; backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 @media (max-width: 860px) {
   .adm-sidebar-foot { flex-wrap: wrap; gap: 6px; }
@@ -2048,11 +2048,11 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
     padding: 0 14px !important;
     border: 1px solid rgba(255, 255, 255, 0.24) !important;
     border-radius: 999px !important;
-    background: rgba(4, 14, 8, 0.62) !important;
+    background: rgba(11, 11, 11, 0.62) !important;
     backdrop-filter: blur(14px) !important;
     -webkit-backdrop-filter: blur(14px) !important;
     box-shadow: none !important;
-    color: #ffffff !important;
+    color: #f2f2f2 !important;
     font-size: 13px !important;
     font-weight: 600 !important;
     line-height: 1 !important;
@@ -2075,7 +2075,7 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
     border: 0 !important;
     border-radius: 0 !important;
     background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 2px center !important;
-    color: #f1fff5 !important;
+    color: #fbfbfb !important;
     /* 16px stops iOS zooming the page when the picker is tapped. */
     font-size: 16px !important;
     font-weight: 600 !important;
@@ -2154,9 +2154,9 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
     padding: 0 16px !important;
     border: 1px solid rgba(255, 255, 255, 0.24) !important;
     border-radius: 999px !important;
-    background: rgba(4, 14, 8, 0.62) !important;
+    background: rgba(11, 11, 11, 0.62) !important;
     box-shadow: none !important;
-    color: #ffffff !important;
+    color: #f2f2f2 !important;
     font-size: 13px !important;
     font-weight: 600 !important;
     line-height: 1 !important;
@@ -2170,7 +2170,7 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
     padding: 0 20px 0 2px !important;
     border: 0 !important;
     background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 2px center !important;
-    color: #f1fff5 !important;
+    color: #fbfbfb !important;
     font-size: 13px !important;
     font-weight: 600 !important;
   }
@@ -2180,7 +2180,7 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 /* ========================================================
    AUTH PAGES — LIGHT THEME (customer login/register + admin)
    Off-white page like the homepage hero (#f6f8f6); the form card
-   uses the footer colour (#020704) with light text.
+   uses the footer colour (#060606) with light text.
    ======================================================== */
 .auth-exact-split-page {
   background: #f6f8f6 !important;
@@ -2193,7 +2193,7 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 }
 .auth-exact-split-page .auth-exact-photo-column {
   background: transparent !important;
-  border-right: 1px solid #e3eae5 !important;
+  border-right: 1px solid #e8e8e8 !important;
   border-bottom: 0 !important;
 }
 .auth-exact-split-page .auth-exact-halo {
@@ -2201,7 +2201,7 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 }
 .auth-exact-split-page .auth-exact-photo-img,
 .auth-exact-split-page .auth-exact-photo-img:hover {
-  filter: drop-shadow(0 24px 40px rgba(2, 7, 4, 0.22)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.25)) !important;
+  filter: drop-shadow(0 24px 40px rgba(6, 6, 6, 0.22)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.25)) !important;
 }
 .auth-exact-split-page .auth-exact-form-column { background: transparent !important; }
 
@@ -2223,9 +2223,9 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 .account-access-utility a.account-store-return,
 .admin-login-return {
   background: #ffffff !important;
-  border: 1px solid #e2e8e4 !important;
+  border: 1px solid #e6e6e6 !important;
   color: #09090b !important;
-  box-shadow: 0 1px 3px rgba(2, 7, 4, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(6, 6, 6, 0.08) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
@@ -2237,15 +2237,15 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 
 /* The card: footer colour. */
 .auth-exact-split-page .auth-exact-card {
-  background: #020704 !important;
+  background: #060606 !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 30px 60px rgba(2, 7, 4, 0.22), 0 2px 6px rgba(2, 7, 4, 0.12) !important;
-  color: #f1fff5 !important;
+  box-shadow: 0 30px 60px rgba(6, 6, 6, 0.22), 0 2px 6px rgba(6, 6, 6, 0.12) !important;
+  color: #fbfbfb !important;
 }
 .auth-exact-split-page .auth-exact-card-title { color: #ffffff !important; border-bottom-color: rgba(255, 255, 255, 0.08) !important; }
 .auth-exact-split-page .auth-exact-label,
 .auth-exact-split-page .customer-access-form .auth-exact-checkbox-label,
-.auth-exact-split-page .admin-auth-card .admin-login-form label { color: #d6e5db !important; }
+.auth-exact-split-page .admin-auth-card .admin-login-form label { color: #e1e1e1 !important; }
 
 /* Fields inside the dark card. */
 .auth-exact-split-page .auth-exact-input,
@@ -2266,28 +2266,28 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 .auth-exact-split-page .auth-exact-input:-webkit-autofill,
 .auth-exact-split-page .admin-auth-card .admin-login-form input:-webkit-autofill {
   -webkit-text-fill-color: #ffffff !important;
-  -webkit-box-shadow: 0 0 0 1000px #0d1a12 inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #171717 inset !important;
   caret-color: #ffffff;
 }
 .auth-exact-split-page .auth-exact-eye-btn,
-.auth-exact-split-page .admin-password-toggle { color: #ffffff !important; }
+.auth-exact-split-page .admin-password-toggle { color: #b5b5b5 !important; }
 .auth-exact-split-page .auth-exact-eye-btn:hover,
 .auth-exact-split-page .admin-password-toggle:hover { color: #ffffff !important; background: rgba(255, 255, 255, 0.05) !important; }
-.auth-exact-split-page .auth-exact-forgot-link { color: #ffffff !important; }
+.auth-exact-split-page .auth-exact-forgot-link { color: #b5b5b5 !important; }
 .auth-exact-split-page .auth-exact-forgot-link:hover { color: #ffffff !important; }
-.auth-exact-split-page .auth-exact-password-help { color: #ffffff !important; }
+.auth-exact-split-page .auth-exact-password-help { color: #9f9f9f !important; }
 .auth-exact-split-page .customer-access-form .auth-exact-checkbox-input {
   background: transparent !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   accent-color: #ffffff !important;
 }
-.auth-exact-split-page .admin-auth-card .admin-subtitle { color: #ffffff !important; border-bottom-color: rgba(255, 255, 255, 0.08) !important; }
+.auth-exact-split-page .admin-auth-card .admin-subtitle { color: #b5b5b5 !important; border-bottom-color: rgba(255, 255, 255, 0.08) !important; }
 
 /* Messages inside the dark card. */
 .auth-exact-split-page .auth-exact-card .access-feedback {
   background: rgba(255, 255, 255, 0.1) !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  color: #ffffff !important;
+  color: #e7e7e7 !important;
 }
 .auth-exact-split-page .auth-exact-card .access-feedback.access-error,
 .auth-exact-split-page .admin-login-error {
@@ -2300,21 +2300,21 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 .auth-exact-split-page .admin-setup-hint {
   background: rgba(255, 255, 255, 0.08) !important;
   border: 1px solid rgba(255, 255, 255, 0.24) !important;
-  color: #d6e5db !important;
+  color: #e1e1e1 !important;
 }
 .auth-exact-split-page .admin-dev-hint span,
-.auth-exact-split-page .admin-setup-hint span { color: #ffffff !important; }
+.auth-exact-split-page .admin-setup-hint span { color: #b5b5b5 !important; }
 .auth-exact-split-page .access-confirm-link { color: #ffffff !important; }
 
 @media (max-width: 860px) {
-  .auth-exact-split-page .auth-exact-photo-column { border-right: 0 !important; border-bottom: 1px solid #e3eae5 !important; }
+  .auth-exact-split-page .auth-exact-photo-column { border-right: 0 !important; border-bottom: 1px solid #e8e8e8 !important; }
 }
 .admin-setup-hint { display: grid; gap: 4px; margin: 18px 0 0; padding: 12px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
 
 /* Calmer auth pages: no glow around the card, the buttons or the logo. */
 .auth-exact-split-page .auth-exact-card {
-  border: 1px solid #1a2620 !important;
-  box-shadow: 0 1px 2px rgba(2, 7, 4, 0.06), 0 8px 24px rgba(2, 7, 4, 0.08) !important;
+  border: 1px solid #232323 !important;
+  box-shadow: 0 1px 2px rgba(6, 6, 6, 0.06), 0 8px 24px rgba(6, 6, 6, 0.08) !important;
 }
 .auth-exact-split-page .auth-exact-submit-btn,
 .auth-exact-split-page .auth-exact-submit-btn:hover:not(:disabled),
@@ -2330,7 +2330,7 @@ html[data-panel-mode="solid"] .license-card { background: #0f1d15; }
 .auth-exact-split-page .auth-exact-halo { display: none !important; }
 .auth-exact-split-page .auth-exact-photo-img,
 .auth-exact-split-page .auth-exact-photo-img:hover {
-  filter: drop-shadow(0 12px 24px rgba(2, 7, 4, 0.14)) !important;
+  filter: drop-shadow(0 12px 24px rgba(6, 6, 6, 0.14)) !important;
   transform: none !important;
 }
 .auth-exact-split-page .auth-exact-input:focus,
