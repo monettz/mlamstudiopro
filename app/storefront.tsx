@@ -162,10 +162,10 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       textColor="#000000"
       accentColor="#000000"
       backdropText=""
-      src="/mlam-mark-3d-green-512.png"
-      darkSrc="/mlam-mark-3d-green-512.png"
-      mobileSrc="/mlam-mark-3d-green-512.png"
-      mobileDarkSrc="/mlam-mark-3d-green-512.png"
+      src="/logo-mark-black-512.png"
+      darkSrc="/logo-mark-black-512.png"
+      mobileSrc="/logo-mark-black-512.png"
+      mobileDarkSrc="/logo-mark-black-512.png"
       disableLiquid={true}
       interactive={false}
       liquid={0}
@@ -176,7 +176,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       brandNode={
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', color: '#ffffff' }}>
           <img
-            src="/mlam-mark-3d-green-512.png"
+            src="/logo-mark-black-512.png"
             alt="MLAM"
             className="mn-brand-mark"
             style={{
@@ -461,7 +461,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
 
             <img
               className="modal-product-image"
-              src={selected.image || "/mlam-mark-3d-green-512.png"}
+              src={selected.image || "/logo-mark-black-512.png"}
               alt={selected.name}
             />
 

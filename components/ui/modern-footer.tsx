@@ -30,7 +30,7 @@ export default function ModernFooter() {
         {/* Top Brand Row */}
         <div className="tailark-brand-row">
           <div className="tailark-brand">
-            <img src="/mlam-mark-3d-green-512.png" alt="BLACK-XPACE" className="tailark-brand-logo" />
+            <img src="/logo-mark-black-512.png" alt="BLACK-XPACE" className="tailark-brand-logo" />
             <span className="tailark-brand-name">
               BLACK-XPACE
             </span>

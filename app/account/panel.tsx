@@ -128,7 +128,7 @@ export default function AccountPanel({
           {/* Sidebar */}
           <aside className="customer-account-sidebar">
             <Link className="brand access-brand" href="/" dir="ltr">
-              <img src="/mlam-mark-3d-green-512.png" alt="" />
+              <img className="account-brand-mark" src="/logo-mark-black-512.png" alt="" />
               <span>
                 <b>BLACK-XPACE</b>
                 <small>CUSTOMER HUB</small>

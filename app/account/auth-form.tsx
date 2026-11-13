@@ -148,7 +148,7 @@ export default function CustomerAuthForm({
       <aside className="auth-exact-photo-column" aria-hidden="true">
         <div className="auth-exact-halo" aria-hidden="true" />
         <img
-          src="/images/auth/auth-hero-logo.png"
+          src="/logo-mark-black.png"
           alt="BLACK-XPACE Logo"
           className="auth-exact-photo-img"
           loading="eager"

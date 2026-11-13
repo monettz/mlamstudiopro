@@ -17,7 +17,7 @@ export default async function LoginPage({searchParams}:{searchParams:Promise<{se
 
       <aside className="auth-exact-photo-column" aria-hidden="true">
         <div className="auth-exact-halo" />
-        <img src="/images/auth/auth-hero-logo.png" alt="" className="auth-exact-photo-img" loading="eager" />
+        <img src="/logo-mark-black.png" alt="" className="auth-exact-photo-img" loading="eager" />
       </aside>
 
       <div className="auth-exact-form-column">

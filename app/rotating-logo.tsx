@@ -58,8 +58,8 @@ export default function RotatingLogo() {
           position: absolute;
           inset: 0;
           background: linear-gradient(135deg, #ffffff 0%, #595959 50%, #1d1d1f 100%);
-          mask: url('/mlam-mark-3d-green-512.png') center/contain no-repeat;
-          -webkit-mask: url('/mlam-mark-3d-green-512.png') center/contain no-repeat;
+          mask: url('/logo-mark-black-512.png') center/contain no-repeat;
+          -webkit-mask: url('/logo-mark-black-512.png') center/contain no-repeat;
           pointer-events: none;
         }
       `}</style>
@@ -86,7 +86,7 @@ export default function RotatingLogo() {
           style={{ transform: `translateZ(${HALF_DEPTH}px)` }}
         >
           <img
-            src="/mlam-mark-3d-green-512.webp"
+            src="/logo-mark-black-512.webp"
             alt="MLAM Studio Logo"
             width={512}
             height={415}
@@ -100,7 +100,7 @@ export default function RotatingLogo() {
           style={{ transform: `rotateY(180deg) translateZ(${HALF_DEPTH}px)` }}
         >
           <img
-            src="/mlam-mark-3d-green-512.webp"
+            src="/logo-mark-black-512.webp"
             alt=""
             width={512}
             height={415}

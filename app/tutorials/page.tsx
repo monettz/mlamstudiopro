@@ -58,7 +58,7 @@ function Thumbnail({ guide, large = false }: { guide: Guide; large?: boolean }) 
         <img src={src} alt="" loading="lazy" />
       ) : (
         <span className="tut-thumb-placeholder">
-          <img src="/mlam-mark-3d-green-512.png" alt="" />
+          <img src="/logo-mark-black-512.png" alt="" />
         </span>
       )}
       <span className="tut-thumb-tag">{guide.productName}</span>

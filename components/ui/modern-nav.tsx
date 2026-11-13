@@ -81,7 +81,7 @@ export default function ModernNav({ activeTab, overlay = false }: ModernNavProps
       <header className={headerClass}>
         <nav className="mn-bar" aria-label="Primary">
           <Link className="mn-brand" href="/" aria-label="BLACK-XPACE home">
-            <img src="/mlam-mark-3d-green-512.png" alt="" width={32} height={32} className="mn-brand-mark" />
+            <img src="/logo-mark-black-512.png" alt="" width={32} height={32} className="mn-brand-mark" />
             <span className="mn-brand-text">
               <b>BLACK-XPACE</b>
             </span>

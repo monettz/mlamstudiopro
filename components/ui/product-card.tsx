@@ -33,7 +33,7 @@ export default function ProductCard({ product, highlight, demoId, onBuy }: Props
           <img src={product.image} alt="" loading="lazy" />
         ) : (
           <div className="pcard-placeholder" aria-hidden="true">
-            <img src="/mlam-mark-3d-green-512.png" alt="" />
+            <img src="/logo-mark-black-512.png" alt="" />
             <span>{product.category}</span>
           </div>
         )}

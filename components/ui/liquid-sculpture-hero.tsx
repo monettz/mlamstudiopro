@@ -1117,10 +1117,10 @@ export interface SculptureHeroProps {
 }
 
 const DEFAULTS = {
-  src: "/mlam-mark-3d-green-512.png",
-  darkSrc: "/mlam-mark-3d-green-512.png",
-  mobileSrc: "/mlam-mark-3d-green-512.png",
-  mobileDarkSrc: "/mlam-mark-3d-green-512.png",
+  src: "/logo-mark-black-512.png",
+  darkSrc: "/logo-mark-black-512.png",
+  mobileSrc: "/logo-mark-black-512.png",
+  mobileDarkSrc: "/logo-mark-black-512.png",
   imageAlt: "BLACK-XPACE 3D Logo",
   imageBackground: "#000000",
   brand: "BLACK-XPACE",

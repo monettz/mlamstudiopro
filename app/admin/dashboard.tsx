@@ -387,7 +387,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
 
   return <main className="adm-shell" dir="ltr">
     <aside className="adm-sidebar" aria-label="Administration sections">
-      <a className="adm-brand" href="/"><img src="/mlam-mark-3d-green.png" alt=""/><span><b>BLACK-XPACE</b></span></a>
+      <a className="adm-brand" href="/"><img src="/logo-mark-black.png" alt=""/><span><b>BLACK-XPACE</b></span></a>
       <nav className="adm-nav">
         {NAV.map(({id,label,Icon})=><button key={id} type="button" aria-label={label} aria-current={tab===id ? "page" : undefined} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon size={18} strokeWidth={2} aria-hidden="true"/><span className="admin-nav-label">{label}</span>{id==="notify" && notifyRequests.length>0 && <i className="adm-count">{notifyRequests.length}</i>}</button>)}
       </nav>
@@ -458,7 +458,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
           {!products.length ? emptyState("No products yet","Create your first plugin with the form.") : !shownProducts.length ? emptyState("No matches",`Nothing matches “${query}”.`) :
           <div className="adm-table-wrap"><table className="adm-table"><thead><tr><th>Product</th><th>Price</th><th>Status</th><th className="actions"><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{shownProducts.map(product=><tr key={product.id}>
-              <td><span className="adm-product-cell"><img src={product.image||"/mlam-mark-3d-green-512.png"} alt=""/><span><b>{product.name}</b><small>{product.category}</small></span></span></td>
+              <td><span className="adm-product-cell"><img src={product.image||"/logo-mark-black-512.png"} alt=""/><span><b>{product.name}</b><small>{product.category}</small></span></span></td>
               <td>{product.price_cents > 0 ? money(product.price_cents) : "Free"}</td>
               <td>{statusPill(product.status)}</td>
               <td className="actions"><div className="adm-row-actions">
