@@ -6128,7 +6128,7 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
 
 /* "Tools with a pulse" bento grid (components/ui/bento-card.tsx).
    Same 980px width as the Featured Release and the DAW logo strip.
-   Desktop: products you can buy take a large cell (2 columns x 3 rows),
+   Desktop: products you can buy take a large cell (2 columns x 2 rows),
    coming-soon products are compact cards. Tablet: 2 columns. Phone: 1. */
 .bento-grid {
   display: grid;
@@ -6150,7 +6150,7 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
 .bento-card:hover { border-color: rgba(255, 255, 255, 0.22); }
 .bento-large {
   grid-column: span 2;
-  grid-row: span 3;
+  grid-row: span 2;
   display: flex;
   flex-direction: column;
 }
@@ -6200,7 +6200,7 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
   .bento-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .bento-large { grid-column: auto; }
   .bento-art { aspect-ratio: 16 / 10; }
-  .bento-small { flex-direction: row; align-items: stretch; }
+  .bento-small { flex-direction: row; align-items: stretch; min-height: 124px; }
   .bento-thumb { width: 42%; flex: none; aspect-ratio: auto; min-height: 92px; }
   .bento-small-body { justify-content: center; }
 }
