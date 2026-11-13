@@ -7,4 +7,4 @@ export const SITE_LOCATION = 'Dar es Salaam, Tanzania';
 export const POLICIES_UPDATED = '9 November 2026';
 // YouTube tutorial shown in the homepage Featured Release. Paste the video id
 // (the part after "v=" in the link); leave it empty to show "coming soon".
-export const FEATURED_VIDEO = { id: '', title: 'How to use MLAM Voice MIDI' };
+export const FEATURED_VIDEO = { id: 'YEorsfZe4vU', title: 'How to use MLAM Voice MIDI' }; // test video; will move to the admin panel

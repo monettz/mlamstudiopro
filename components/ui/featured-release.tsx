@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Play } from "lucide-react";
+import { ExternalLink, Play } from "lucide-react";
 import type { ProductCardProduct } from "@/components/ui/product-card";
 
 type Props = {
@@ -58,6 +58,11 @@ export default function FeaturedRelease({ product, videoId, videoTitle, demoId, 
               )}
               <span className="fr-progress" aria-hidden="true"><i /></span>
             </button>
+          )}
+          {videoId && !playing && (
+            <a className="fr-yt-link" href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank" rel="noopener noreferrer">
+              Watch on YouTube <ExternalLink size={14} aria-hidden="true" />
+            </a>
           )}
         </div>
 
