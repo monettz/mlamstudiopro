@@ -12,7 +12,8 @@ import ModernFooter from '@/components/ui/modern-footer';
 import type { ProductCardProduct } from '@/components/ui/product-card';
 import FeaturedRelease from "@/components/ui/featured-release";
 import BentoCard from "@/components/ui/bento-card";
-import { FEATURED_VIDEO } from "@/lib/site";
+import { FEATURED_VIDEO, PLAYLIST_TRACKS } from "@/lib/site";
+import PlaylistWall from "@/components/ui/playlist-wall";
 import FaqSection from '@/components/ui/faq-section';
 
 type Product = ProductCardProduct;
@@ -281,6 +282,17 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
           <BentoCard key={product.id} product={product} demoId={demoFor(product)?.id} onBuy={() => buy(product)} />
         ))}
       </div>
+    </section>
+
+    <section className="showcase-section pw-section" id="playlist">
+      <div className="showcase-header">
+        <h2 className="showcase-title">From our plugins to your playlist</h2>
+        <p className="showcase-subtitle">Songs made with BLACK-XPACE.</p>
+      </div>
+      <PlaylistWall
+        tracks={PLAYLIST_TRACKS}
+        fallbackImages={["/plugins/mlam-voice-midi.png", "/plugins/bushman-bass.png", "/plugins/mlam-piano.png", "/mlam-studio-pro-splash.png"]}
+      />
     </section>
 
     <FaqSection />

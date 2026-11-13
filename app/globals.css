@@ -6204,3 +6204,53 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
   .bento-thumb { width: 42%; flex: none; aspect-ratio: auto; min-height: 92px; }
   .bento-small-body { justify-content: center; }
 }
+
+/* "From our plugins to your playlist" staggered wall (components/ui/playlist-wall.tsx).
+   980px wide like the sections above; 6 columns on desktop, 4 on tablets,
+   3 on phones. Every other column starts lower, like a record wall. */
+.pw-wrap {
+  position: relative; max-width: 980px; margin: 0 auto; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.pw-wall {
+  display: flex; gap: 12px; align-items: flex-start; width: max-content;
+  padding-bottom: 44px;
+  animation: pw-scroll 45s linear infinite;
+}
+.pw-wrap:hover .pw-wall, .pw-wrap:focus-within .pw-wall { animation-play-state: paused; }
+@keyframes pw-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.pw-col { display: grid; gap: 12px; width: 152px; flex: none; }
+.pw-col:nth-child(2n) { margin-top: 44px; }
+.pw-col:nth-child(3n) { margin-top: 22px; }
+.pw-tile {
+  position: relative; display: block; aspect-ratio: 1 / 1; border-radius: 16px; overflow: hidden;
+  background: #232325; outline: none;
+}
+.pw-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease, filter 0.35s ease; }
+.pw-caption {
+  position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; gap: 3px;
+  padding: 28px 10px 10px; background: linear-gradient(to top, rgba(20, 20, 20, 0.95), rgba(20, 20, 20, 0));
+  opacity: 0; transform: translateY(6px); transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.pw-tile:hover img, .pw-tile:focus-visible img { transform: scale(1.05); }
+.pw-tile:hover .pw-caption, .pw-tile:focus-visible .pw-caption, .pw-tile:focus .pw-caption { opacity: 1; transform: none; }
+.pw-tile:focus-visible { box-shadow: inset 0 0 0 2px #f5f5f7; }
+.pw-song { font-size: 12px; font-weight: 700; color: #f5f5f7; line-height: 1.3; }
+.pw-meta { font-size: 11px; color: #a1a1a6; }
+.pw-plugin {
+  align-self: flex-start; margin-top: 3px; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; border: 1px solid #6e6e73; border-radius: 999px; color: #f5f5f7;
+}
+@media (max-width: 900px) {
+  .pw-col { width: 128px; }
+  .pw-wall { animation-duration: 38s; }
+}
+@media (max-width: 600px) {
+  .pw-wall, .pw-col { gap: 8px; }
+  .pw-col { width: 104px; }
+  .pw-col:nth-child(2n) { margin-top: 28px; }
+  .pw-col:nth-child(3n) { margin-top: 14px; }
+  .pw-tile { border-radius: 12px; }
+  .pw-wall { animation-duration: 32s; padding-bottom: 28px; }
+}
