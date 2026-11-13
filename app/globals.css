@@ -6051,7 +6051,7 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
    product panel on the right, as in the chosen mockup. */
 .fr-split {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: clamp(20px, 3vw, 40px);
   align-items: start;
   max-width: 980px; /* same width as the Works with your stack logo strip */
