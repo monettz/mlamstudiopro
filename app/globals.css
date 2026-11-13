@@ -6046,37 +6046,67 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
 body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color: #ffffff; }
 .hero-video .hero-bg-video { object-position: center center; }
 
-/* Featured Release, "Split" layout (components/ui/featured-release.tsx) */
+/* Featured Release, "Split" card (components/ui/featured-release.tsx).
+   One card with the heading, the YouTube tutorial on the left and the
+   product panel on the right, as in the chosen mockup. */
+.fr-section { padding-top: 40px; padding-bottom: 40px; }
+.fr-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 36px);
+  border-radius: 24px;
+  background: #1a1a1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f5f5f7;
+}
+.fr-kicker {
+  font-family: Inter, 'Segoe UI', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #a1a1a6;
+}
+.fr-title {
+  margin: 6px 0 22px;
+  font-family: 'Jost', 'Futura', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #f5f5f7;
+}
 .fr-split {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
   align-items: stretch;
 }
 .fr-video {
   position: relative;
+  align-self: start;
+  width: 100%;
+  min-width: 0;
   aspect-ratio: 16 / 9;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   background: #232325;
-  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 .fr-video iframe,
 .fr-video-poster { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .fr-video-poster { padding: 0; background: #232325; cursor: pointer; }
 .fr-video-poster:disabled { cursor: default; }
-.fr-video-poster img { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; transition: opacity 0.25s ease; }
-.fr-video-poster:hover:not(:disabled) img { opacity: 0.9; }
+.fr-video-poster img { width: 100%; height: 100%; object-fit: cover; opacity: 0.55; transition: opacity 0.25s ease; }
+.fr-video-poster:hover:not(:disabled) img { opacity: 0.75; }
 .fr-video-poster:focus-visible { outline: 2px solid #f5f5f7; outline-offset: -4px; }
 .fr-video-caption {
   position: absolute; left: 16px; top: 14px; right: 16px; text-align: left;
-  font-size: 13px; font-weight: 600; color: #f5f5f7; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  font-size: 13px; font-weight: 500; color: #d1d1d6;
 }
 .fr-play {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  width: 72px; height: 50px; border-radius: 14px; background: #ff0033; color: #ffffff;
+  width: 68px; height: 48px; border-radius: 14px; background: #ff0033; color: #ffffff;
   display: grid; place-items: center; transition: transform 0.2s ease;
 }
 .fr-video-poster:hover:not(:disabled) .fr-play { transform: translate(-50%, -50%) scale(1.06); }
@@ -6085,37 +6115,32 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
   padding: 8px 16px; border-radius: 999px; background: rgba(20, 20, 20, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.2); color: #f5f5f7; font-size: 12px; font-weight: 700;
 }
+.fr-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #3a3a3c; }
+.fr-progress i { display: block; width: 34%; height: 100%; background: #f5f5f7; }
 .fr-product {
-  display: flex; flex-direction: column; gap: 12px; min-width: 0;
-  padding: 18px; border-radius: 18px; background: #232325; border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; flex-direction: column; gap: 10px; min-width: 0;
+  padding: 18px; border-radius: 16px; background: #232325;
 }
-.fr-product-art { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; background: #2c2c2e; }
-.fr-product-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.fr-product-art {
+  width: 100%; height: clamp(110px, 12vw, 160px); object-fit: cover; object-position: top center;
+  border-radius: 12px; background: #2c2c2e;
+}
 .fr-product-name {
-  margin: 0; font-family: 'Jost', 'Futura', system-ui, sans-serif; font-weight: 900;
+  margin: 4px 0 0; font-family: 'Jost', 'Futura', system-ui, sans-serif; font-weight: 800;
   text-transform: uppercase; font-size: 20px; letter-spacing: -0.01em; color: #f5f5f7;
 }
-.fr-product-status {
-  font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.3); color: #f5f5f7;
-}
-.fr-product-desc { font-size: 14px; line-height: 1.55; color: #a1a1a6; }
-.fr-product-desc p { margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.fr-product-desc .description-language-note { display: none; }
-.fr-product-price { margin: 0; color: #a1a1a6; font-size: 12px; }
-.fr-product-price strong { font-size: 26px; font-weight: 800; color: #f5f5f7; margin-right: 6px; }
-.fr-product-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+.fr-product-sub { margin: 0; font-size: 13px; color: #a1a1a6; }
+.fr-product-price { margin: 2px 0 0; font-size: 28px; font-weight: 800; color: #f5f5f7; }
+.fr-product-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
 .fr-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
   padding: 0 20px; border-radius: 999px; font: inherit; font-size: 14px; font-weight: 700;
   text-decoration: none; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 .fr-btn.primary { border: 0; background: #f5f5f7; color: #141414; }
 .fr-btn.primary:hover { background: #ffffff; }
-.fr-btn.ghost { border: 1px solid rgba(255, 255, 255, 0.35); background: transparent; color: #f5f5f7; }
+.fr-btn.ghost { border: 1px solid #6e6e73; background: transparent; color: #f5f5f7; }
 .fr-btn.ghost:hover { border-color: #f5f5f7; background: rgba(255, 255, 255, 0.08); }
 @media (max-width: 860px) {
   .fr-split { grid-template-columns: minmax(0, 1fr); }
 }
-/* Keep the 16:9 player its own height; stretching it to the card widened it. */
-.fr-video { align-self: center; width: 100%; min-width: 0; }
