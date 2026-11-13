@@ -6054,7 +6054,7 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: clamp(20px, 3vw, 40px);
   align-items: start;
-  max-width: 1240px;
+  max-width: 980px; /* same width as the Works with your stack logo strip */
   margin: 0 auto;
 }
 .fr-video {
