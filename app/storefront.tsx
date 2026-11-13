@@ -196,7 +196,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       eyebrow={t('heroTop') || "BUILT FOR REAL PRODUCERS"}
       headline={`${t('heroFirst') || "Turn inspiration"}\n${t('heroSecond') || "into"} ${t('heroAccent') || "sound."}`}
       headlineAccent={`${t('heroSecond') || "into"} ${t('heroAccent') || "sound."}`}
-      body={t('heroCopy') || "Original instruments and effects built by MLAM for fast ideas, expressive performance and professional mixes."}
+      body={t('heroCopy') || "Original instruments and effects built by BLACK-XPACE for fast ideas, expressive performance and professional mixes."}
       primaryCta={{ label: t('explore') || "Explore plugins", href: "#plugins" }}
       secondaryCta={{ label: t('guides') || "How to use", href: "/tutorials" }}
       navLinks={[
@@ -211,22 +211,14 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
     />
 
     {/* Featured Release - Flagship Voice-to-MIDI Instrument */}
-    <section className="showcase-section" id="voice-midi">
-      <div className="showcase-header">
-        <span className="showcase-kicker">New from MLAM</span>
-        <h2 className="showcase-title">Featured Release</h2>
-        <p className="showcase-subtitle">
-          Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes.
-        </p>
-      </div>
+    <section className="showcase-section fr-section" id="voice-midi">
       <FeaturedRelease
         product={featured}
         videoId={FEATURED_VIDEO.id}
         videoTitle={FEATURED_VIDEO.title}
         demoId={demoFor(featured)?.id}
-        buyLabel={t("buy")}
-        demoLabel={t("tryDemo")}
-        detailsLabel={t("details")}
+        kicker="New from BLACK-XPACE"
+        title="Featured release"
         onBuy={() => buy(featured)}
       />
     </section>
@@ -270,12 +262,12 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
 
     <section className="store" id="plugins">
       <div className="section-heading">
-        <span className="kicker">MLAM PLUGIN STORE</span>
+        <span className="kicker">BLACK-XPACE PLUGIN STORE</span>
         <h2>{t('tools')}</h2>
         <p>
           {language === 'sw'
-            ? 'Gundua vyombo vya muziki vya kisasa, zana za kugeuza sauti kuwa MIDI, na madoido ya daraja la juu ya studio yaliyoundwa kupanua upeo wako wa sauti. Vimetengenezwa na watayarishaji kwa ajili ya mifumo ya kisasa ya studio, kila zana ya MLAM inatoa ufanisi wa bila ucheleweshaji, udhibiti rahisi, na ubora safi wa sauti kuanzia wazo la kwanza hadi master kamili.'
-            : 'Explore precision-engineered virtual instruments, responsive MIDI converters, and studio-grade audio processors crafted to expand your creative sonic palette. Built by producers for modern workflows, every MLAM tool delivers zero-latency performance, intuitive control, and pristine sound quality from your initial melody to the final master.'}
+            ? 'Gundua vyombo vya muziki vya kisasa, zana za kugeuza sauti kuwa MIDI, na madoido ya daraja la juu ya studio yaliyoundwa kupanua upeo wako wa sauti. Vimetengenezwa na watayarishaji kwa ajili ya mifumo ya kisasa ya studio, kila zana ya BLACK-XPACE inatoa ufanisi wa bila ucheleweshaji, udhibiti rahisi, na ubora safi wa sauti kuanzia wazo la kwanza hadi master kamili.'
+            : 'Explore precision-engineered virtual instruments, responsive MIDI converters, and studio-grade audio processors crafted to expand your creative sonic palette. Built by producers for modern workflows, every BLACK-XPACE tool delivers zero-latency performance, intuitive control, and pristine sound quality from your initial melody to the final master.'}
         </p>
       </div>
       <div className="filters">{categories.map((category) => <button className={filter === category ? "active" : ""} key={category} onClick={() => setFilter(category)}>{category==='All'?t('all'):category}</button>)}</div>
@@ -299,7 +291,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
         <span className="showcase-kicker">Support that knows the product</span>
         <h2 className="showcase-title">From install to first sound</h2>
         <p className="showcase-subtitle">
-          Talk directly to the people who build MLAM tools, or learn at your own pace with step-by-step video guides.
+          Talk directly to the people who build BLACK-XPACE tools, or learn at your own pace with step-by-step video guides.
         </p>
       </div>
       <div className="help-grid">
@@ -316,7 +308,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
               <h3 className="help-card-title">Contact support</h3>
             </div>
           </div>
-          <p className="help-card-desc">Need help with setup, licensing or DAW compatibility? Talk directly to the MLAM team and get answers fast.</p>
+          <p className="help-card-desc">Need help with setup, licensing or DAW compatibility? Talk directly to the BLACK-XPACE team and get answers fast.</p>
           <a className="help-card-btn primary" href="mailto:melaninentertainment255@gmail.com">
             <span>Contact support</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
@@ -330,11 +322,11 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
               </svg>
             </div>
             <div className="help-card-heading">
-              <span className="help-card-badge">Learn with MLAM</span>
+              <span className="help-card-badge">Learn with BLACK-XPACE</span>
               <h3 className="help-card-title">How to use</h3>
             </div>
           </div>
-          <p className="help-card-desc">Watch video guides for every MLAM product, from your very first setup to mastering each control.</p>
+          <p className="help-card-desc">Watch video guides for every BLACK-XPACE product, from your very first setup to mastering each control.</p>
           <Link className="help-card-btn primary" href="/tutorials">
             <span>Watch guides</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>

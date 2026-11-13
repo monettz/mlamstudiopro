@@ -12,13 +12,13 @@ export const viewport: Viewport = { themeColor: "#141414", colorScheme: "dark" }
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.MLAM_ORIGIN || 'http://127.0.0.1:4180'),
   title: "BLACK-XPACE — Plugins, Instruments & Effects",
-  description: "Original MLAM plugins for producers: instruments, MIDI tools and audio effects.",
+  description: "Original BLACK-XPACE plugins for producers: instruments, MIDI tools and audio effects.",
   icons: { icon: "/favicon.svg" },
   openGraph: {
     title: "BLACK-XPACE",
-    description: "Turn inspiration into sound with MLAM instruments and effects.",
+    description: "Turn inspiration into sound with BLACK-XPACE instruments and effects.",
     type: "website",
-    images: [{ url: "/og.png", width: 1680, height: 945, alt: "MLAM Plugin Store" }],
+    images: [{ url: "/og.png", width: 1680, height: 945, alt: "BLACK-XPACE Plugin Store" }],
   },
 };
 
