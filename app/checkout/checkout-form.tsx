@@ -58,7 +58,7 @@ function formatCardNumber(value: string) {
 export default function CheckoutForm({ productId, priceLabel }: { productId: string; priceLabel: string }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'card'>('mpesa');
+  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'card'>('card');
   const [mobileNetwork, setMobileNetwork] = useState('mpesa');
   const [mobileNumber, setMobileNumber] = useState('');
 
@@ -172,22 +172,22 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
           <button
             type="button"
             role="tab"
-            aria-selected={paymentMethod === 'mpesa'}
-            className={`checkout-type-pill ${paymentMethod === 'mpesa' ? 'active' : ''}`}
-            onClick={() => { setPaymentMethod('mpesa'); setMessage(''); }}
-          >
-            <Smartphone size={17} />
-            <span>Mobile Money</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
             aria-selected={paymentMethod === 'card'}
             className={`checkout-type-pill ${paymentMethod === 'card' ? 'active' : ''}`}
             onClick={() => { setPaymentMethod('card'); setMessage(''); }}
           >
             <CreditCard size={17} />
             <span>Credit / Debit Card</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={paymentMethod === 'mpesa'}
+            className={`checkout-type-pill ${paymentMethod === 'mpesa' ? 'active' : ''}`}
+            onClick={() => { setPaymentMethod('mpesa'); setMessage(''); }}
+          >
+            <Smartphone size={17} />
+            <span>Mobile Money</span>
           </button>
         </div>
 
@@ -241,7 +241,7 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
                   type="tel"
                   inputMode="numeric"
                   autoComplete="tel"
-                  placeholder="711472706"
+                  placeholder="7XX XXX XXX"
                   value={mobileNumber}
                   onChange={(e) => {
                     const val = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -259,7 +259,25 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
           <div className="checkout-method-container checkout-card-form-container">
             <span className="checkout-section-subtitle">Card details</span>
 
-            <div className="checkout-card-inputs-stack">
+            {/* Live preview of the card being entered (display only). */}
+            <div className={`checkout-card-preview ${detectedCardBrand ?? ''}`} aria-hidden="true">
+              <div className="checkout-card-preview-top">
+                <span className="checkout-card-preview-chip" />
+                <span className="checkout-card-preview-brand">
+                  {detectedCardBrand === 'visa' ? <VisaLogo className="checkout-card-detected-icon" /> : detectedCardBrand === 'mastercard' ? <MastercardLogo className="checkout-card-detected-icon" /> : <CreditCard size={22} />}
+                </span>
+              </div>
+              <span className="checkout-card-preview-number">{cardNumber || '•••• •••• •••• ••••'}</span>
+              <div className="checkout-card-preview-bottom">
+                <span><small>Cardholder</small>{cardHolder.trim() || 'YOUR NAME'}</span>
+                <span><small>Expires</small>{cardExpiry || 'MM/YY'}</span>
+              </div>
+            </div>
+
+            {/* When a payment provider is connected, mount its secure card
+                fields here (data-provider-mount) in place of these inputs, so
+                card data goes straight to the provider. */}
+            <div className="checkout-card-inputs-stack" data-provider-mount="card">
               <div className="checkout-card-field">
                 <label htmlFor="checkout-card-holder" className="sr-only">Cardholder name</label>
                 <input
@@ -368,7 +386,7 @@ export default function CheckoutForm({ productId, priceLabel }: { productId: str
               </div>
             </div>
 
-            <p className="checkout-card-security-note"><Lock size={13} aria-hidden="true" /><span>Your card number is not stored by MLAM. 3-D Secure verification by your bank.</span></p>
+            <p className="checkout-card-security-note"><Lock size={13} aria-hidden="true" /><span>Your card number never reaches BLACK-XPACE servers. Your bank may ask you to confirm with 3-D Secure.</span></p>
           </div>
         )}
       </fieldset>

@@ -6323,3 +6323,31 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
   .bx-footer-wordmark { margin: 28px 0 12px; font-size: calc((100vw - 32px) / 7.2); }
   .bx-footer-bottom { flex-direction: column; align-items: flex-start; }
 }
+
+/* Checkout "Form + sticky summary": card first, a live card preview, and the
+   order summary that stays in view while the form scrolls. */
+.checkout-page-modern .checkout-layout { max-width: 980px; margin: 0 auto; align-items: start; }
+@media (min-width: 900px) {
+  .checkout-page-modern .checkout-summary { position: sticky; top: calc(var(--mn-h-scrolled, 64px) + 20px); }
+}
+.checkout-card-preview {
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 18px;
+  width: min(100%, 360px); aspect-ratio: 1.586 / 1; margin: 6px 0 18px; padding: 20px 22px;
+  border-radius: 18px; color: #f5f5f7; overflow: hidden;
+  background: linear-gradient(135deg, #3a3a3c 0%, #1d1d1f 55%, #141414 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+.checkout-card-preview.visa { background: linear-gradient(135deg, #2b3a67 0%, #1a2340 60%, #141414 100%); }
+.checkout-card-preview.mastercard { background: linear-gradient(135deg, #4a2a22 0%, #2a1a17 60%, #141414 100%); }
+.checkout-card-preview-top { display: flex; justify-content: space-between; align-items: center; }
+.checkout-card-preview-chip { width: 42px; height: 30px; border-radius: 6px; background: linear-gradient(135deg, #d9c27a, #a8893d); }
+.checkout-card-preview-brand { display: inline-flex; align-items: center; color: #f5f5f7; }
+.checkout-card-preview-brand svg { height: 26px; width: auto; }
+.checkout-card-preview-number {
+  font-family: 'SFMono-Regular', Consolas, monospace; font-size: clamp(16px, 4.6vw, 21px);
+  letter-spacing: 0.12em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.checkout-card-preview-bottom { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; font-weight: 600; text-transform: uppercase; }
+.checkout-card-preview-bottom span { display: flex; flex-direction: column; gap: 3px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.checkout-card-preview-bottom small { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: #a1a1a6; }

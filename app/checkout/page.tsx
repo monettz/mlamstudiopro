@@ -62,7 +62,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Pro
               <ul className="checkout-summary-promise">
                 <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>One-time purchase, no recurring charge</li>
                 <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>License key and downloads after payment</li>
-                <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>Card number is never stored by MLAM</li>
+                <li><span aria-hidden="true"><Check size={13} strokeWidth={3} /></span>Card details go straight to the payment provider</li>
               </ul>
               <Link className="checkout-summary-continue" href={`/plugins/${encodeURIComponent(product.slug || product.id)}`}>Review product details</Link>
             </aside>
