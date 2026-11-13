@@ -213,7 +213,6 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
     {/* Featured Release - Flagship Voice-to-MIDI Instrument */}
     <section className="showcase-section fr-section" id="voice-midi">
       <div className="showcase-header">
-        <span className="showcase-kicker">New from BLACK-XPACE</span>
         <h2 className="showcase-title">Featured Release</h2>
         <p className="showcase-subtitle">
           Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes.
@@ -267,7 +266,6 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
 
     <section className="store" id="plugins">
       <div className="section-heading">
-        <span className="kicker">BLACK-XPACE PLUGIN STORE</span>
         <h2>{t('tools')}</h2>
         <p>
           {language === 'sw'
@@ -293,7 +291,6 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
 
     <section className="showcase-section help-section" id="support">
       <div className="showcase-header">
-        <span className="showcase-kicker">Support that knows the product</span>
         <h2 className="showcase-title">From install to first sound</h2>
         <p className="showcase-subtitle">
           Talk directly to the people who build BLACK-XPACE tools, or learn at your own pace with step-by-step video guides.

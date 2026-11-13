@@ -52,7 +52,6 @@ export default function FaqSection() {
   return (
     <section className="showcase-section faq-section" id="faq">
       <div className="showcase-header">
-        <span className="showcase-kicker">Questions</span>
         <h2 className="showcase-title">Before you buy</h2>
         <p className="showcase-subtitle">License, compatibility and payment, answered in one place.</p>
       </div>
