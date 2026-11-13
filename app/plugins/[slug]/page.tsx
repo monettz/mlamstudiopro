@@ -196,7 +196,7 @@ export default async function ProductPage({ params }: PageProps) {
 
         {related.length > 0 && (
           <section className="pp-section" aria-labelledby="pp-more">
-            <h2 id="pp-more" className="pp-heading">More from MLAM</h2>
+            <h2 id="pp-more" className="pp-heading">More from BLACK-XPACE</h2>
             <RelatedProducts products={related} />
           </section>
         )}
