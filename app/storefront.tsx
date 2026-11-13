@@ -171,7 +171,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       strength={0}
       turbulence={0}
       ambient={false}
-      centerNode={<video className="hero-bg-video" src="/videos/hero-studio.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" />}
+      centerNode={<video className="hero-bg-video" src="/videos/hero-studio.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" ref={(video) => { if (video && window.matchMedia("(prefers-reduced-motion: reduce)").matches) video.pause(); }} />}
       brandNode={
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', color: '#ffffff' }}>
           <img
