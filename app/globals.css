@@ -6117,3 +6117,5 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
 @media (max-width: 860px) {
   .fr-split { grid-template-columns: minmax(0, 1fr); }
 }
+/* Keep the 16:9 player its own height; stretching it to the card widened it. */
+.fr-video { align-self: center; width: 100%; min-width: 0; }
