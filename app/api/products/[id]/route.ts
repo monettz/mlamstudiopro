@@ -3,6 +3,7 @@ import { database, ensureStore, json } from "@/lib/store";
 import { boundedJson } from '@/lib/bounded-json';
 import { validateDescriptionTranslations } from '@/lib/product-descriptions';
 import { normalizeProductImages } from '@/lib/product-images';
+import { refreshCatalog } from '@/lib/catalog';
 
 type Context = { params: Promise<{ id: string }> };
 
@@ -16,13 +17,13 @@ export async function PATCH(request: Request, context: Context) {
     const galleryImages=normalizeProductImages(body.gallery_images);
     if(galleryImages===null)return json({error:'Add up to 12 valid local or HTTPS product images'},400);
     const result=await database().prepare('UPDATE products SET gallery_images=?,updated_at=? WHERE id=?').bind(JSON.stringify(galleryImages ?? []),new Date().toISOString(),id).run();
-    return result.meta.changes?json({ok:true}):json({error:'Product not found'},404);
+    refreshCatalog(); return result.meta.changes?json({ok:true}):json({error:'Product not found'},404);
   }
   if(Object.hasOwn(body,'description_translations')){
     let translations;
     try{translations=validateDescriptionTranslations(body.description_translations);}catch{return json({error:'Use supported language codes and descriptions of at most 4000 characters.'},400);}
     const result=await database().prepare('UPDATE products SET description_translations=?,updated_at=? WHERE id=?').bind(JSON.stringify(translations),new Date().toISOString(),id).run();
-    return result.meta.changes?json({ok:true}):json({error:'Product not found'},404);
+    refreshCatalog(); return result.meta.changes?json({ok:true}):json({error:'Product not found'},404);
   }
   const image = typeof body?.image === "string" ? body.image.trim() : "";
   if (!image || image.length > 2048 || (!image.startsWith("/") && !image.startsWith("https://")) || image.startsWith("//")) {
@@ -30,7 +31,7 @@ export async function PATCH(request: Request, context: Context) {
   }
   const result = await database().prepare("UPDATE products SET image=?,updated_at=? WHERE id=?")
     .bind(image, new Date().toISOString(), id).run();
-  return result.meta.changes ? json({ ok: true }) : json({ error: "Product not found" }, 404);
+  refreshCatalog(); return result.meta.changes ? json({ ok: true }) : json({ error: "Product not found" }, 404);
 }
 
 export async function PUT(request: Request, context: Context) {
@@ -58,7 +59,7 @@ export async function PUT(request: Request, context: Context) {
   if(galleryImages===null)return json({error:'Add up to 12 valid local or HTTPS product images'},400);
   const result = await database().prepare(`UPDATE products SET slug=?,name=?,category=?,description=?,price_cents=?,status=?,image=?,features=?,checkout_url=?,updated_at=?,description_translations=COALESCE(?,description_translations),gallery_images=COALESCE(?,gallery_images) WHERE id=?`)
     .bind(slug, name, category, body.description, priceCents, status, image, features, String(body.checkout_url ?? ""), new Date().toISOString(),translations,galleryImages ? JSON.stringify(galleryImages) : null,id).run();
-  return result.meta.changes ? json({ ok: true }) : json({ error: "Product not found" }, 404);
+  refreshCatalog(); return result.meta.changes ? json({ ok: true }) : json({ error: "Product not found" }, 404);
 }
 
 export async function DELETE(_request: Request, context: Context) {
@@ -69,5 +70,5 @@ export async function DELETE(_request: Request, context: Context) {
     database().prepare("DELETE FROM releases WHERE product_id=?").bind(id),
     database().prepare("DELETE FROM licenses WHERE product_id=?").bind(id),
   ]);
-  return json({ ok: true });
+  refreshCatalog(); return json({ ok: true });
 }

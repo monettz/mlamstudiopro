@@ -3,6 +3,7 @@ import { database, ensureStore, json, listProducts } from "@/lib/store";
 import { boundedJson } from '@/lib/bounded-json';
 import { builtInTranslations,readDescriptionTranslations,productDescription,validateDescriptionTranslations } from '@/lib/product-descriptions';
 import { normalizeProductImages } from '@/lib/product-images';
+import { refreshCatalog } from '@/lib/catalog';
 
 export async function GET(request:Request) {
   const owner=!!(await adminUser());const products=await listProducts(!owner);
@@ -36,5 +37,5 @@ export async function POST(request: Request) {
   const features = Array.isArray(body.features) ? JSON.stringify(body.features) : String(body.features ?? "[]");
   await database().prepare(`INSERT INTO products (id,slug,name,category,description,price_cents,status,image,features,checkout_url,created_at,updated_at,description_translations,gallery_images) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
     .bind(id, slug, name, String(body.category ?? "Plugin"), body.description, Number(body.price_cents ?? 0), String(body.status ?? "draft"), String(body.image ?? "/plugins/mlam-voice-midi.png"), features, String(body.checkout_url ?? ""), now, now,JSON.stringify(translations),JSON.stringify(galleryImages ?? [])).run();
-  return json({ ok: true, id }, 201);
+  refreshCatalog(); return json({ ok: true, id }, 201);
 }

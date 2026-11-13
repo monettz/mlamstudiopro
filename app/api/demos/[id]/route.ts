@@ -1,6 +1,7 @@
 import { env } from "@/lib/runtime";
 import { rejectUnlessAdmin } from "@/lib/admin";
 import { database, ensureStore, json } from "@/lib/store";
+import { refreshCatalog } from '@/lib/catalog';
 
 // Removes the demo ZIP from storage and its row; an active demo stops showing Try.
 export async function DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
@@ -10,7 +11,7 @@ export async function DELETE(_request: Request, context: { params: Promise<{ id:
   if (!row) return json({ error: "Demo not found" }, 404);
   await (env as unknown as { RELEASES: LocalBucket }).RELEASES.delete(row.r2_key);
   await database().prepare("DELETE FROM demo_releases WHERE id=?").bind(id).run();
-  return json({ ok: true });
+  refreshCatalog(); return json({ ok: true });
 }
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
@@ -26,5 +27,5 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   if (body.active) updates.push(db.prepare("UPDATE demo_releases SET is_active=0 WHERE product_id=?").bind(row.product_id));
   updates.push(db.prepare("UPDATE demo_releases SET is_active=? WHERE id=?").bind(body.active ? 1 : 0, id));
   await db.batch(updates);
-  return json({ ok: true });
+  refreshCatalog(); return json({ ok: true });
 }

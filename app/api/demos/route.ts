@@ -1,6 +1,7 @@
 import { env } from "@/lib/runtime";
 import { adminUser, rejectUnlessAdmin } from "@/lib/admin";
 import { database, ensureStore, json } from "@/lib/store";
+import { refreshCatalog } from '@/lib/catalog';
 
 export async function GET() {
   const admin = await adminUser();
@@ -30,5 +31,5 @@ export async function POST(request: Request) {
     await database().prepare("INSERT INTO demo_releases (id,product_id,version,r2_key,file_name,file_size,is_active,notes,created_at) VALUES (?,?,?,?,?,?,?,?,?)")
       .bind(id, productId, version, key, file.name, file.size, 0, notes, new Date().toISOString()).run();
   } catch (error) { await bucket.delete(key); throw error; }
-  return json({ ok: true, id }, 201);
+  refreshCatalog(); return json({ ok: true, id }, 201);
 }

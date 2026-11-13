@@ -109,15 +109,18 @@ const dawIntegrations = [
   }
 ];
 
-export default function Storefront() {
+export default function Storefront({ initialProducts, initialDemos }: { initialProducts?: Product[]; initialDemos?: Demo[] }) {
   const router = useRouter();
   const { t, language } = useLanguage();
-  const [products, setProducts] = useState(fallback);
+  const serverLoaded = !!initialProducts?.length;
+  const [products, setProducts] = useState(serverLoaded ? initialProducts! : fallback);
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState<Product | null>(null);
-  const [demos, setDemos] = useState<Demo[]>([]);
+  const [demos, setDemos] = useState<Demo[]>(initialDemos ?? []);
 
   useEffect(() => {
+    // The server already rendered the catalog; only fetch when it could not.
+    if (serverLoaded) return;
     fetch("/api/products")
       .then((response) => response.ok ? response.json() : Promise.reject())
       .then((data) => {
@@ -126,12 +129,19 @@ export default function Storefront() {
       })
       .catch(() => undefined);
     fetch("/api/demos").then(response=>response.ok ? response.json() : Promise.reject()).then(data=>setDemos((data as { demos?:Demo[] }).demos ?? [])).catch(()=>undefined);
-  }, []);
+  }, [serverLoaded]);
 
   useEffect(() => {
     const productId = new URLSearchParams(window.location.search).get("product");
     if (productId) setSelected(products.find(product=>product.id===productId) ?? null);
   }, [products]);
+
+  useEffect(() => {
+    if (!selected) return;
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setSelected(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selected]);
 
   const demoFor = (product:Product) => product.status === "published" ? demos.find(demo=>demo.product_id===product.id && demo.is_active) : undefined;
 
