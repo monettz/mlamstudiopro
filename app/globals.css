@@ -5955,9 +5955,6 @@ body:has(.hero-light) .mn-header.is-overlay:not(.is-scrolled) .mn-brand-mark { f
 }
 
 /* Web Interface Guidelines: motion, touch and dialogs */
-@media (prefers-reduced-motion: reduce) {
-  .core-platform-marquee-track { animation: none; }
-}
 a, button, input, select, textarea, label, summary { touch-action: manipulation; }
 .modal-backdrop, .modal { overscroll-behavior: contain; }
 
