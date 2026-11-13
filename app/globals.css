@@ -6045,3 +6045,75 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
 .hero-video .sh-txt:hover { background: rgba(255, 255, 255, 0.12); border-color: #ffffff; color: #ffffff; }
 body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color: #ffffff; }
 .hero-video .hero-bg-video { object-position: center center; }
+
+/* Featured Release, "Split" layout (components/ui/featured-release.tsx) */
+.fr-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+.fr-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #232325;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.fr-video iframe,
+.fr-video-poster { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.fr-video-poster { padding: 0; background: #232325; cursor: pointer; }
+.fr-video-poster:disabled { cursor: default; }
+.fr-video-poster img { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; transition: opacity 0.25s ease; }
+.fr-video-poster:hover:not(:disabled) img { opacity: 0.9; }
+.fr-video-poster:focus-visible { outline: 2px solid #f5f5f7; outline-offset: -4px; }
+.fr-video-caption {
+  position: absolute; left: 16px; top: 14px; right: 16px; text-align: left;
+  font-size: 13px; font-weight: 600; color: #f5f5f7; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+.fr-play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 72px; height: 50px; border-radius: 14px; background: #ff0033; color: #ffffff;
+  display: grid; place-items: center; transition: transform 0.2s ease;
+}
+.fr-video-poster:hover:not(:disabled) .fr-play { transform: translate(-50%, -50%) scale(1.06); }
+.fr-soon {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  padding: 8px 16px; border-radius: 999px; background: rgba(20, 20, 20, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2); color: #f5f5f7; font-size: 12px; font-weight: 700;
+}
+.fr-product {
+  display: flex; flex-direction: column; gap: 12px; min-width: 0;
+  padding: 18px; border-radius: 18px; background: #232325; border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.fr-product-art { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; background: #2c2c2e; }
+.fr-product-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.fr-product-name {
+  margin: 0; font-family: 'Jost', 'Futura', system-ui, sans-serif; font-weight: 900;
+  text-transform: uppercase; font-size: 20px; letter-spacing: -0.01em; color: #f5f5f7;
+}
+.fr-product-status {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.3); color: #f5f5f7;
+}
+.fr-product-desc { font-size: 14px; line-height: 1.55; color: #a1a1a6; }
+.fr-product-desc p { margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.fr-product-desc .description-language-note { display: none; }
+.fr-product-price { margin: 0; color: #a1a1a6; font-size: 12px; }
+.fr-product-price strong { font-size: 26px; font-weight: 800; color: #f5f5f7; margin-right: 6px; }
+.fr-product-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+.fr-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px;
+  padding: 0 20px; border-radius: 999px; font: inherit; font-size: 14px; font-weight: 700;
+  text-decoration: none; cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.fr-btn.primary { border: 0; background: #f5f5f7; color: #141414; }
+.fr-btn.primary:hover { background: #ffffff; }
+.fr-btn.ghost { border: 1px solid rgba(255, 255, 255, 0.35); background: transparent; color: #f5f5f7; }
+.fr-btn.ghost:hover { border-color: #f5f5f7; background: rgba(255, 255, 255, 0.08); }
+@media (max-width: 860px) {
+  .fr-split { grid-template-columns: minmax(0, 1fr); }
+}
