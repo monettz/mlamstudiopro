@@ -301,47 +301,26 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       <div className="showcase-header">
         <h2 className="showcase-title">From install to first sound</h2>
         <p className="showcase-subtitle">
-          Talk directly to the people who build BLACK-XPACE tools, or learn at your own pace with step-by-step video guides.
+          Four steps from checkout to your first note. We&apos;re here if you get stuck.
         </p>
       </div>
-      <div className="help-grid">
-        <article className="help-card">
-          <div className="help-card-top">
-            <div className="help-card-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-            </div>
-            <div className="help-card-heading">
-              <span className="help-card-badge">Direct support</span>
-              <h3 className="help-card-title">Contact support</h3>
-            </div>
-          </div>
-          <p className="help-card-desc">Need help with setup, licensing or DAW compatibility? Talk directly to the BLACK-XPACE team and get answers fast.</p>
-          <a className="help-card-btn primary" href="mailto:melaninentertainment255@gmail.com">
-            <span>Contact support</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </a>
-        </article>
-        <article className="help-card">
-          <div className="help-card-top">
-            <div className="help-card-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-            </div>
-            <div className="help-card-heading">
-              <span className="help-card-badge">Learn with BLACK-XPACE</span>
-              <h3 className="help-card-title">How to use</h3>
-            </div>
-          </div>
-          <p className="help-card-desc">Watch video guides for every BLACK-XPACE product, from your very first setup to mastering each control.</p>
-          <Link className="help-card-btn primary" href="/tutorials">
-            <span>Watch guides</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          </Link>
-        </article>
+      <ol className="steps-grid">
+        {[
+          { title: "Download", text: "Get the installer from Downloads with your licence key." },
+          { title: "Install", text: "Run it on Windows. The VST3 plugin goes in place for you." },
+          { title: "Open your DAW", text: "Rescan your plugins and load it on a new track." },
+          { title: "First sound", text: "Play, sing or hum and start creating." },
+        ].map((step, index) => (
+          <li className="step-card" key={step.title}>
+            <span className="step-num">{String(index + 1).padStart(2, "0")}</span>
+            <h3 className="step-title">{step.title}</h3>
+            <p className="step-text">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div className="steps-actions">
+        <a className="steps-btn primary" href="mailto:melaninentertainment255@gmail.com">Contact support</a>
+        <Link className="steps-btn ghost" href="/tutorials">Watch guides</Link>
       </div>
     </section>
     <ModernFooter />
