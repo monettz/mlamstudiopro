@@ -9,8 +9,9 @@ import ProductDescription from './product-description';
 import SculptureHero from '@/components/ui/liquid-sculpture-hero';
 import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
-import ProductCard, { type ProductCardProduct } from '@/components/ui/product-card';
+import type { ProductCardProduct } from '@/components/ui/product-card';
 import FeaturedRelease from "@/components/ui/featured-release";
+import BentoCard from "@/components/ui/bento-card";
 import { FEATURED_VIDEO } from "@/lib/site";
 import FaqSection from '@/components/ui/faq-section';
 
@@ -274,15 +275,10 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
         </p>
       </div>
       <div className="filters">{categories.map((category) => <button className={filter === category ? "active" : ""} key={category} onClick={() => setFilter(category)}>{category==='All'?t('all'):category}</button>)}</div>
-      <div className="product-grid">
-        {visible.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            highlight={featureList(product.features)[0] || (product.status === "published" ? "64-bit VST3 for Windows" : t('comingSoon'))}
-            demoId={demoFor(product)?.id}
-            onBuy={() => buy(product)}
-          />
+      <div className="bento-grid">
+        {/* Products you can buy first, so they take the large bento cells. */}
+        {[...visible].sort((a, b) => Number(b.status === "published") - Number(a.status === "published")).map((product) => (
+          <BentoCard key={product.id} product={product} demoId={demoFor(product)?.id} onBuy={() => buy(product)} />
         ))}
       </div>
     </section>
