@@ -6044,5 +6044,4 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
 .hero-video .sh-txt { border-color: rgba(255, 255, 255, 0.55); color: #ffffff; }
 .hero-video .sh-txt:hover { background: rgba(255, 255, 255, 0.12); border-color: #ffffff; color: #ffffff; }
 body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color: #ffffff; }
-/* Reduced motion: the video stays as a still frame (paused in storefront.tsx). */
 .hero-video .hero-bg-video { object-position: center center; }
