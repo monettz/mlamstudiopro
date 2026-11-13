@@ -6096,11 +6096,11 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
   padding: 24px; border-radius: 18px; background: #232325; border: 1px solid rgba(255, 255, 255, 0.06);
 }
 .fr-product-art {
-  width: 100%; height: clamp(110px, 12vw, 160px); object-fit: cover; object-position: top center;
+  width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center;
   border-radius: 12px; background: #2c2c2e;
 }
 .fr-product-name {
-  margin: 4px 0 0; font-family: 'Jost', 'Futura', system-ui, sans-serif; font-weight: 800;
+  margin: 8px 0 0; font-family: 'Jost', 'Futura', system-ui, sans-serif; font-weight: 800;
   text-transform: uppercase; font-size: 20px; letter-spacing: -0.01em; color: #f5f5f7;
 }
 .fr-product-sub { margin: 0; font-size: 13px; color: #a1a1a6; }
