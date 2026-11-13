@@ -27,7 +27,7 @@ export default function LoginForm({destination='/admin',devMode=false}:{destinat
   }
   return <form className="admin-form admin-login-form" onSubmit={submit} noValidate={false}>
     <label htmlFor="admin-email">Administrator email</label>
-    <input id="admin-email" name="email" type={devMode ? 'text' : 'email'} autoComplete="username" inputMode="email" maxLength={254} required disabled={busy} placeholder="you@example.com" aria-invalid={!!error || undefined} aria-describedby={error ? 'admin-login-error' : undefined}/>
+    <input id="admin-email" name="email" spellCheck={false} type={devMode ? 'text' : 'email'} autoComplete="username" inputMode="email" maxLength={254} required disabled={busy} placeholder="you@example.com" aria-invalid={!!error || undefined} aria-describedby={error ? 'admin-login-error' : undefined}/>
     <label htmlFor="admin-password">Password</label>
     <div className="admin-password-field">
       <input id="admin-password" name="password" type={showPassword ? 'text' : 'password'} autoComplete="current-password" required maxLength={256} disabled={busy} placeholder="Enter your password" aria-invalid={!!error || undefined} aria-describedby={error ? 'admin-login-error' : undefined}/>

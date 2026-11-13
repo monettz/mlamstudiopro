@@ -235,7 +235,7 @@ export default function CustomerAuthForm({
               <input
                 id="mlam-email"
                 type="email"
-                name="email"
+                name="email" spellCheck={false}
                 className="auth-exact-input"
                 placeholder="you@example.com"
                 autoComplete="email"

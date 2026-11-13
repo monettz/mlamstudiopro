@@ -22,7 +22,7 @@ export default function NotifyForm({ productId, productName }: { productId: stri
     <form className="notify-form" onSubmit={submit}>
       <label htmlFor="notify-email">Get an email when it launches</label>
       <div className="notify-row">
-        <input id="notify-email" type="email" required autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} />
+        <input id="notify-email" name="email" spellCheck={false} type="email" required autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} />
         <button className="notify-btn" type="submit" disabled={state === 'sending'}>{state === 'sending' ? 'Sending…' : 'Notify me'}</button>
       </div>
       {error && <p className="notify-error" role="alert">{error}</p>}
