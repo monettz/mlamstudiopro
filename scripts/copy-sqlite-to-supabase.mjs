@@ -11,7 +11,7 @@ const { createPostgresDatabase, migratePostgres, postgresUrl } = await import('.
 const url = postgresUrl();
 if (!url) throw new Error('Set DATABASE_URL in .env.local first (Supabase: Connect -> Session pooler).');
 // Parents before children so the foreign keys are satisfied.
-const tables = ['products', 'releases', 'demo_releases', 'tutorials', 'licenses', 'orders', 'settings', 'notify_requests', 'admin_accounts', 'customers'];
+const tables = ['products', 'releases', 'demo_releases', 'tutorials', 'licenses', 'orders', 'settings', 'notify_requests', 'admin_accounts', 'customers', 'hero_media', 'playlist_items'];
 
 migrate();
 const sqlite = rawDatabase();
