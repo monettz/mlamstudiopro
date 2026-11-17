@@ -4,7 +4,7 @@ export type Product = {
   id: string; slug: string; name: string; category: string; description: string;
   price_cents: number; status: string; image: string; features: string;
   checkout_url: string; gallery_images: string; created_at: string; updated_at: string; description_translations?:string;
-  page_steps?: string; page_specs?: string;
+  page_steps?: string; page_specs?: string; video_id?: string; video_title?: string; featured_text?: string;
 };
 
 export type Release = {
@@ -37,6 +37,11 @@ async function seedStore() {
     await db.prepare(`INSERT OR IGNORE INTO products (id, slug, name, category, description, price_cents, status, image, features, checkout_url, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
       .bind(...p, now, now).run();
   }
+  // A brand-new store starts with Voice MIDI featured, with its video and text
+  // (rows created in this run have created_at = now; existing data is untouched).
+  await db.prepare("UPDATE products SET video_id=?,video_title=?,featured_text=? WHERE id='voice-midi' AND created_at=? AND video_id=''")
+    .bind("YEorsfZe4vU", "How to use MLAM Voice MIDI", "Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes.", now).run();
+  await db.prepare("INSERT OR IGNORE INTO settings (key, value) VALUES ('featured_product_id', 'voice-midi')").run();
   // Repair only the original placeholder image, preserving any owner-uploaded art.
   await db.prepare("UPDATE products SET image=? WHERE id=? AND image=?")
     .bind("/plugins/bushman-bass.png", "bushman-bass", "/plugins/mlam-voice-midi.png").run();

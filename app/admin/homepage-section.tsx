@@ -1,13 +1,13 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, Eye, EyeOff, ImagePlus, Pencil, Trash2, MonitorPlay, Upload } from "lucide-react";
-import { HERO_VIDEO_TOLERANCE_MS, MAX_HERO_IMAGE_BYTES, MAX_HERO_ITEMS, MAX_HERO_VIDEO_BYTES, MAX_HERO_VIDEO_MS, MAX_PLAYLIST_ITEMS, youtubeId } from "@/lib/homepage-media";
+import { HERO_VIDEO_TOLERANCE_MS, MAX_HERO_IMAGE_BYTES, MAX_HERO_ITEMS, MAX_HERO_VIDEO_BYTES, MAX_HERO_VIDEO_MS, MAX_PLAYLIST_ITEMS } from "@/lib/homepage-media";
 import { uploadProductImage } from "./product-drawer";
 
 type HeroRow = { id:string; kind:"image"|"video"; src:string; file_name:string; file_size:number; duration_ms:number; is_active:number };
 type PlaylistRow = { id:string; image:string; song:string; artist:string; producer:string; plugin:string; url:string; is_active:number };
-type Data = { hero:HeroRow[]; playlist:PlaylistRow[]; featured:{ id:string; title:string } };
+type Data = { hero:HeroRow[]; playlist:PlaylistRow[]; featured:{ id:string; name:string; image:string; status:string; video_id:string; featured_text:string } | null };
 
 const mb = (bytes:number) => `${(bytes / 1048576).toFixed(1)} MB`;
 
@@ -30,7 +30,7 @@ function videoSeconds(file:File) {
   });
 }
 
-export default function HomepageSection({ flash }:{ flash:(text:string)=>void }) {
+export default function HomepageSection({ flash, onOpenProduct }:{ flash:(text:string)=>void; onOpenProduct:(id:string)=>void }) {
   const [data,setData] = useState<Data|null>(null);
   const [error,setError] = useState("");
   const load = useCallback(async () => {
@@ -47,7 +47,7 @@ export default function HomepageSection({ flash }:{ flash:(text:string)=>void })
   if (!data) return <div className="admin-card">{error ? <p className="admin-error" role="alert">{error}</p> : <p className="admin-hint">Loading homepage content…</p>}</div>;
   return <div className="hp-sections">
     <HeroCard items={data.hero} act={act} onUploaded={async text => { await load(); flash(text); }}/>
-    <FeaturedCard key={`${data.featured.id}|${data.featured.title}`} featured={data.featured} onSaved={async text => { await load(); flash(text); }}/>
+    <FeaturedCard featured={data.featured} onOpenProduct={onOpenProduct}/>
     <PlaylistCard items={data.playlist} act={act} onAdded={async text => { await load(); flash(text); }}/>
   </div>;
 }
@@ -105,35 +105,21 @@ function HeroCard({ items, act, onUploaded }:{ items:HeroRow[]; act:(work:()=>Pr
   </section>;
 }
 
-function FeaturedCard({ featured, onSaved }:{ featured:{ id:string; title:string }; onSaved:(text:string)=>Promise<void> }) {
-  const [link,setLink] = useState(featured.id ? `https://www.youtube.com/watch?v=${featured.id}` : "");
-  const [title,setTitle] = useState(featured.title);
-  const [busy,setBusy] = useState(false); const [error,setError] = useState("");
-  const preview = youtubeId(link);
-
-  async function submit(event:FormEvent<HTMLFormElement>) {
-    event.preventDefault(); if (busy) return;
-    if (preview === null) { setError("Paste a YouTube video link, for example https://www.youtube.com/watch?v=…"); return; }
-    setBusy(true); setError("");
-    try { await send("/api/homepage", "PUT", { video:link, title }); await onSaved(preview ? "Featured video saved" : "Featured video removed: the homepage shows Coming soon"); }
-    catch (problem) { setError(problem instanceof Error ? problem.message : "Could not save"); }
-    finally { setBusy(false); }
-  }
-
+// Featured Release is chosen per product (Products > a product > Details).
+function FeaturedCard({ featured, onOpenProduct }:{ featured:Data["featured"]; onOpenProduct:(id:string)=>void }) {
+  const hidden = featured && featured.status === "draft";
   return <section className="admin-card hp-card" aria-labelledby="hp-featured-title">
-    <div className="adm-card-head"><h2 id="hp-featured-title">Featured Release video</h2></div>
-    <p className="admin-hint">The YouTube video next to the featured product on the homepage. Leave the link empty to show “Coming soon”.</p>
-    <form className="admin-form hp-featured" onSubmit={submit}>
-      <div className="hp-featured-preview">
-        {preview ? <img src={`https://i.ytimg.com/vi/${preview}/hqdefault.jpg`} alt="Video preview"/> : <span><MonitorPlay size={28} aria-hidden="true"/>{preview === null ? "Not a YouTube link" : "No video"}</span>}
+    <div className="adm-card-head"><h2 id="hp-featured-title">Featured Release</h2></div>
+    <p className="admin-hint">The product shown under Featured Release, with its YouTube video. To change it, open a product in Products and tick <strong>Show this product in Featured Release</strong> in Details. Only one product is featured at a time.</p>
+    {featured ? <div className="hp-featured-current">
+      <div className="hp-featured-preview">{featured.video_id ? <img src={`https://i.ytimg.com/vi/${featured.video_id}/hqdefault.jpg`} alt={`${featured.name} video`}/> : featured.image ? <img src={featured.image} alt=""/> : <span><MonitorPlay size={28} aria-hidden="true"/>No video</span>}</div>
+      <div className="hp-featured-info">
+        <strong>{featured.name}</strong>
+        <small>{featured.video_id ? "Has a YouTube video" : "No video yet: the section shows Coming soon"}</small>
+        {hidden && <p className="admin-error" role="status">This product is a Draft, so the homepage shows Voice MIDI instead. Publish it or set it to Coming soon.</p>}
+        <button type="button" className="button ghost" onClick={() => onOpenProduct(featured.id)}>Open in Products</button>
       </div>
-      <fieldset disabled={busy}>
-        <label>YouTube link<input value={link} onChange={e=>setLink(e.target.value)} inputMode="url" placeholder="https://www.youtube.com/watch?v=…" spellCheck={false}/></label>
-        <label>Title<input value={title} onChange={e=>setTitle(e.target.value)} maxLength={120} placeholder="How to use MLAM Voice MIDI"/></label>
-        {error && <p className="admin-error" role="alert">{error}</p>}
-        <button className="button primary">{busy ? "Saving…" : "Save video"}</button>
-      </fieldset>
-    </form>
+    </div> : <p className="admin-hint">No product chosen, so the homepage shows Voice MIDI.</p>}
   </section>;
 }
 

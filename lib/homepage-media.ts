@@ -120,3 +120,23 @@ export function playlistLink(value: unknown): string | null {
 export function playlistCaption(input: Record<string, unknown>) {
   return { song: text(input.song, 120), artist: text(input.artist, 120), producer: text(input.producer, 120), plugin: text(input.plugin, 120) };
 }
+
+export type FeaturedFields = { video_id?: string; video_title?: string; featured_text?: string; featured?: boolean };
+
+/**
+ * Featured Release fields sent with a product: its YouTube video, the video's
+ * title, the short text under the Featured Release heading, and whether this is
+ * the one featured product. Only fields that are present are returned.
+ */
+export function featuredFields(body: Record<string, unknown>): FeaturedFields | { error: string } {
+  const out: FeaturedFields = {};
+  if (Object.hasOwn(body, 'video')) {
+    const id = youtubeId(body.video ?? '');
+    if (id === null) return { error: 'Paste a YouTube video link, for example https://www.youtube.com/watch?v=…' };
+    out.video_id = id;
+  }
+  if (Object.hasOwn(body, 'video_title')) out.video_title = text(body.video_title, 120);
+  if (Object.hasOwn(body, 'featured_text')) out.featured_text = text(body.featured_text, 300);
+  if (typeof body.featured === 'boolean') out.featured = body.featured;
+  return out;
+}

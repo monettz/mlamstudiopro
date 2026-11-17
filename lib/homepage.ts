@@ -1,6 +1,7 @@
 import { revalidateTag, unstable_cache } from 'next/cache';
 import { database, ensureStore } from '@/lib/store';
-import type { FeaturedVideo, HeroItem, PlaylistEntry } from '@/lib/homepage-media';
+import type { HeroItem, PlaylistEntry } from '@/lib/homepage-media';
+import { featuredProductId } from '@/lib/featured-product';
 
 const HOMEPAGE_TAG = 'homepage';
 
@@ -9,41 +10,36 @@ export type PlaylistRow = { id: string; image: string; song: string; artist: str
 
 export const heroFileUrl = (id: string) => `/api/hero-media/${id}/file`;
 
-export async function readFeatured(): Promise<FeaturedVideo> {
-  const rows = await database().prepare("SELECT key,value FROM settings WHERE key IN ('featured_video_id','featured_video_title')").all<{ key: string; value: string }>();
-  const map = Object.fromEntries((rows.results ?? []).map(row => [row.key, row.value]));
-  return { id: map.featured_video_id ?? '', title: map.featured_video_title ?? '' };
-}
-
 /** Everything the admin Homepage section shows, hidden items included. */
 export async function adminHomepage() {
   await ensureStore();
-  const [hero, playlist, featured] = await Promise.all([
+  const [hero, playlist, featuredId] = await Promise.all([
     database().prepare('SELECT * FROM hero_media ORDER BY position, created_at').all<HeroRow>(),
     database().prepare('SELECT * FROM playlist_items ORDER BY position, created_at').all<PlaylistRow>(),
-    readFeatured(),
+    featuredProductId(),
   ]);
+  const featured = featuredId ? await database().prepare('SELECT id,name,image,status,video_id,featured_text FROM products WHERE id=?').bind(featuredId).first<{ id: string; name: string; image: string; status: string; video_id: string; featured_text: string }>() : null;
   return {
     hero: (hero.results ?? []).map(row => ({ ...row, src: heroFileUrl(row.id) })),
     playlist: (playlist.results ?? []).map(row => ({ ...row })),
-    featured,
+    featured: featured ? { ...featured } : null,
   };
 }
 
 // What visitors see, cached for a minute; admin changes call refreshHomepage().
-export const publicHomepage = unstable_cache(async (): Promise<{ hero: HeroItem[]; featured: FeaturedVideo; playlist: PlaylistEntry[] }> => {
+export const publicHomepage = unstable_cache(async (): Promise<{ hero: HeroItem[]; featuredProductId: string; playlist: PlaylistEntry[] }> => {
   await ensureStore();
-  const [hero, playlist, featured] = await Promise.all([
+  const [hero, playlist, featuredId] = await Promise.all([
     database().prepare('SELECT id,kind FROM hero_media WHERE is_active=1 ORDER BY position, created_at').all<{ id: string; kind: 'image' | 'video' }>(),
     database().prepare('SELECT image,song,artist,producer,plugin,url FROM playlist_items WHERE is_active=1 ORDER BY position, created_at').all<PlaylistEntry>(),
-    readFeatured(),
+    featuredProductId(),
   ]);
   return {
     hero: (hero.results ?? []).map(row => ({ id: row.id, kind: row.kind, src: heroFileUrl(row.id) })),
-    featured,
+    featuredProductId: featuredId,
     playlist: (playlist.results ?? []).map(row => ({ ...row })),
   };
-}, ['public-homepage'], { revalidate: 60, tags: [HOMEPAGE_TAG] });
+}, /* bump the key when the cached shape changes, so a deploy never reads old entries */ ['public-homepage-v2'], { revalidate: 60, tags: [HOMEPAGE_TAG] });
 
 export function refreshHomepage() {
   revalidateTag(HOMEPAGE_TAG, { expire: 0 });

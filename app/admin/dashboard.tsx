@@ -2,14 +2,14 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import AdminThemeSwitch from '@/components/ui/admin-theme-switch';
-import { Check, Copy, ExternalLink, FileArchive, House, Image as ImageIcon, KeyRound, LayoutDashboard, LogOut, Mail, Package, PlayCircle, Plus, Receipt, Search, Send, Trash2, X } from "lucide-react";
+import { Check, Copy, ExternalLink, FileArchive, House, Image as ImageIcon, KeyRound, LayoutDashboard, LogOut, Mail, Package, PlayCircle, Plus, Receipt, Search, Send, Star, Trash2, X } from "lucide-react";
 import ProductDrawer from './product-drawer';
 import HomepageSection from './homepage-section';
 import type { AdminSection } from '@/lib/admin-navigation';
 import { licenseEmail } from '@/lib/email';
 import { PAYMENT_METHODS } from '@/lib/manual-order';
 
-type Product = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string; gallery_images:string;description_translations?:string; page_steps?:string; page_specs?:string };
+type Product = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string; gallery_images:string;description_translations?:string; page_steps?:string; page_specs?:string; video_id?:string; video_title?:string; featured_text?:string };
 type Release = { id:string; product_id:string; product_name:string; version:string; file_name:string; file_size:number; is_active:number };
 type License = { id:string; product_id?:string; created_at?:string; product_name:string; customer_email:string; license_key:string; status:string; download_count:number; max_downloads:number };
 type Order = { id:string; product_id:string; product_name:string; customer_email:string; customer_phone?:string; amount_cents:number; currency?:string; payment_method?:string; provider_ref?:string; status:string; created_at:string; license_id?:string|null; license_key?:string|null; max_downloads?:number };
@@ -62,6 +62,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
   // Products: the open drawer ("new" while creating) and the status filter.
   const [openProduct,setOpenProduct] = useState<string|null>(null);
   const [statusFilter,setStatusFilter] = useState("all");
+  const [featuredId,setFeaturedId] = useState("");
   const [issuingLicense,setIssuingLicense]=useState(false);
   const [newLicense,setNewLicense]=useState<IssuedLicense | null>(null);
   const [query,setQuery]=useState("");
@@ -75,13 +76,13 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
   const load = useCallback(async () => {
     const read = async <T,>(url:string) => { const response = await fetch(url); if (!response.ok) throw new Error(response.status === 401 ? "Session expired. Sign in again at /admin." : "Unable to load administration data"); return await response.json() as T; };
     const [p,r,l,o,v,d,n] = await Promise.all([
-      read<{ products?: Product[] }>("/api/products"), read<{ releases?: Release[] }>("/api/releases"),
+      read<{ products?: Product[]; featured_product_id?: string }>("/api/products"), read<{ releases?: Release[] }>("/api/releases"),
       read<{ licenses?: License[] }>("/api/licenses"), read<{ orders?: Order[] }>("/api/orders"),
       read<{ tutorials?: Tutorial[] }>("/api/tutorials"),
       read<{ demos?: Release[] }>("/api/demos"),
       read<{ requests?: NotifyRequest[] }>("/api/notify"),
     ]);
-    setProducts(p.products ?? []); setReleases(r.releases ?? []); setLicenses(l.licenses ?? []); setOrders(o.orders ?? []);
+    setProducts(p.products ?? []); setFeaturedId(p.featured_product_id ?? ""); setReleases(r.releases ?? []); setLicenses(l.licenses ?? []); setOrders(o.orders ?? []);
     setTutorials(v.tutorials ?? []);
     setDemos(d.demos ?? []); setNotifyRequests(n.requests ?? []);
   }, []);
@@ -387,6 +388,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
             const hasFull = releases.some(r => r.product_id === product.id && r.is_active);
             return <button key={product.id} type="button" className={`pd-card${openProduct === product.id ? " selected" : ""}`} aria-pressed={openProduct === product.id} onClick={()=>setOpenProduct(product.id)}>
               {product.image ? <img src={product.image} alt=""/> : <span className="pd-card-empty" aria-hidden="true"><ImageIcon size={22}/></span>}
+              {product.id === featuredId && <span className="pd-featured-tag on-card"><Star size={12} aria-hidden="true"/> Featured</span>}
               <span className={`pd-status ${product.status}`}>{STATUS_LABELS[product.status]?.split(" (")[0] ?? product.status}</span>
               <strong>{product.name}</strong>
               <span className="pd-card-meta">{product.category} · {product.price_cents > 0 ? money(product.price_cents) : "Free"}</span>
@@ -396,6 +398,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
         </div>
         {openProduct && <ProductDrawer
           product={editing}
+          featuredId={featuredId}
           releases={releases} demos={demos} videos={tutorials}
           onClose={()=>setOpenProduct(null)}
           onChanged={load}
@@ -408,7 +411,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
         />}
       </div>}
 
-      {tab === "homepage" && <HomepageSection flash={flash}/>}
+      {tab === "homepage" && <HomepageSection flash={flash} onOpenProduct={id => { setTab("products"); setOpenProduct(id); }}/>}
 
       {tab === "releases" && <div className="split-admin">
         <form className="admin-card admin-form" onSubmit={uploadRelease}><h2>Upload plugin ZIP</h2><label>Version type<select name="release_type" disabled={uploadingRelease}><option value="licensed">Full version (requires license)</option><option value="demo">Demo (free Try download)</option></select></label><label>Product<select name="product_id" required disabled={uploadingRelease}><option value="">Select product</option>{products.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Version<input name="version" placeholder="1.0.0" required disabled={uploadingRelease}/></label><label>Release notes / demo limits<textarea name="notes" placeholder="What changed? What can the demo do?" disabled={uploadingRelease}/></label><label className="dropzone">ZIP file<input name="file" type="file" accept=".zip" required disabled={uploadingRelease}/><span>Choose the correct build. Demo ZIPs: up to 75 MB.</span></label><button className="button primary" disabled={uploadingRelease}>{uploadingRelease ? "Uploading ZIP…" : "Upload release"}</button></form>

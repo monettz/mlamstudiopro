@@ -14,7 +14,7 @@ import FeaturedRelease from "@/components/ui/featured-release";
 import BentoCard from "@/components/ui/bento-card";
 import { FEATURED_VIDEO, PLAYLIST_TRACKS } from "@/lib/site";
 import HeroMedia from "@/components/ui/hero-media";
-import type { FeaturedVideo, HeroItem, PlaylistEntry } from "@/lib/homepage-media";
+import type { HeroItem, PlaylistEntry } from "@/lib/homepage-media";
 import PlaylistWall from "@/components/ui/playlist-wall";
 import FaqSection from '@/components/ui/faq-section';
 
@@ -114,12 +114,11 @@ const dawIntegrations = [
   }
 ];
 
-export type HomepageContent = { hero: HeroItem[]; featured: FeaturedVideo; playlist: PlaylistEntry[] };
+export type HomepageContent = { hero: HeroItem[]; featuredProductId: string; playlist: PlaylistEntry[] };
 
 export default function Storefront({ initialProducts, initialDemos, homepage }: { initialProducts?: Product[]; initialDemos?: Demo[]; homepage?: HomepageContent | null }) {
   // Set in Admin > Homepage. Without the database, show the built-in defaults.
   const heroItems = homepage?.hero ?? [];
-  const featuredVideo = homepage?.featured ?? FEATURED_VIDEO;
   const playlistTracks = homepage?.playlist ?? PLAYLIST_TRACKS;
   const router = useRouter();
   const { t, language } = useLanguage();
@@ -154,7 +153,17 @@ export default function Storefront({ initialProducts, initialDemos, homepage }: 
     return () => window.removeEventListener("keydown", onKey);
   }, [selected]);
 
-  const featured = products.find(product => product.id === "voice-midi") ?? fallback[0];
+  // Featured Release: the product ticked in Admin (Products > Details). A draft
+  // or missing product falls back to Voice MIDI so the section is never empty.
+  const shown = (product: Product) => product.status === "published" || product.status === "coming-soon";
+  const featuredId = homepage?.featuredProductId;
+  const featured = (featuredId ? products.find(product => product.id === featuredId && shown(product)) : undefined)
+    ?? products.find(product => product.id === "voice-midi") ?? fallback[0];
+  // Without the database the built-in list has no videos: keep the old default.
+  const featuredVideoId = featured.video_id ?? (featured.id === "voice-midi" ? FEATURED_VIDEO.id : "");
+  const featuredVideoTitle = featured.video_title || (featured.id === "voice-midi" && featured.video_id === undefined ? FEATURED_VIDEO.title : `How to use ${featured.name}`);
+  const featuredText = featured.featured_text?.trim()
+    || (featured.id === "voice-midi" && featured.featured_text === undefined ? "Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes." : featured.description);
   const demoFor = (product:Product) => product.status === "published" ? demos.find(demo=>demo.product_id===product.id && demo.is_active) : undefined;
 
   const categories = useMemo(() => ["All", ...Array.from(new Set(products.map((product) => product.category)))], [products]);
@@ -224,14 +233,12 @@ export default function Storefront({ initialProducts, initialDemos, homepage }: 
     <section className="showcase-section fr-section" id="voice-midi">
       <div className="showcase-header">
         <h2 className="showcase-title">Featured Release</h2>
-        <p className="showcase-subtitle">
-          Our flagship voice-to-MIDI instrument. Hum, sing or play a melody and watch it land in your DAW as clean, editable notes.
-        </p>
+        <p className="showcase-subtitle">{featuredText}</p>
       </div>
       <FeaturedRelease
         product={featured}
-        videoId={featuredVideo.id}
-        videoTitle={featuredVideo.title}
+        videoId={featuredVideoId}
+        videoTitle={featuredVideoTitle}
         demoId={demoFor(featured)?.id}
         onBuy={() => buy(featured)}
       />

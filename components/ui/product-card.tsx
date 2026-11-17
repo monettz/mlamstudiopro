@@ -8,6 +8,7 @@ import ProductDescription from "@/app/product-description";
 export type ProductCardProduct = {
   id: string; slug?: string; name: string; category: string; description: string;
   price_cents: number; status: string; image: string; features: string; checkout_url: string; description_translations?: string;
+  video_id?: string; video_title?: string; featured_text?: string;
 };
 
 type Props = {

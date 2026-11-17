@@ -5,6 +5,9 @@ import { validateDescriptionTranslations } from '@/lib/product-descriptions';
 import { normalizeProductImages } from '@/lib/product-images';
 import { refreshCatalog } from '@/lib/catalog';
 import { validSpecs, validSteps } from '@/lib/product-page-content';
+import { featuredFields } from '@/lib/homepage-media';
+import { saveFeaturedFields } from '@/lib/featured-product';
+import { refreshHomepage } from '@/lib/homepage';
 
 type Context = { params: Promise<{ id: string }> };
 
@@ -72,9 +75,13 @@ export async function PUT(request: Request, context: Context) {
   const features = Array.isArray(body.features) ? JSON.stringify(body.features.filter((item): item is string => typeof item === 'string').map(item => item.trim()).filter(Boolean).slice(0, 20)) : "[]";
   const galleryImages=normalizeProductImages(body.gallery_images);
   if(galleryImages===null)return json({error:'Add up to 12 valid local or HTTPS product images'},400);
+  const featured = featuredFields(body);
+  if ('error' in featured) return json({ error: featured.error }, 400);
   const result = await database().prepare(`UPDATE products SET slug=?,name=?,category=?,description=?,price_cents=?,status=?,image=?,features=?,checkout_url=?,updated_at=?,description_translations=COALESCE(?,description_translations),gallery_images=COALESCE(?,gallery_images) WHERE id=?`)
     .bind(slug, name, category, body.description, priceCents, status, image, features, String(body.checkout_url ?? ""), new Date().toISOString(),translations,galleryImages ? JSON.stringify(galleryImages) : null,id).run();
-  refreshCatalog(); return result.meta.changes ? json({ ok: true }) : json({ error: "Product not found" }, 404);
+  if (!result.meta.changes) return json({ error: "Product not found" }, 404);
+  await saveFeaturedFields(id, featured);
+  refreshCatalog(); refreshHomepage(); return json({ ok: true });
 }
 
 export async function DELETE(_request: Request, context: Context) {

@@ -1,12 +1,13 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { ExternalLink, ImagePlus, Plus, Trash2, Upload, X } from "lucide-react";
+import { ExternalLink, ImagePlus, Plus, Star, Trash2, Upload, X } from "lucide-react";
 import { DescriptionFields } from "./description-editor";
 import { builtInTranslations, readDescriptionTranslations, type DescriptionTranslations } from "@/lib/product-descriptions";
 import { DEFAULT_SPECS, MAX_SPECS, MAX_STEPS, readSpecs, readSteps, type PageSpec, type PageStep } from "@/lib/product-page-content";
+import { youtubeId } from "@/lib/homepage-media";
 
-export type DrawerProduct = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string; gallery_images:string; description_translations?:string; page_steps?:string; page_specs?:string };
+export type DrawerProduct = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string; gallery_images:string; description_translations?:string; page_steps?:string; page_specs?:string; video_id?:string; video_title?:string; featured_text?:string };
 export type DrawerRelease = { id:string; product_id:string; version:string; file_name:string; file_size:number; is_active:number };
 export type DrawerVideo = { id:string; product_id:string|null; title:string; file_size:number; is_published:number };
 
@@ -39,8 +40,8 @@ export async function uploadProductImage(file:File) {
   return result.image;
 }
 
-export default function ProductDrawer({ product, releases, demos, videos, onClose, onChanged, onCreated, flash, onActivateRelease, onToggleDemo, onToggleVideo, onDelete }:{
-  product:DrawerProduct | null;
+export default function ProductDrawer({ product, featuredId, releases, demos, videos, onClose, onChanged, onCreated, flash, onActivateRelease, onToggleDemo, onToggleVideo, onDelete }:{
+  product:DrawerProduct | null; featuredId:string;
   releases:DrawerRelease[]; demos:DrawerRelease[]; videos:DrawerVideo[];
   onClose:()=>void; onChanged:()=>Promise<void>; onCreated:(id:string)=>Promise<void>; flash:(text:string)=>void;
   onActivateRelease:(id:string)=>Promise<void>; onToggleDemo:(item:DrawerRelease)=>Promise<void>; onToggleVideo:(item:DrawerVideo)=>Promise<void>;
@@ -59,14 +60,14 @@ export default function ProductDrawer({ product, releases, demos, videos, onClos
   return <aside className="pd-drawer" aria-label={creating ? "New product" : `Edit ${product.name}`}>
     <div className="pd-drawer-head">
       {product?.image ? <img src={product.image} alt=""/> : <span className="pd-drawer-thumb" aria-hidden="true"/>}
-      <div><strong>{creating ? "New product" : product.name}</strong><small>{creating ? "Fill in the details, then add images and files." : `/plugins/${product.slug || product.id}`}</small></div>
+      <div><strong>{creating ? "New product" : product.name}{product && product.id === featuredId && <span className="pd-featured-tag"><Star size={12} aria-hidden="true"/> Featured</span>}</strong><small>{creating ? "Fill in the details, then add images and files." : `/plugins/${product.slug || product.id}`}</small></div>
       <button type="button" className="pd-close" aria-label="Close" onClick={onClose}><X size={18} aria-hidden="true"/></button>
     </div>
     <div className="pd-tabs" role="tablist" aria-label="Product sections">
       {tabs.map(item => <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} className={tab === item.id ? "active" : ""} onClick={() => setTab(item.id)}>{item.label}</button>)}
     </div>
     <div className="pd-body">
-      {tab === "details" && <DetailsTab key={product?.id ?? "new"} product={product} onSaved={async text => { await onChanged(); flash(text); }} onCreated={onCreated}/>}
+      {tab === "details" && <DetailsTab key={`${product?.id ?? "new"}|${featuredId}`} product={product} isFeatured={!!product && product.id === featuredId} onSaved={async text => { await onChanged(); flash(text); }} onCreated={onCreated}/>}
       {product && tab === "images" && <ImagesTab key={product.id} product={product} onSaved={async text => { await onChanged(); flash(text); }}/>}
       {product && tab === "page" && <PageTab key={product.id} product={product} onSaved={async text => { await onChanged(); flash(text); }}/>}
       {product && tab === "files" && <FilesTab product={product} releases={releases} demos={demos} onUploaded={async text => { await onChanged(); flash(text); }} onActivateRelease={onActivateRelease} onToggleDemo={onToggleDemo} onDelete={onDelete}/>}
@@ -77,11 +78,13 @@ export default function ProductDrawer({ product, releases, demos, videos, onClos
   </aside>;
 }
 
-function DetailsTab({ product, onSaved, onCreated }:{ product:DrawerProduct|null; onSaved:(text:string)=>Promise<void>; onCreated:(id:string)=>Promise<void> }) {
+function DetailsTab({ product, isFeatured, onSaved, onCreated }:{ product:DrawerProduct|null; isFeatured:boolean; onSaved:(text:string)=>Promise<void>; onCreated:(id:string)=>Promise<void> }) {
   const [draft,setDraft] = useState({
     name:product?.name ?? "", slug:product?.slug ?? "", category:product?.category ?? "Instrument",
     price:product ? (product.price_cents / 100).toFixed(2) : "29.00", status:product?.status ?? "draft", description:product?.description ?? "",
+    featured:isFeatured, video:product?.video_id ? `https://www.youtube.com/watch?v=${product.video_id}` : "", video_title:product?.video_title ?? "", featured_text:product?.featured_text ?? "",
   });
+  const videoPreview = youtubeId(draft.video);
   const [chips,setChips] = useState<string[]>(product ? list(product.features) : []);
   const [chip,setChip] = useState("");
   const [busy,setBusy] = useState(false); const [error,setError] = useState("");
@@ -93,15 +96,18 @@ function DetailsTab({ product, onSaved, onCreated }:{ product:DrawerProduct|null
     const price_cents = toCents(draft.price);
     if (!Number.isFinite(price_cents)) { setError("Enter the price in US dollars, for example 29.00"); return; }
     if (draft.status === "published" && price_cents === 0 && !window.confirm("Publish this product as free? Anyone will be able to get it without paying.")) return;
+    if (videoPreview === null) { setError("Paste a YouTube video link, for example https://www.youtube.com/watch?v=…"); return; }
+    if (draft.featured && draft.status === "draft" && !window.confirm("This product is a Draft, so it is hidden. The homepage will keep showing Voice MIDI in Featured Release until you publish it or set it to Coming soon. Continue?")) return;
     setBusy(true); setError("");
+    const featuredData = { featured:draft.featured, video:draft.video, video_title:draft.video_title, featured_text:draft.featured_text };
     try {
       const features = chip.trim() ? [...chips, chip.trim()] : chips;
       if (!product) {
-        const result = await send("/api/products", "POST", { name:draft.name, slug:draft.slug, category:draft.category, description:draft.description, status:draft.status, price_cents, image:"", gallery_images:[], features, description_translations:{} });
+        const result = await send("/api/products", "POST", { name:draft.name, slug:draft.slug, category:draft.category, description:draft.description, status:draft.status, price_cents, image:"", gallery_images:[], features, description_translations:{}, ...featuredData });
         if (result.id) await onCreated(result.id);
         return;
       }
-      await send(`/api/products/${encodeURIComponent(product.id)}`, "PUT", { name:draft.name, slug:draft.slug, category:draft.category, description:draft.description, price_cents, status:draft.status, image:product.image, features, checkout_url:product.checkout_url });
+      await send(`/api/products/${encodeURIComponent(product.id)}`, "PUT", { name:draft.name, slug:draft.slug, category:draft.category, description:draft.description, price_cents, status:draft.status, image:product.image, features, checkout_url:product.checkout_url, ...featuredData });
       setChip(""); setChips(features);
       await onSaved(`${draft.name} saved`);
     } catch (problem) { setError(problem instanceof Error ? problem.message : "Could not save"); }
@@ -130,6 +136,16 @@ function DetailsTab({ product, onSaved, onCreated }:{ product:DrawerProduct|null
         <input id="pd-new-chip" value={chip} onChange={e=>setChip(e.target.value)} onKeyDown={e=>{ if (e.key === "Enter") { e.preventDefault(); addChip(); } }} placeholder="e.g. Scale-aware notes" maxLength={60}/>
         <button type="button" className="button ghost" onClick={addChip}><Plus size={15} aria-hidden="true"/> Add</button>
       </div>
+    </fieldset>
+    <fieldset className="pd-featured" disabled={busy}>
+      <legend>Featured Release</legend>
+      <label className="admin-check pd-featured-check"><input type="checkbox" checked={draft.featured} onChange={e=>setDraft({...draft,featured:e.target.checked})}/> Show this product in Featured Release on the homepage</label>
+      <small>Only one product is featured at a time: ticking this one replaces the current one.</small>
+      <label>YouTube video<input value={draft.video} onChange={e=>{ setDraft({...draft,video:e.target.value}); setError(""); }} inputMode="url" spellCheck={false} placeholder="https://www.youtube.com/watch?v=…"/>
+        {videoPreview === null ? <small className="pd-warn">Not a YouTube link</small> : <small>Shown in Featured Release when this product is featured.</small>}</label>
+      {videoPreview && <img className="pd-video-thumb" src={`https://i.ytimg.com/vi/${videoPreview}/hqdefault.jpg`} alt="Video preview"/>}
+      <label>Video title<input value={draft.video_title} onChange={e=>setDraft({...draft,video_title:e.target.value})} maxLength={120} placeholder={`How to use ${draft.name || "this plugin"}`}/></label>
+      <label>Featured text<textarea value={draft.featured_text} onChange={e=>setDraft({...draft,featured_text:e.target.value})} maxLength={300} placeholder="One or two sentences under the Featured Release heading."/><small>Leave empty to use the description.</small></label>
     </fieldset>
     {error && <p className="admin-error" role="alert">{error}</p>}
     <button className="button primary" disabled={busy}>{busy ? "Saving…" : product ? "Save details" : "Create product"}</button>

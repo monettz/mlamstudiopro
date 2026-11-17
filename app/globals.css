@@ -6727,3 +6727,18 @@ html[data-admin-glass="on"] .adm-shell .hp-card { background: var(--adm-panel); 
   .hp-photo-grid figure:has(.hp-caption) { grid-template-columns: minmax(0, 1fr); }
   .hp-photo-grid figure:has(.hp-caption) .hp-caption fieldset { grid-template-columns: minmax(0, 1fr); }
 }
+/* Featured Release in Admin */
+.pd-featured { margin: 0; padding: 14px; border: 1px solid var(--adm-line-strong); border-radius: 14px; display: grid; gap: 10px; min-width: 0; }
+.pd-featured legend { padding: 0 6px; }
+.pd-featured-check { display: flex !important; align-items: center; gap: 10px; color: var(--adm-text) !important; font-size: 14px !important; }
+.pd-featured-check input { width: 20px; height: 20px; accent-color: var(--adm-text); }
+.pd-featured small { color: var(--adm-faint); font-size: 12.5px; }
+.pd-featured .pd-warn { color: var(--adm-red); }
+.pd-video-thumb { width: 100%; max-width: 280px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; background: var(--adm-panel-2); }
+.pd-featured-tag { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--adm-text); color: var(--adm-bg); font-size: 11.5px; font-weight: 700; vertical-align: middle; }
+.pd-featured-tag.on-card { margin: 0; justify-self: start; }
+.hp-featured-current { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 18px; align-items: start; }
+.hp-featured-info { display: grid; gap: 8px; justify-items: start; }
+.hp-featured-info strong { font-size: 18px; }
+.hp-featured-info small { color: var(--adm-faint); }
+@media (max-width: 640px) { .hp-featured-current { grid-template-columns: minmax(0, 1fr); } }

@@ -4,10 +4,13 @@ import { boundedJson } from '@/lib/bounded-json';
 import { builtInTranslations,readDescriptionTranslations,productDescription,validateDescriptionTranslations } from '@/lib/product-descriptions';
 import { normalizeProductImages } from '@/lib/product-images';
 import { refreshCatalog } from '@/lib/catalog';
+import { featuredFields } from '@/lib/homepage-media';
+import { featuredProductId, saveFeaturedFields } from '@/lib/featured-product';
+import { refreshHomepage } from '@/lib/homepage';
 
 export async function GET(request:Request) {
   const owner=!!(await adminUser());const products=await listProducts(!owner);
-  if(owner)return json({products});
+  if(owner)return json({products,featured_product_id:await featuredProductId()});
   const language=new URL(request.url).searchParams.get('language')||'en';
   return json({products:products.map(product=>({...product,
     description:productDescription(product,language).text,
@@ -31,11 +34,14 @@ export async function POST(request: Request) {
   if (!name) return json({ error: "Product name is required" }, 400);
   const galleryImages = normalizeProductImages(body.gallery_images ?? []);
   if (galleryImages === null) return json({ error: "Add up to 12 valid local or HTTPS product images" }, 400);
+  const featured = featuredFields(body);
+  if ('error' in featured) return json({ error: featured.error }, 400);
   const id = crypto.randomUUID();
   const slug = String(body.slug || name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const now = new Date().toISOString();
   const features = Array.isArray(body.features) ? JSON.stringify(body.features) : String(body.features ?? "[]");
   await database().prepare(`INSERT INTO products (id,slug,name,category,description,price_cents,status,image,features,checkout_url,created_at,updated_at,description_translations,gallery_images) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
     .bind(id, slug, name, String(body.category ?? "Plugin"), body.description, Number(body.price_cents ?? 0), String(body.status ?? "draft"), String(body.image ?? "/plugins/mlam-voice-midi.png"), features, String(body.checkout_url ?? ""), now, now,JSON.stringify(translations),JSON.stringify(galleryImages ?? [])).run();
-  refreshCatalog(); return json({ ok: true, id }, 201);
+  await saveFeaturedFields(id, featured);
+  refreshCatalog(); refreshHomepage(); return json({ ok: true, id }, 201);
 }

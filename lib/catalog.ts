@@ -24,7 +24,7 @@ export const publicCatalog = unstable_cache(async () => {
     })),
     demos: (demos.results ?? []).map(demo => ({ ...demo })),
   };
-}, ['public-catalog'], { revalidate: 60, tags: [CATALOG_TAG] });
+}, /* bump the key when the cached shape changes, so a deploy never reads old entries */ ['public-catalog-v2'], { revalidate: 60, tags: [CATALOG_TAG] });
 
 export function refreshCatalog() {
   revalidateTag(CATALOG_TAG, { expire: 0 });

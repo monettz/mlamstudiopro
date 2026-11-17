@@ -8,7 +8,7 @@ import ts from 'typescript';
 const exports = {};
 const source = readFileSync(new URL('../lib/homepage-media.ts', import.meta.url), 'utf8');
 vm.runInNewContext(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, { exports, URL, DataView });
-const { mp4DurationMs, webmDurationMs, videoDurationMs, heroVideoTooLong, youtubeId, playlistImage, playlistLink, playlistCaption } = exports;
+const { mp4DurationMs, webmDurationMs, videoDurationMs, heroVideoTooLong, youtubeId, playlistImage, playlistLink, playlistCaption, featuredFields } = exports;
 
 const bytes = (...parts) => Uint8Array.from(parts.flat());
 const u32 = value => [(value >>> 24) & 255, (value >>> 16) & 255, (value >>> 8) & 255, value & 255];
@@ -78,4 +78,24 @@ test('homepage tables exist in both databases and are locked away from the publi
   for (const table of ['hero_media', 'playlist_items']) { assert.ok(sqlite.includes(`CREATE TABLE IF NOT EXISTS ${table}`)); assert.ok(postgres.includes(`CREATE TABLE IF NOT EXISTS ${table}`)); }
   assert.ok(postgres.includes("ARRAY['hero_media','playlist_items']") && postgres.includes('ENABLE ROW LEVEL SECURITY') && postgres.includes('FROM anon'));
   assert.ok(sqlite.includes("featured_video_id") && postgres.includes("featured_video_id"));
+});
+
+test('Featured Release fields: only what is sent, YouTube links checked, one featured flag', () => {
+  const plain = value => JSON.parse(JSON.stringify(value));
+  assert.deepEqual(plain(featuredFields({ name: 'x' })), {});
+  assert.deepEqual(plain(featuredFields({ featured: true, video: 'https://youtu.be/YEorsfZe4vU', video_title: '  How   to use ', featured_text: 'New bass.' })), { video_id: 'YEorsfZe4vU', video_title: 'How to use', featured: true, featured_text: 'New bass.' });
+  assert.deepEqual(plain(featuredFields({ video: '', featured: false })), { video_id: '', featured: false });
+  assert.ok('error' in featuredFields({ video: 'https://vimeo.com/1' }));
+  assert.equal(featuredFields({ featured_text: 'a'.repeat(900) }).featured_text.length, 300);
+  assert.equal(featuredFields({ featured: 'yes' }).featured, undefined);
+});
+
+test('featured product columns and setting exist in both databases, keeping Voice MIDI featured', () => {
+  const sqlite = readFileSync(new URL('../drizzle/0013_featured_product.sql', import.meta.url), 'utf8');
+  const postgres = readFileSync(new URL('../migrations/postgres/0003_featured_product.sql', import.meta.url), 'utf8');
+  for (const sql of [sqlite, postgres]) {
+    for (const column of ['video_id', 'video_title', 'featured_text']) assert.ok(sql.includes(column));
+    assert.ok(sql.includes("'featured_product_id','voice-midi'"));
+    assert.ok(sql.includes("WHERE id = 'voice-midi' AND video_id = '' AND featured_text = ''"));
+  }
 });
