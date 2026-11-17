@@ -2,8 +2,9 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import AdminThemeSwitch from '@/components/ui/admin-theme-switch';
-import { Check, Copy, ExternalLink, FileArchive, Image as ImageIcon, KeyRound, LayoutDashboard, LogOut, Mail, Package, PlayCircle, Plus, Receipt, Search, Send, Trash2, X } from "lucide-react";
+import { Check, Copy, ExternalLink, FileArchive, House, Image as ImageIcon, KeyRound, LayoutDashboard, LogOut, Mail, Package, PlayCircle, Plus, Receipt, Search, Send, Trash2, X } from "lucide-react";
 import ProductDrawer from './product-drawer';
+import HomepageSection from './homepage-section';
 import type { AdminSection } from '@/lib/admin-navigation';
 import { licenseEmail } from '@/lib/email';
 import { PAYMENT_METHODS } from '@/lib/manual-order';
@@ -22,6 +23,7 @@ const PAID_STATUSES = new Set(["paid","completed"]);
 const NAV: { id:AdminSection; label:string; Icon:typeof Package }[] = [
   { id:"overview", label:"Overview", Icon:LayoutDashboard },
   { id:"products", label:"Products", Icon:Package },
+  { id:"homepage", label:"Homepage", Icon:House },
   { id:"videos", label:"Videos", Icon:PlayCircle },
   { id:"releases", label:"Releases", Icon:FileArchive },
   { id:"licenses", label:"Licenses", Icon:KeyRound },
@@ -332,7 +334,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     <div className="adm-main">
       <header className="adm-topbar">
         <h1>{current.label}</h1>
-        {tab !== "videos" && tab !== "releases" && <label className="adm-search"><Search size={17} aria-hidden="true"/><input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder={searchPlaceholder} aria-label="Search"/></label>}
+        {tab !== "videos" && tab !== "releases" && tab !== "homepage" && <label className="adm-search"><Search size={17} aria-hidden="true"/><input type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder={searchPlaceholder} aria-label="Search"/></label>}
         <div className="adm-user"><span className="adm-avatar" aria-hidden="true">{user.slice(0,1).toUpperCase()}</span><span className="adm-user-text"><b>{user}</b><small>Website owner</small></span></div>
       </header>
       {message&&<div className="toast" role="status">{message}</div>}
@@ -405,6 +407,8 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
           onDelete={deleteFile}
         />}
       </div>}
+
+      {tab === "homepage" && <HomepageSection flash={flash}/>}
 
       {tab === "releases" && <div className="split-admin">
         <form className="admin-card admin-form" onSubmit={uploadRelease}><h2>Upload plugin ZIP</h2><label>Version type<select name="release_type" disabled={uploadingRelease}><option value="licensed">Full version (requires license)</option><option value="demo">Demo (free Try download)</option></select></label><label>Product<select name="product_id" required disabled={uploadingRelease}><option value="">Select product</option>{products.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Version<input name="version" placeholder="1.0.0" required disabled={uploadingRelease}/></label><label>Release notes / demo limits<textarea name="notes" placeholder="What changed? What can the demo do?" disabled={uploadingRelease}/></label><label className="dropzone">ZIP file<input name="file" type="file" accept=".zip" required disabled={uploadingRelease}/><span>Choose the correct build. Demo ZIPs: up to 75 MB.</span></label><button className="button primary" disabled={uploadingRelease}>{uploadingRelease ? "Uploading ZIP…" : "Upload release"}</button></form>

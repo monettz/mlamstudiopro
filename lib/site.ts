@@ -5,9 +5,10 @@ export const SITE_NAME = 'BLACK-XPACE';
 export const SITE_LOCATION = 'Dar es Salaam, Tanzania';
 // Date shown as "Last updated" on the Privacy and Licence pages.
 export const POLICIES_UPDATED = '9 November 2026';
-// YouTube tutorial shown in the homepage Featured Release. Paste the video id
-// (the part after "v=" in the link); leave it empty to show "coming soon".
-export const FEATURED_VIDEO = { id: 'YEorsfZe4vU', title: 'How to use MLAM Voice MIDI' }; // test video; will move to the admin panel
+// Defaults only: the Featured Release video and the playlist wall are now set in
+// Admin > Homepage. These show if the database cannot be reached.
+// YouTube tutorial shown in the homepage Featured Release.
+export const FEATURED_VIDEO = { id: 'YEorsfZe4vU', title: 'How to use MLAM Voice MIDI' };
 
 // Songs shown on the homepage "From our plugins to your playlist" wall. Add
 // only real tracks whose artist and producer agreed to be shown. Square cover

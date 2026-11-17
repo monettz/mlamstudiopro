@@ -110,7 +110,9 @@ test('without MLAM_ORIGIN, the browser-addressed host is same-origin even when t
 });
 test('combined site uses its own routes and never trusts platform-auth headers', () => {
   const front = readFileSync(new URL('../app/storefront.tsx',import.meta.url),'utf8');
-  assert.ok(front.includes('/checkout?product=')); assert.ok(front.includes('STUDIO PRO')); assert.ok(front.includes('hero-bg-video'));
+  assert.ok(front.includes('/checkout?product=')); assert.ok(front.includes('STUDIO PRO')); assert.ok(front.includes('<HeroMedia') && front.includes('/videos/hero.mp4'));
+  // The hero slideshow (set in Admin > Homepage) renders the background media.
+  assert.ok(readFileSync(new URL('../components/ui/hero-media.tsx',import.meta.url),'utf8').includes('hero-bg-video'));
   const admin = readFileSync(new URL('../lib/admin.ts',import.meta.url),'utf8'); assert.ok(admin.includes('adminSupabase')); assert.ok(admin.includes('verifiedCustomer')); assert.ok(admin.includes('configuredAdminEmail')); assert.ok(!admin.includes('oai-authenticated'));
   const checkout = readFileSync(new URL('../app/checkout/page.tsx',import.meta.url),'utf8'); assert.ok(checkout.includes('CheckoutForm'));
   const checkoutForm = readFileSync(new URL('../app/checkout/checkout-form.tsx',import.meta.url),'utf8'); assert.ok(checkoutForm.includes('disabled'));

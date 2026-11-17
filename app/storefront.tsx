@@ -13,6 +13,8 @@ import type { ProductCardProduct } from '@/components/ui/product-card';
 import FeaturedRelease from "@/components/ui/featured-release";
 import BentoCard from "@/components/ui/bento-card";
 import { FEATURED_VIDEO, PLAYLIST_TRACKS } from "@/lib/site";
+import HeroMedia from "@/components/ui/hero-media";
+import type { FeaturedVideo, HeroItem, PlaylistEntry } from "@/lib/homepage-media";
 import PlaylistWall from "@/components/ui/playlist-wall";
 import FaqSection from '@/components/ui/faq-section';
 
@@ -112,7 +114,13 @@ const dawIntegrations = [
   }
 ];
 
-export default function Storefront({ initialProducts, initialDemos }: { initialProducts?: Product[]; initialDemos?: Demo[] }) {
+export type HomepageContent = { hero: HeroItem[]; featured: FeaturedVideo; playlist: PlaylistEntry[] };
+
+export default function Storefront({ initialProducts, initialDemos, homepage }: { initialProducts?: Product[]; initialDemos?: Demo[]; homepage?: HomepageContent | null }) {
+  // Set in Admin > Homepage. Without the database, show the built-in defaults.
+  const heroItems = homepage?.hero ?? [];
+  const featuredVideo = homepage?.featured ?? FEATURED_VIDEO;
+  const playlistTracks = homepage?.playlist ?? PLAYLIST_TRACKS;
   const router = useRouter();
   const { t, language } = useLanguage();
   const serverLoaded = !!initialProducts?.length;
@@ -176,7 +184,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       strength={0}
       turbulence={0}
       ambient={false}
-      centerNode={<video className="hero-bg-video" src="/videos/hero.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" />}
+      centerNode={<HeroMedia items={heroItems} fallbackVideo="/videos/hero.mp4" />}
       brandNode={
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', color: '#ffffff' }}>
           <img
@@ -222,8 +230,8 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
       </div>
       <FeaturedRelease
         product={featured}
-        videoId={FEATURED_VIDEO.id}
-        videoTitle={FEATURED_VIDEO.title}
+        videoId={featuredVideo.id}
+        videoTitle={featuredVideo.title}
         demoId={demoFor(featured)?.id}
         onBuy={() => buy(featured)}
       />
@@ -290,7 +298,7 @@ export default function Storefront({ initialProducts, initialDemos }: { initialP
         <p className="showcase-subtitle">Songs made with BLACK-XPACE.</p>
       </div>
       <PlaylistWall
-        tracks={PLAYLIST_TRACKS}
+        tracks={playlistTracks}
         fallbackImages={["/plugins/mlam-voice-midi.png", "/plugins/bushman-bass.png", "/plugins/mlam-piano.png", "/mlam-studio-pro-splash.png"]}
       />
     </section>
