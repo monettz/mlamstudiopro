@@ -30,8 +30,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Jost:wght@800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-        {/* Apply the saved dashboard style (glass/solid) and admin colours (light/dark) before first paint. */}
-        <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('mlam-panel-mode')==='solid')document.documentElement.dataset.panelMode='solid';if(localStorage.getItem('mlam-admin-theme')==='dark')document.documentElement.dataset.adminTheme='dark'}catch(e){}" }} />
+        {/* Apply the saved dashboard style (glass/solid) and admin colours (light/dark, glass) before first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('mlam-panel-mode')==='solid')document.documentElement.dataset.panelMode='solid';if(localStorage.getItem('mlam-admin-theme')==='dark')document.documentElement.dataset.adminTheme='dark';if(localStorage.getItem('mlam-admin-glass')==='on')document.documentElement.dataset.adminGlass='on'}catch(e){}" }} />
       </head>
       <body>
         <LanguageProvider initialLanguage={language}>{children}</LanguageProvider>
