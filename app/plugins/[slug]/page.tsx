@@ -9,6 +9,7 @@ import NotifyForm from './notify-form';
 import { RelatedProducts, StickyBuyBar } from './product-extras';
 import ModernNav from '@/components/ui/modern-nav';
 import ModernFooter from '@/components/ui/modern-footer';
+import { DEFAULT_SPECS, readSpecs, readSteps } from '@/lib/product-page-content';
 
 type PageProps = { params: Promise<{ slug: string }> };
 type Demo = { id: string; version: string; notes: string };
@@ -77,7 +78,11 @@ export default async function ProductPage({ params }: PageProps) {
   const notifyHref = '#notify';
   // The price line already says "Lifetime license", so leave it out of the chips.
   const chips = features.filter((feature) => !/lifetime licen[cs]e/i.test(feature)).slice(0, 4);
-  const steps = howItWorks[product.id];
+  // Steps and specs edited in Admin win; otherwise keep the previous defaults.
+  const savedSteps = readSteps(product.page_steps);
+  const steps = savedSteps.length ? savedSteps : howItWorks[product.id];
+  const savedSpecs = readSpecs(product.page_specs);
+  const specs = savedSpecs.length ? savedSpecs : DEFAULT_SPECS;
 
   // node:sqlite rows have a null prototype; rebuild client props as plain objects.
   const descriptionProduct = {
@@ -165,11 +170,7 @@ export default async function ProductPage({ params }: PageProps) {
             <section className="pp-section pp-card" aria-labelledby="pp-specs">
               <h2 id="pp-specs" className="pp-heading">Specs</h2>
               <dl className="pp-specs">
-                <div><dt>Format</dt><dd>VST3 (64-bit)</dd></div>
-                <div><dt>Platform</dt><dd>Windows</dd></div>
-                <div><dt>Works in</dt><dd>FL Studio, Ableton Live, Cubase, Studio One, Reaper, Bitwig</dd></div>
-                <div><dt>License</dt><dd>One-time purchase, lifetime license</dd></div>
-                <div><dt>Delivery</dt><dd>Download with your MLAM license key</dd></div>
+                {specs.map((spec) => <div key={spec.label}><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}
               </dl>
             </section>
           )}

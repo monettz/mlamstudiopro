@@ -6393,3 +6393,192 @@ body:has(.hero-video) .mn-header.is-overlay:not(.is-scrolled) .mn-brand { color:
   .product-detail-thumbnails { gap: 8px; }
   .product-detail-thumbnail { border-radius: 10px; }
 }
+
+/* ========================================================
+   ADMIN PRODUCTS: card grid + side drawer (app/admin/product-drawer.tsx)
+   Built on the --adm-* colours so it follows Light and Dark.
+   ======================================================== */
+.pd-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+.pd-layout.has-drawer { grid-template-columns: minmax(0, 1fr) minmax(380px, 460px); }
+.pd-catalog { display: grid; gap: 16px; min-width: 0; }
+.pd-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.pd-toolbar .button { margin-left: auto; }
+.pd-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.pd-filters button {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px;
+  border: 1px solid var(--adm-line-strong); border-radius: 999px; background: var(--adm-panel);
+  color: var(--adm-text); font: 600 13px Inter, sans-serif; cursor: pointer;
+}
+.pd-filters button span { color: var(--adm-faint); font-weight: 700; }
+.pd-filters button.active { border-color: var(--adm-text); background: var(--adm-text); color: var(--adm-bg); }
+.pd-filters button.active span { color: inherit; opacity: 0.7; }
+.pd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+.pd-card {
+  display: grid; gap: 6px; align-content: start; padding: 12px; text-align: left;
+  border: 1px solid var(--adm-line); border-radius: 18px; background: var(--adm-panel);
+  color: var(--adm-text); font-family: Inter, sans-serif; cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.pd-card:hover { border-color: var(--adm-line-strong); }
+.pd-card.selected { border-color: var(--adm-text); box-shadow: 0 0 0 1px var(--adm-text); }
+.pd-card:focus-visible { outline: 2px solid var(--adm-text); outline-offset: 2px; }
+.pd-card img, .pd-card-empty { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; margin-bottom: 6px; }
+.pd-card-empty { display: grid; place-items: center; background: var(--adm-panel-2); color: var(--adm-faint); }
+.pd-card strong { font-size: 16px; line-height: 1.25; }
+.pd-card-meta { color: var(--adm-muted); font-size: 13.5px; }
+.pd-card-warn { color: var(--adm-amber); font-size: 12.5px; font-weight: 600; }
+.pd-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--adm-muted); }
+.pd-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.pd-status.published { color: #1a7f37; }
+.pd-status.coming-soon { color: #b25000; }
+.pd-status.draft { color: var(--adm-faint); }
+
+.pd-drawer {
+  position: sticky; top: 84px; display: flex; flex-direction: column; min-width: 0;
+  max-height: calc(100vh - 104px); border: 1px solid var(--adm-line); border-radius: 22px;
+  background: var(--adm-panel); color: var(--adm-text); overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+.pd-drawer-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--adm-line); }
+.pd-drawer-head img, .pd-drawer-thumb { flex: none; width: 48px; height: 48px; border-radius: 10px; object-fit: cover; background: var(--adm-panel-2); }
+.pd-drawer-head div { display: grid; gap: 2px; min-width: 0; }
+.pd-drawer-head strong { font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pd-drawer-head small { color: var(--adm-faint); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pd-close { flex: none; margin-left: auto; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--adm-panel-2); color: var(--adm-text); cursor: pointer; }
+.pd-tabs { display: flex; gap: 4px; padding: 10px 12px; border-bottom: 1px solid var(--adm-line); overflow-x: auto; scrollbar-width: none; }
+.pd-tabs::-webkit-scrollbar { display: none; }
+.pd-tabs button { flex: none; min-height: 38px; padding: 0 13px; border: 0; border-radius: 999px; background: transparent; color: var(--adm-muted); font: 600 13px Inter, sans-serif; cursor: pointer; }
+.pd-tabs button:hover { color: var(--adm-text); background: var(--adm-panel-2); }
+.pd-tabs button.active { background: var(--adm-text); color: var(--adm-bg); }
+.pd-body { flex: 1; overflow-y: auto; padding: 18px; }
+.pd-drawer-foot { display: flex; gap: 10px; padding: 14px 18px; border-top: 1px solid var(--adm-line); }
+.pd-drawer-foot .button { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+
+.pd-form { display: grid; gap: 14px; }
+.pd-form fieldset { min-width: 0; margin: 0; padding: 0; border: 0; display: grid; gap: 12px; }
+.pd-form legend, .pd-images h3, .pd-files h3 { margin: 0 0 4px; padding: 0; color: var(--adm-text); font-size: 15px; font-weight: 700; }
+.pd-images h3 small, .pd-files h3 small { margin-left: 6px; color: var(--adm-faint); font-size: 13px; font-weight: 500; }
+.pd-chip-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.pd-chip { display: inline-flex; align-items: center; gap: 4px; padding: 6px 6px 6px 12px; border-radius: 999px; background: var(--adm-panel-2); font-size: 13.5px; }
+.pd-chip button { display: grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 50%; background: transparent; color: var(--adm-muted); cursor: pointer; }
+.pd-chip button:hover { background: var(--adm-line); color: var(--adm-text); }
+.pd-inline { display: flex; gap: 8px; }
+.pd-inline input { flex: 1; min-width: 0; }
+
+.pd-images, .pd-files { display: grid; gap: 22px; }
+.pd-images section, .pd-files section { display: grid; gap: 10px; }
+.pd-main-image { display: grid; place-items: center; min-height: 140px; border-radius: 14px; background: var(--adm-panel-2); color: var(--adm-faint); font-size: 13.5px; text-align: center; padding: 8px; }
+.pd-main-image img { width: 100%; max-height: 260px; object-fit: contain; border-radius: 10px; }
+.pd-file-button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
+.pd-file-button input, .pd-photo-add input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.pd-photo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.pd-photo-grid figure { margin: 0; display: grid; gap: 6px; }
+.pd-photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+.pd-photo-grid figcaption { display: flex; gap: 4px; }
+.pd-photo-grid figcaption button { flex: 1; min-height: 36px; border: 1px solid var(--adm-line-strong); border-radius: 8px; background: transparent; color: var(--adm-text); font: 600 12px Inter, sans-serif; cursor: pointer; }
+.pd-photo-grid figcaption button.danger { flex: none; width: 36px; color: var(--adm-red); }
+.pd-photo-add { position: relative; display: grid; place-items: center; align-content: center; gap: 4px; aspect-ratio: 1; border: 1.5px dashed var(--adm-line-strong); border-radius: 12px; color: var(--adm-muted); font-size: 13px; font-weight: 600; cursor: pointer; }
+.pd-photo-add:hover { border-color: var(--adm-text); color: var(--adm-text); }
+
+.pd-rows { gap: 10px !important; }
+.pd-row { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 14px; background: var(--adm-panel-2); }
+.pd-row-num { flex: none; padding-top: 30px; color: var(--adm-faint); font-weight: 800; font-size: 13px; }
+.pd-row-fields { flex: 1; display: grid; gap: 8px; min-width: 0; }
+.pd-row-remove { flex: none; margin-top: 26px; display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 10px; background: transparent; color: var(--adm-red); cursor: pointer; }
+.pd-row-remove:hover { background: var(--adm-line); }
+
+.pd-file-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.pd-file-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: var(--adm-panel-2); }
+.pd-file-list li > span:first-child { display: grid; gap: 2px; flex: 1; min-width: 140px; }
+.pd-file-list small { color: var(--adm-faint); font-size: 12.5px; overflow-wrap: anywhere; }
+.pd-file-actions { display: flex; gap: 6px; }
+.pd-file-actions button { min-height: 36px; padding: 0 12px; border: 1px solid var(--adm-line-strong); border-radius: 8px; background: transparent; color: var(--adm-text); font: 600 12.5px Inter, sans-serif; cursor: pointer; }
+.pd-file-actions button.danger { color: var(--adm-red); padding: 0 10px; }
+.pd-upload { padding-top: 18px; border-top: 1px solid var(--adm-line); }
+.pd-upload h3 { margin: 0; }
+.admin-theme-switch { margin-bottom: 8px; }
+
+/* Phones and tablets: the drawer becomes a full-screen sheet. */
+@media (max-width: 980px) {
+  .pd-layout.has-drawer { grid-template-columns: minmax(0, 1fr); }
+  .pd-drawer { position: fixed; inset: 0; z-index: 90; top: 0; max-height: none; border: 0; border-radius: 0; }
+  .pd-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .pd-toolbar .button { margin-left: 0; }
+}
+@media (max-width: 520px) {
+  .pd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pd-card { padding: 10px; border-radius: 16px; }
+  .pd-card strong { font-size: 15px; }
+}
+
+/* ========================================================
+   ADMIN LIGHT THEME (default). Dark = html[data-admin-theme="dark"],
+   chosen with the Light/Dark switch in the admin sidebar.
+   ======================================================== */
+html:not([data-admin-theme="dark"]) .adm-shell {
+  --adm-bg: #f5f5f7;
+  --adm-panel: #ffffff;
+  --adm-panel-2: #f2f2f4;
+  --adm-line: rgba(0, 0, 0, 0.08);
+  --adm-line-strong: rgba(0, 0, 0, 0.16);
+  --adm-text: #1d1d1f;
+  --adm-muted: #424245;
+  --adm-faint: #6e6e73;
+  --adm-green: #1d1d1f;
+  --adm-green-ink: #ffffff;
+  --adm-amber: #b25000;
+  --adm-red: #c4161c;
+  background: var(--adm-bg);
+  color: var(--adm-text);
+}
+html:not([data-admin-theme="dark"]) .adm-shell ::selection { background: rgba(0, 0, 0, 0.15); color: #1d1d1f; }
+html:not([data-admin-theme="dark"]) .adm-sidebar { background: #ffffff; }
+html:not([data-admin-theme="dark"]) .adm-nav button:hover,
+html:not([data-admin-theme="dark"]) .adm-sidebar-foot a:hover { background: rgba(0, 0, 0, 0.04); }
+html:not([data-admin-theme="dark"]) .adm-nav button.active { background: #1d1d1f; color: #ffffff; }
+html:not([data-admin-theme="dark"]) .adm-nav button.active svg { color: #ffffff; }
+html:not([data-admin-theme="dark"]) .adm-nav button.active .adm-count { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
+html:not([data-admin-theme="dark"]) .adm-topbar { background: rgba(245, 245, 247, 0.9); }
+html:not([data-admin-theme="dark"]) .adm-search input:focus { box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08); }
+html:not([data-admin-theme="dark"]) .adm-delta.up { background: rgba(26, 127, 55, 0.1); color: #1a7f37 !important; }
+html:not([data-admin-theme="dark"]) .adm-delta.down { background: rgba(196, 22, 28, 0.08); }
+html:not([data-admin-theme="dark"]) .adm-legend .licenses::before,
+html:not([data-admin-theme="dark"]) .adm-chart .licenses .dot { background: #8e8e93; fill: #8e8e93; }
+html:not([data-admin-theme="dark"]) .adm-chart .licenses .line { stroke: #8e8e93; }
+html:not([data-admin-theme="dark"]) .adm-chart .grid { stroke: rgba(0, 0, 0, 0.08); }
+html:not([data-admin-theme="dark"]) .adm-donut .track { stroke: rgba(0, 0, 0, 0.06); }
+html:not([data-admin-theme="dark"]) .adm-donut .seg.draft,
+html:not([data-admin-theme="dark"]) .adm-donut-legend .dot.draft { stroke: #c7c7cc; background: #c7c7cc; }
+html:not([data-admin-theme="dark"]) .adm-table tbody tr:hover td { background: rgba(0, 0, 0, 0.02); }
+html:not([data-admin-theme="dark"]) .adm-table td code { color: #1d1d1f; }
+html:not([data-admin-theme="dark"]) .adm-row-actions button:hover,
+html:not([data-admin-theme="dark"]) .adm-row-actions .change-image-control:hover { background: rgba(0, 0, 0, 0.03); }
+html:not([data-admin-theme="dark"]) .adm-row-actions button.danger { border-color: rgba(196, 22, 28, 0.3); }
+html:not([data-admin-theme="dark"]) .adm-pill.published { background: rgba(26, 127, 55, 0.1); color: #1a7f37; }
+html:not([data-admin-theme="dark"]) .adm-pill.coming-soon { background: rgba(178, 80, 0, 0.1); color: #b25000; }
+html:not([data-admin-theme="dark"]) .adm-pill.draft { background: rgba(0, 0, 0, 0.05); }
+html:not([data-admin-theme="dark"]) .adm-pill.revoked { background: rgba(196, 22, 28, 0.08); }
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form input:not([type=checkbox]):not([type=file]),
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form select,
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form textarea { background: #ffffff; color: #1d1d1f; }
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form input:focus,
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form select:focus,
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form textarea:focus { box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08); }
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form input::placeholder,
+html:not([data-admin-theme="dark"]) .adm-shell .admin-form textarea::placeholder { color: #8e8e93; }
+html:not([data-admin-theme="dark"]) .adm-shell .button.primary { background: #1d1d1f; color: #ffffff; }
+html:not([data-admin-theme="dark"]) .adm-shell .button.primary:hover { background: #000000; }
+html:not([data-admin-theme="dark"]) .adm-shell .button.ghost:hover { background: rgba(0, 0, 0, 0.04); }
+html:not([data-admin-theme="dark"]) .adm-shell .toast { background: #1d1d1f; border-color: #1d1d1f; color: #ffffff; }
+html:not([data-admin-theme="dark"]) .adm-shell .panel-mode-switch { background: rgba(0, 0, 0, 0.05); border-color: rgba(0, 0, 0, 0.1); }
+html:not([data-admin-theme="dark"]) .adm-shell .panel-mode-switch button { color: #424245; }
+html:not([data-admin-theme="dark"]) .adm-shell .panel-mode-switch button[aria-pressed="true"] { background: #ffffff; color: #1d1d1f; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+html:not([data-admin-theme="dark"]) .adm-shell .pd-status.published { color: #1a7f37; }
+html[data-admin-theme="dark"] .adm-shell .pd-status.published { color: #30d158; }
+html[data-admin-theme="dark"] .adm-shell .pd-status.coming-soon { color: #ff9f0a; }
+html[data-admin-theme="dark"] .adm-shell .pd-drawer { box-shadow: none; }
+html:not([data-admin-theme="dark"]) .adm-shell .admin-hint { color: #6e6e73; }
+/* Admin messages appear at the bottom so they never cover the drawer's close button. */
+.adm-shell .toast { top: auto; bottom: 24px; right: 24px; }
+/* All six drawer tabs stay visible: they wrap instead of scrolling out of view. */
+.pd-tabs { flex-wrap: wrap; overflow: visible; }

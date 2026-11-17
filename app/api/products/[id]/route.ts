@@ -4,15 +4,30 @@ import { boundedJson } from '@/lib/bounded-json';
 import { validateDescriptionTranslations } from '@/lib/product-descriptions';
 import { normalizeProductImages } from '@/lib/product-images';
 import { refreshCatalog } from '@/lib/catalog';
+import { validSpecs, validSteps } from '@/lib/product-page-content';
 
 type Context = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: Request, context: Context) {
   const denied = await rejectUnlessAdmin(); if (denied) return denied;
-  let body: { image?: unknown; description_translations?: unknown; gallery_images?: unknown };
+  let body: { image?: unknown; description_translations?: unknown; gallery_images?: unknown; page_steps?: unknown; page_specs?: unknown };
   try { const value=await boundedJson(request,256*1024);if(!value||typeof value!=='object'||Array.isArray(value))throw new Error();body=value; }
   catch { return json({ error: "Product image is required" }, 400); }
   await ensureStore();const {id}=await context.params;
+  // Product page content: "How it works" steps and the Specs list.
+  if(Object.hasOwn(body,'page_steps')||Object.hasOwn(body,'page_specs')){
+    const steps=Object.hasOwn(body,'page_steps')?validSteps(body.page_steps):undefined;
+    const specs=Object.hasOwn(body,'page_specs')?validSpecs(body.page_specs):undefined;
+    if(steps===null)return json({error:'Add up to 6 steps, each with a title'},400);
+    if(specs===null)return json({error:'Add up to 10 spec rows, each with a name and a value'},400);
+    const now=new Date().toISOString();
+    const statements=[];
+    if(steps)statements.push(database().prepare('UPDATE products SET page_steps=?,updated_at=? WHERE id=?').bind(JSON.stringify(steps),now,id));
+    if(specs)statements.push(database().prepare('UPDATE products SET page_specs=?,updated_at=? WHERE id=?').bind(JSON.stringify(specs),now,id));
+    if(!await database().prepare('SELECT id FROM products WHERE id=?').bind(id).first())return json({error:'Product not found'},404);
+    await database().batch(statements);
+    refreshCatalog(); return json({ok:true});
+  }
   if(Object.hasOwn(body,'gallery_images')){
     const galleryImages=normalizeProductImages(body.gallery_images);
     if(galleryImages===null)return json({error:'Add up to 12 valid local or HTTPS product images'},400);
@@ -44,7 +59,7 @@ export async function PUT(request: Request, context: Context) {
     if(typeof body.description!=='string'||body.description.length>4000)throw new Error();
   }catch{return json({error:'Invalid product descriptions or languages.'},400);}
   const name = String(body.name ?? "").trim();
-  const slug = String(body.slug ?? name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const slug = String(body.slug || name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const category = String(body.category ?? "Plugin").trim() || "Plugin";
   const status = String(body.status ?? "draft");
   const priceCents = Number(body.price_cents ?? 0);

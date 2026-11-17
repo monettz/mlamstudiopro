@@ -1,23 +1,21 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
-import PanelModeSwitch from '@/components/ui/panel-mode-switch';
-import { Check, Copy, ExternalLink, FileArchive, Image as ImageIcon, KeyRound, Languages, LayoutDashboard, LogOut, Mail, Package, Pencil, PlayCircle, Receipt, Search, Send, Trash2, X } from "lucide-react";
-import DescriptionEditor,{DescriptionFields} from './description-editor';
-import type { DescriptionTranslations } from '@/lib/product-descriptions';
+import AdminThemeSwitch from '@/components/ui/admin-theme-switch';
+import { Check, Copy, ExternalLink, FileArchive, Image as ImageIcon, KeyRound, LayoutDashboard, LogOut, Mail, Package, PlayCircle, Plus, Receipt, Search, Send, Trash2, X } from "lucide-react";
+import ProductDrawer from './product-drawer';
 import type { AdminSection } from '@/lib/admin-navigation';
 import { licenseEmail } from '@/lib/email';
 import { PAYMENT_METHODS } from '@/lib/manual-order';
 
-type Product = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string; gallery_images:string;description_translations?:string };
+type Product = { id:string; slug:string; name:string; category:string; description:string; price_cents:number; status:string; image:string; features:string; checkout_url:string; gallery_images:string;description_translations?:string; page_steps?:string; page_specs?:string };
 type Release = { id:string; product_id:string; product_name:string; version:string; file_name:string; file_size:number; is_active:number };
 type License = { id:string; product_id?:string; created_at?:string; product_name:string; customer_email:string; license_key:string; status:string; download_count:number; max_downloads:number };
 type Order = { id:string; product_id:string; product_name:string; customer_email:string; customer_phone?:string; amount_cents:number; currency?:string; payment_method?:string; provider_ref?:string; status:string; created_at:string; license_id?:string|null; license_key?:string|null; max_downloads?:number };
 type NotifyRequest = { id:string; product_id:string; product_name:string | null; email:string; created_at:string };
 type IssuedLicense = { id:string; key:string; email:string; productName:string; maxDownloads:number };
-type Tutorial = { id:string; product_name:string | null; title:string; description:string; file_name:string; file_size:number; is_published:number };
+type Tutorial = { id:string; product_id:string | null; product_name:string | null; title:string; description:string; file_name:string; file_size:number; is_published:number };
 
-const empty = { name:"", slug:"", category:"Instrument", description:"", price:"29.00", status:"draft", image:"", features:"", gallery_images:"",description_translations:{} as DescriptionTranslations };
 const STATUS_LABELS: Record<string,string> = { draft:"Draft (hidden)", published:"Published (on sale)", "coming-soon":"Coming soon" };
 const PAID_STATUSES = new Set(["paid","completed"]);
 
@@ -31,11 +29,6 @@ const NAV: { id:AdminSection; label:string; Icon:typeof Package }[] = [
   { id:"notify", label:"Notify list", Icon:Mail },
 ];
 
-function galleryText(value:string) { try { const parsed=JSON.parse(value); return Array.isArray(parsed) ? parsed.filter((item):item is string=>typeof item==='string').join("\n") : ""; } catch { return ""; } }
-function featureText(value:string) { try { const parsed=JSON.parse(value); return Array.isArray(parsed) ? parsed.filter((item):item is string=>typeof item==='string').join(", ") : ""; } catch { return ""; } }
-function splitFeatures(value:string) { return value.split(",").map(x=>x.trim()).filter(Boolean); }
-// The owner types dollars; the API stores whole cents.
-function toCents(value:string) { const amount=Number(value); return Number.isFinite(amount) && amount >= 0 ? Math.round(amount*100) : NaN; }
 function money(cents:number, currency="USD") {
   if (currency === "TZS") return `TSh ${Math.round(cents/100).toLocaleString("en-US")}`;
   return `$${(cents/100).toFixed(2)}`;
@@ -63,16 +56,10 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
   const [notifyRequests,setNotifyRequests] = useState<NotifyRequest[]>([]);
   const [uploadingVideo,setUploadingVideo] = useState(false);
   const [videoMessage,setVideoMessage] = useState("");
-  const [form,setForm] = useState(empty);
   const [message,setMessage] = useState("");
-  const [imageFile,setImageFile] = useState<File | null>(null);
-  const [imagePreview,setImagePreview] = useState("");
-  const [savingProduct,setSavingProduct] = useState(false);
-  const [updatingImage,setUpdatingImage] = useState<string | null>(null);
-  const [editingDescriptions,setEditingDescriptions]=useState<Product|null>(null);
-  const [editingProduct,setEditingProduct]=useState<Product|null>(null);
-  const [galleryDrafts,setGalleryDrafts]=useState<Record<string,string>>({});
-  const [savingGallery,setSavingGallery]=useState<string|null>(null);
+  // Products: the open drawer ("new" while creating) and the status filter.
+  const [openProduct,setOpenProduct] = useState<string|null>(null);
+  const [statusFilter,setStatusFilter] = useState("all");
   const [issuingLicense,setIssuingLicense]=useState(false);
   const [newLicense,setNewLicense]=useState<IssuedLicense | null>(null);
   const [query,setQuery]=useState("");
@@ -83,13 +70,6 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
   const [orderLicense,setOrderLicense]=useState<IssuedLicense | null>(null);
   const [announcement,setAnnouncement]=useState({ productId:"", subject:"", message:"" });
 
-  useEffect(() => {
-    if (!imageFile) { setImagePreview(""); return; }
-    const preview = URL.createObjectURL(imageFile);
-    setImagePreview(preview);
-    return () => URL.revokeObjectURL(preview);
-  }, [imageFile]);
-
   const load = useCallback(async () => {
     const read = async <T,>(url:string) => { const response = await fetch(url); if (!response.ok) throw new Error(response.status === 401 ? "Session expired. Sign in again at /admin." : "Unable to load administration data"); return await response.json() as T; };
     const [p,r,l,o,v,d,n] = await Promise.all([
@@ -99,7 +79,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
       read<{ demos?: Release[] }>("/api/demos"),
       read<{ requests?: NotifyRequest[] }>("/api/notify"),
     ]);
-    setProducts(p.products ?? []); setGalleryDrafts(Object.fromEntries((p.products ?? []).map(product=>[product.id,galleryText(product.gallery_images ?? "[]")]))); setReleases(r.releases ?? []); setLicenses(l.licenses ?? []); setOrders(o.orders ?? []);
+    setProducts(p.products ?? []); setReleases(r.releases ?? []); setLicenses(l.licenses ?? []); setOrders(o.orders ?? []);
     setTutorials(v.tutorials ?? []);
     setDemos(d.demos ?? []); setNotifyRequests(n.requests ?? []);
   }, []);
@@ -115,7 +95,8 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
   const needle = query.trim().toLowerCase();
   const matches = (...values:(string|null|undefined)[]) => !needle || values.some(value => value?.toLowerCase().includes(needle));
   const filteredLicenses = licenses.filter(item => matches(item.customer_email, item.license_key, item.product_name));
-  const shownProducts = products.filter(item => matches(item.name, item.category, item.slug));
+  const shownProducts = products.filter(item => (statusFilter === "all" || item.status === statusFilter) && matches(item.name, item.category, item.slug));
+  const editing = openProduct && openProduct !== "new" ? products.find(item => item.id === openProduct) ?? null : null;
   const shownOrders = orders.filter(item => matches(item.customer_email, item.product_name, item.provider_ref, item.license_key));
   const shownNotify = notifyRequests.filter(item => matches(item.email, item.product_name));
 
@@ -158,56 +139,6 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     { label:"Issue the first license", done: licenses.length > 0, section:"licenses" },
   ];
 
-  async function uploadProductImage(file:File) {
-    if (file.size > 10 * 1024 * 1024) throw new Error("Image must be 10 MB or smaller");
-    const data = new FormData(); data.set("file", file);
-    const response = await fetch("/api/product-images", { method:"POST", body:data });
-    const result = await response.json() as { image?:string; error?:string };
-    if (!response.ok || !result.image) throw new Error(result.error ?? "Image could not be uploaded");
-    return result.image;
-  }
-
-  async function replaceImage(product:Product, file:File) {
-    setUpdatingImage(product.id);
-    try {
-      const image = await uploadProductImage(file);
-      const response = await fetch(`/api/products/${product.id}`, { method:"PATCH", headers:{"Content-Type":"application/json"}, body:JSON.stringify({image}) });
-      if (!response.ok) throw new Error("Product image could not be saved");
-      await load(); flash("Product image updated");
-    } catch (error) { flash(error instanceof Error ? error.message : "Image update failed"); }
-    finally { setUpdatingImage(null); }
-  }
-
-  async function saveGalleryImages(product:Product) {
-    setSavingGallery(product.id);
-    try {
-      const gallery_images=(galleryDrafts[product.id] ?? "").split(/\r?\n/).map(item=>item.trim()).filter(Boolean);
-      const response=await fetch(`/api/products/${encodeURIComponent(product.id)}`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({gallery_images})});
-      const result=await response.json() as {error?:string};
-      if(!response.ok)throw new Error(result.error ?? "Product gallery could not be saved");
-      await load(); flash("Product gallery saved");
-    } catch(error) { flash(error instanceof Error ? error.message : "Product gallery could not be saved"); }
-    finally { setSavingGallery(null); }
-  }
-
-  async function addProduct(event:FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const price_cents = toCents(form.price);
-    if (!Number.isFinite(price_cents)) { flash("Enter the price in US dollars, for example 29.00"); return; }
-    setSavingProduct(true);
-    try {
-      const image = imageFile ? await uploadProductImage(imageFile) : form.image;
-      if (imageFile) { setForm(previous => ({...previous,image})); setImageFile(null); }
-      const payload = { name:form.name, slug:form.slug, category:form.category, description:form.description, description_translations:form.description_translations, status:form.status, price_cents, image, gallery_images:form.gallery_images.split(/\r?\n/).map(x=>x.trim()).filter(Boolean), features:splitFeatures(form.features) };
-      const response = await fetch("/api/products", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload) });
-      const result = await response.json() as { error?:string };
-      if (!response.ok) throw new Error(result.error ?? "Product could not be created");
-      setForm(empty); setImageFile(null); element.reset(); await load(); flash("Product created");
-    } catch (error) { flash(error instanceof Error ? error.message : "Product could not be created"); }
-    finally { setSavingProduct(false); }
-  }
-
   async function uploadRelease(event:FormEvent<HTMLFormElement>) {
     event.preventDefault(); const formElement = event.currentTarget;
     const formData = new FormData(formElement);
@@ -240,7 +171,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     finally { setUploadingVideo(false); }
   }
 
-  async function publishVideo(item:Tutorial) {
+  async function publishVideo(item:Pick<Tutorial,"id"|"is_published">) {
     try {
       const response = await fetch(`/api/tutorials/${item.id}`, { method:"PATCH", headers:{"Content-Type":"application/json"}, body:JSON.stringify({published:!item.is_published}) });
       if (!response.ok) throw new Error("Video status could not be changed");
@@ -275,7 +206,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
     flash(response.ok ? "Release activated. Licensed customers now download this version." : "Release could not be activated");
     if (response.ok) await load();
   }
-  async function activateDemo(item:Release) {
+  async function activateDemo(item:Pick<Release,"id"|"is_active">) {
     const response = await fetch(`/api/demos/${item.id}`, { method:"PATCH", headers:{"Content-Type":"application/json"}, body:JSON.stringify({active:!item.is_active}) });
     flash(response.ok ? (item.is_active ? "Demo deactivated" : "Demo activated. Try is enabled for published products") : "Demo could not be updated");
     if (response.ok) await load();
@@ -392,7 +323,7 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
         {NAV.map(({id,label,Icon})=><button key={id} type="button" aria-label={label} aria-current={tab===id ? "page" : undefined} className={tab===id?"active":""} onClick={()=>setTab(id)}><Icon size={18} strokeWidth={2} aria-hidden="true"/><span className="admin-nav-label">{label}</span>{id==="notify" && notifyRequests.length>0 && <i className="adm-count">{notifyRequests.length}</i>}</button>)}
       </nav>
       <div className="adm-sidebar-foot">
-        <PanelModeSwitch />
+        <AdminThemeSwitch />
         <a href="/" target="_blank" rel="noopener"><ExternalLink size={17} aria-hidden="true"/> View website</a>
         <a href={signOut}><LogOut size={17} aria-hidden="true"/> Sign out</a>
       </div>
@@ -441,34 +372,38 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
         </div>
       </div>}
 
-      {tab === "products" && <div className="split-admin">
-        <form className="admin-card admin-form" onSubmit={addProduct}>
-          <h2>Add plugin</h2>
-          <label>Name<input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required maxLength={120}/></label>
-          <div className="two"><label>Slug (web address)<input value={form.slug} onChange={e=>setForm({...form,slug:e.target.value})} placeholder="made from the name"/></label><label>Category<input value={form.category} onChange={e=>setForm({...form,category:e.target.value})}/></label></div>
-          <label>English description (default)<textarea lang="en" dir="ltr" maxLength={4000} value={form.description} onChange={e=>setForm({...form,description:e.target.value})}/></label>
-          <DescriptionFields includeEnglish={false} value={form.description_translations} onChange={description_translations=>setForm({...form,description_translations})} disabled={savingProduct}/>
-          <fieldset className="product-image-editor" disabled={savingProduct}><legend>Product image</legend>{(imagePreview || form.image) ? <img className="product-image-preview" src={imagePreview || form.image} alt="Product image preview"/> : <p className="admin-hint">No image yet. The store shows the MLAM logo until you add one.</p>}<label>Choose image<input type="file" accept="image/png,image/jpeg,image/webp" onChange={event=>setImageFile(event.target.files?.[0] ?? null)}/><small>PNG, JPG or WEBP · up to 10 MB. Uploads when you create the product.</small></label><label>Or image URL<input value={form.image} onChange={event=>{setForm({...form,image:event.target.value});setImageFile(null);}} placeholder="/plugins/image.png or https://…"/></label></fieldset>
-          <label>Additional gallery image URLs<textarea value={form.gallery_images} onChange={event=>setForm({...form,gallery_images:event.target.value})} placeholder={'/plugins/image-2.png\nhttps://example.com/image-3.webp'} /><small>One image per line. Use a local path or an HTTPS image URL, up to 12 images.</small></label>
-          <div className="two"><label>Price (USD)<input type="number" inputMode="decimal" min="0" step="0.01" value={form.price} onChange={e=>setForm({...form,price:e.target.value})} required/><small>Example: 29.00 for $29. Use 0 for free.</small></label><label>Status<select value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>{Object.entries(STATUS_LABELS).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label></div>
-          <label>Features (comma separated)<input value={form.features} onChange={e=>setForm({...form,features:e.target.value})} placeholder="Voice to MIDI, Scale-aware notes, VST3 for Windows"/></label>
-          <button className="button primary" disabled={savingProduct}>{savingProduct ? "Saving product…" : "Create product"}</button>
-        </form>
-        <div className="admin-card"><div className="adm-card-head"><h2>Catalog</h2><span className="adm-muted">{shownProducts.length} of {products.length}</span></div>
-          {!products.length ? emptyState("No products yet","Create your first plugin with the form.") : !shownProducts.length ? emptyState("No matches",`Nothing matches “${query}”.`) :
-          <div className="adm-table-wrap"><table className="adm-table"><thead><tr><th>Product</th><th>Price</th><th>Status</th><th className="actions"><span className="sr-only">Actions</span></th></tr></thead>
-            <tbody>{shownProducts.map(product=><tr key={product.id}>
-              <td><span className="adm-product-cell"><img src={product.image||"/logo-mark-black-512.png"} alt=""/><span><b>{product.name}</b><small>{product.category}</small></span></span></td>
-              <td>{product.price_cents > 0 ? money(product.price_cents) : "Free"}</td>
-              <td>{statusPill(product.status)}</td>
-              <td className="actions"><div className="adm-row-actions">
-                <button type="button" onClick={()=>setEditingProduct(product)}><Pencil size={14} aria-hidden="true"/> Edit</button>
-                <button type="button" onClick={()=>setEditingDescriptions(product)}><Languages size={14} aria-hidden="true"/> Translations</button>
-                <label className="change-image-control"><ImageIcon size={14} aria-hidden="true"/> {updatingImage===product.id ? "Uploading…" : "Image"}<input type="file" accept="image/png,image/jpeg,image/webp" disabled={updatingImage !== null} aria-label={`Change image for ${product.name}`} onChange={event=>{const file=event.target.files?.[0];if(file)void replaceImage(product,file);event.target.value="";}}/></label>
-              </div></td>
-            </tr>)}</tbody></table></div>}
-          <details className="product-gallery-editor"><summary>Product image galleries</summary><p>Add one image path or HTTPS image URL per line. The main image stays first; these appear as selectable thumbnails.</p>{products.map(product=><div className="product-gallery-row" key={product.id}><label>{product.name}<textarea value={galleryDrafts[product.id] ?? ""} onChange={event=>setGalleryDrafts(previous=>({...previous,[product.id]:event.target.value}))} placeholder="/plugins/product-detail.webp" /></label><button className="button ghost" type="button" disabled={savingGallery===product.id} onClick={()=>void saveGalleryImages(product)}>{savingGallery===product.id ? "Saving…" : "Save gallery"}</button></div>)}</details>
+      {tab === "products" && <div className={`pd-layout${openProduct ? " has-drawer" : ""}`}>
+        <div className="pd-catalog">
+          <div className="pd-toolbar">
+            <div className="pd-filters" role="group" aria-label="Filter by status">
+              {([["all","All"],["published","Published"],["coming-soon","Coming soon"],["draft","Draft"]] as const).map(([value,label]) => <button key={value} type="button" aria-pressed={statusFilter === value} className={statusFilter === value ? "active" : ""} onClick={()=>setStatusFilter(value)}>{label}<span>{value === "all" ? products.length : products.filter(p=>p.status === value).length}</span></button>)}
+            </div>
+            <button type="button" className="button primary" onClick={()=>setOpenProduct("new")}><Plus size={16} aria-hidden="true"/> New product</button>
+          </div>
+          {!products.length ? <div className="admin-card">{emptyState("No products yet","Press New product to add your first plugin.")}</div> : !shownProducts.length ? <div className="admin-card">{emptyState("No matches", query ? `Nothing matches “${query}”.` : "No products with this status.")}</div> :
+          <div className="pd-grid">{shownProducts.map(product => {
+            const hasFull = releases.some(r => r.product_id === product.id && r.is_active);
+            return <button key={product.id} type="button" className={`pd-card${openProduct === product.id ? " selected" : ""}`} aria-pressed={openProduct === product.id} onClick={()=>setOpenProduct(product.id)}>
+              {product.image ? <img src={product.image} alt=""/> : <span className="pd-card-empty" aria-hidden="true"><ImageIcon size={22}/></span>}
+              <span className={`pd-status ${product.status}`}>{STATUS_LABELS[product.status]?.split(" (")[0] ?? product.status}</span>
+              <strong>{product.name}</strong>
+              <span className="pd-card-meta">{product.category} · {product.price_cents > 0 ? money(product.price_cents) : "Free"}</span>
+              {product.status === "published" && !hasFull && <span className="pd-card-warn">No full version ZIP yet</span>}
+            </button>;
+          })}</div>}
         </div>
+        {openProduct && <ProductDrawer
+          product={editing}
+          releases={releases} demos={demos} videos={tutorials}
+          onClose={()=>setOpenProduct(null)}
+          onChanged={load}
+          onCreated={async id => { await load(); setOpenProduct(id); flash("Product created. Add images, page content and files next."); }}
+          flash={flash}
+          onActivateRelease={activate}
+          onToggleDemo={activateDemo}
+          onToggleVideo={publishVideo}
+          onDelete={deleteFile}
+        />}
       </div>}
 
       {tab === "releases" && <div className="split-admin">
@@ -559,8 +494,6 @@ export default function AdminDashboard({ user, signOut,initialSection='overview'
       </section>
     </div>
 
-    {editingDescriptions&&<DescriptionEditor product={editingDescriptions} onClose={()=>setEditingDescriptions(null)} onSaved={async()=>{await load();flash('Product descriptions saved');}}/>}
-    {editingProduct&&<ProductEditor product={editingProduct} onClose={()=>setEditingProduct(null)} onSaved={async(text)=>{setEditingProduct(null);await load();flash(text);}}/>}
   </main>;
 }
 
@@ -617,46 +550,3 @@ function Donut({ parts, total, label }:{ parts:{ name:string; className:string; 
   </div>;
 }
 
-function ProductEditor({ product, onClose, onSaved }:{ product:Product; onClose:()=>void; onSaved:(message:string)=>Promise<void> }) {
-  const [draft,setDraft]=useState({ name:product.name, slug:product.slug, category:product.category, price:(product.price_cents/100).toFixed(2), status:product.status, image:product.image, features:featureText(product.features) });
-  const [busy,setBusy]=useState(false);
-  const [error,setError]=useState("");
-
-  useEffect(() => {
-    const onKey = (event:KeyboardEvent) => { if (event.key === "Escape" && !busy) onClose(); };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [busy,onClose]);
-
-  async function submit(event:FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (busy) return;
-    const price_cents = toCents(draft.price);
-    if (!Number.isFinite(price_cents)) { setError("Enter the price in US dollars, for example 29.00"); return; }
-    if (draft.status === "published" && price_cents === 0 && !window.confirm("Publish this product as free? Anyone will be able to get it without paying.")) return;
-    setBusy(true); setError("");
-    try {
-      // Description and translations stay as they are; they are edited under Translations.
-      const response = await fetch(`/api/products/${encodeURIComponent(product.id)}`, { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ name:draft.name, slug:draft.slug, category:draft.category, description:product.description, price_cents, status:draft.status, image:draft.image, features:splitFeatures(draft.features), checkout_url:product.checkout_url }) });
-      const result = await response.json() as { error?:string };
-      if (!response.ok) throw new Error(result.error ?? "Product could not be saved");
-      await onSaved(`${draft.name} saved`);
-    } catch (problem) { setError(problem instanceof Error ? problem.message : "Product could not be saved"); }
-    finally { setBusy(false); }
-  }
-
-  return <div className="admin-dialog-backdrop" onClick={()=>{ if (!busy) onClose(); }}><section className="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="product-editor-title" dir="ltr" onClick={event=>event.stopPropagation()}>
-    <button className="admin-dialog-close" type="button" aria-label="Close product editor" disabled={busy} onClick={onClose}><X size={18} aria-hidden="true"/></button>
-    <h2 id="product-editor-title">Edit {product.name}</h2>
-    <form className="admin-form" onSubmit={submit}>
-      <label>Name<input value={draft.name} onChange={e=>setDraft({...draft,name:e.target.value})} required maxLength={120} autoFocus/></label>
-      <div className="two"><label>Slug (web address)<input value={draft.slug} onChange={e=>setDraft({...draft,slug:e.target.value})}/><small>Changing it changes the product page link.</small></label><label>Category<input value={draft.category} onChange={e=>setDraft({...draft,category:e.target.value})}/></label></div>
-      <div className="two"><label>Price (USD)<input type="number" inputMode="decimal" min="0" step="0.01" value={draft.price} onChange={e=>setDraft({...draft,price:e.target.value})} required/></label><label>Status<select value={draft.status} onChange={e=>setDraft({...draft,status:e.target.value})}>{Object.entries(STATUS_LABELS).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label></div>
-      <label>Main image URL<input value={draft.image} onChange={e=>setDraft({...draft,image:e.target.value})} placeholder="/plugins/image.png or https://…"/><small>Or use Change image in the catalog to upload a file.</small></label>
-      <label>Features (comma separated)<input value={draft.features} onChange={e=>setDraft({...draft,features:e.target.value})}/></label>
-      <p className="admin-hint">Draft hides the product from the store. Products are not deleted here so existing customer licenses keep working.</p>
-      {error && <p className="admin-error" role="alert">{error}</p>}
-      <div className="admin-form-actions"><button type="button" className="button ghost" disabled={busy} onClick={onClose}>Cancel</button><button className="button primary" disabled={busy}>{busy ? "Saving…" : "Save changes"}</button></div>
-    </form>
-  </section></div>;
-}

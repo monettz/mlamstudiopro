@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   const galleryImages = normalizeProductImages(body.gallery_images ?? []);
   if (galleryImages === null) return json({ error: "Add up to 12 valid local or HTTPS product images" }, 400);
   const id = crypto.randomUUID();
-  const slug = String(body.slug ?? name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const slug = String(body.slug || name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const now = new Date().toISOString();
   const features = Array.isArray(body.features) ? JSON.stringify(body.features) : String(body.features ?? "[]");
   await database().prepare(`INSERT INTO products (id,slug,name,category,description,price_cents,status,image,features,checkout_url,created_at,updated_at,description_translations,gallery_images) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)

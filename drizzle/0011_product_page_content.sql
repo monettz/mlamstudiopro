@@ -1,0 +1,2 @@
+ALTER TABLE products ADD COLUMN page_steps TEXT NOT NULL DEFAULT '[]';
+ALTER TABLE products ADD COLUMN page_specs TEXT NOT NULL DEFAULT '[]';
